@@ -3,25 +3,32 @@ package com.agrovet.pos.models;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "productos")
 public class Producto {
+    @SerializedName("Nombre")
     @ColumnInfo(name = "Nombre")
     private String nombre;
 
+    @SerializedName("id")
     @PrimaryKey
     @ColumnInfo(name = "Codigo")
     private long codigo;
 
+    @SerializedName("Categoria")
     @ColumnInfo(name = "Categoria")
     private String categoria;
 
+    @SerializedName("Precio_venta")
     @ColumnInfo(name = "Precio venta")
-    private Integer precioVenta; // Nullable in DB (INTEGER, notNull=false)
+    private Integer precioVenta;
 
+    @SerializedName("Unidades")
     @ColumnInfo(name = "Unidades")
-    private Integer unidades; // Nullable in DB (INTEGER, notNull=false)
+    private Integer unidades;
 
+    @SerializedName("Presentacion")
     @ColumnInfo(name = "Presentacion")
     private String presentacion;
 
@@ -58,7 +65,6 @@ public class Producto {
     public String getPresentacion() { return presentacion; }
     public void setPresentacion(String presentacion) { this.presentacion = presentacion; }
 
-    // Helpers for Activity compatibility
     public int getId() { return (int) codigo; }
     public double getPrecio() { return precioVenta != null ? precioVenta.doubleValue() : 0.0; }
     public int getStock() { return unidades != null ? unidades : 0; }

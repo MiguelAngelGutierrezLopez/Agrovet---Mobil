@@ -3,15 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:cardCornerRadius="12dp"
-    app:cardElevation="2dp"
-    android:layout_marginBottom="12dp"
-    app:cardBackgroundColor="@color/white">
+    style="@style/Widget.Agrovet.Card.ListItem">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <View
             android:layout_width="6dp"
@@ -35,28 +33,21 @@
                     android:id="@+id/txt_nombre"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Producto"
-                    android:textColor="@color/gris_oscuro"
-                    android:textSize="17sp"
-                    android:textStyle="bold" />
+                    style="@style/TextAppearance.Agrovet.Headline" />
 
                 <TextView
                     android:id="@+id/txt_codigo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cod: 123"
-                    android:textColor="@color/gris_medio"
-                    android:textSize="13sp"
+                    style="@style/TextAppearance.Agrovet.Subhead"
                     android:layout_marginTop="2dp" />
 
                 <TextView
                     android:id="@+id/txt_categoria"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CategorÃa"
                     android:textColor="@color/gris_medio"
-                    android:textSize="12sp"
-                    android:fontStyle="italic" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -69,7 +60,6 @@
                         android:id="@+id/txt_precio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="$ 0.00"
                         android:textColor="@color/teal"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -79,7 +69,6 @@
                         android:id="@+id/txt_stock"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Stock: 0"
                         android:textColor="@color/gris_oscuro"
                         android:textSize="13sp"
                         android:paddingHorizontal="8dp"

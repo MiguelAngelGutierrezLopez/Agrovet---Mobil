@@ -10,7 +10,6 @@
         android:id="@+id/titulo_dialog"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Gestionar Cliente"
         android:textColor="@color/teal"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -108,13 +107,10 @@
 
         <Button
             android:id="@+id/btn_guardar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.Button.Primary"
             android:text="Guardar"
             android:backgroundTint="@color/teal"
-            android:textColor="@color/white"
-            android:layout_marginStart="8dp"
-            app:cornerRadius="8dp" />
+            android:layout_marginStart="8dp" />
 
     </LinearLayout>
 

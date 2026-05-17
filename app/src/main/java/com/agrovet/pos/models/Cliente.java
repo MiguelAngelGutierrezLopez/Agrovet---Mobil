@@ -4,24 +4,30 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "Clientes")
 public class Cliente {
+    @SerializedName("Nombre")
     @NonNull
     @ColumnInfo(name = "Nombre")
     private String nombre;
 
+    @SerializedName("id")
     @PrimaryKey
     @ColumnInfo(name = "Cedula")
     private long cedula;
 
+    @SerializedName("Correo")
     @NonNull
     @ColumnInfo(name = "Correo")
     private String correo;
 
+    @SerializedName("Telefono")
     @ColumnInfo(name = "telefono")
     private long telefono;
 
+    @SerializedName("Deuda")
     @ColumnInfo(name = "Deuda")
     private int deuda;
 
@@ -55,6 +61,5 @@ public class Cliente {
     public int getDeuda() { return deuda; }
     public void setDeuda(int deuda) { this.deuda = deuda; }
 
-    // Helper for Activity compatibility
     public String getId() { return String.valueOf(cedula); }
 }

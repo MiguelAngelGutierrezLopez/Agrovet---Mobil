@@ -14,13 +14,11 @@
             android:id="@+id/titulo_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gestionar Producto"
             android:textColor="@color/turquesa"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
 
-        <!-- CÃ³digo -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,11 +31,10 @@
                 android:id="@+id/et_codigo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Codigo de Producto *"
+                android:hint="Codigo *"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Nombre -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,10 +47,9 @@
                 android:id="@+id/et_nombre"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre Comercial *" />
+                android:hint="Nombre *" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- CategorÃa -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,7 +62,7 @@
                 android:id="@+id/et_categoria"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Categoria (Vacunas, etc.)" />
+                android:hint="Categoria" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -75,7 +71,6 @@
             android:orientation="horizontal"
             android:baselineAligned="false">
 
-            <!-- Precio -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -90,11 +85,10 @@
                     android:id="@+id/et_precio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Precio Venta *"
+                    android:hint="Precio *"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Stock -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -113,7 +107,6 @@
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
-        <!-- PresentaciÃ³n -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,7 +119,7 @@
                 android:id="@+id/et_proveedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Presentacion (Frasco, sobre, etc.)" />
+                android:hint="Presentacion" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -145,13 +138,10 @@
 
             <Button
                 android:id="@+id/btn_guardar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.Agrovet.Button.Primary"
                 android:text="Guardar"
                 android:backgroundTint="@color/turquesa"
-                android:textColor="@color/white"
-                android:layout_marginStart="8dp"
-                app:cornerRadius="8dp" />
+                android:layout_marginStart="8dp" />
 
         </LinearLayout>
 

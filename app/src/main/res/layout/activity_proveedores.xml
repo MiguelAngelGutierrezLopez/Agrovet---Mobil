@@ -24,9 +24,7 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp">
+            style="@style/Widget.Agrovet.Card.Search">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,11 +67,9 @@
             android:id="@+id/btn_agregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true">
+            style="@style/Widget.Agrovet.Card.Action"
+            android:layout_margin="0dp"
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:layout_width="match_parent"

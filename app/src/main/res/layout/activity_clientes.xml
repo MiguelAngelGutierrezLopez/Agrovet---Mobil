@@ -6,7 +6,6 @@
     android:orientation="vertical"
     android:background="@color/blanco_hueso">
 
-    <!-- Toolbar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -16,20 +15,16 @@
         app:title="@string/titulo_clientes"
         app:titleTextColor="@color/white" />
 
-    <!-- Contenido -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Barra de bÃºsqueda Estilo Card -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp">
+            style="@style/Widget.Agrovet.Card.Search">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -69,16 +64,13 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <!-- BotÃ³n Agregar Estilo -->
         <androidx.cardview.widget.CardView
             android:id="@+id/btn_agregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="2dp"
-            android:layout_marginBottom="16dp"
-            android:clickable="true"
-            android:focusable="true">
+            style="@style/Widget.Agrovet.Card.Action"
+            android:layout_margin="0dp"
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:layout_width="match_parent"
@@ -92,7 +84,6 @@
                 android:textSize="14sp" />
         </androidx.cardview.widget.CardView>
 
-        <!-- ProgressBar -->
         <ProgressBar
             android:id="@+id/progressBar"
             android:layout_width="wrap_content"
@@ -101,7 +92,6 @@
             android:visibility="gone"
             android:layout_marginBottom="16dp" />
 
-        <!-- SwipeRefreshLayout -->
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"

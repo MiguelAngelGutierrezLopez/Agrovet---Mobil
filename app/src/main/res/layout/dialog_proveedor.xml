@@ -14,13 +14,11 @@
             android:id="@+id/titulo_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gestionar Proveedor"
             android:textColor="@color/terracota"
             android:textSize="22sp"
             android:textStyle="bold"
             android:layout_marginBottom="24dp" />
 
-        <!-- Credencial (ID) -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,11 +31,10 @@
                 android:id="@+id/et_telefono"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nro. Credencial / ID *"
+                android:hint="Credencial *"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Empresa -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,10 +47,9 @@
                 android:id="@+id/et_nombre_empresa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre de la Empresa *" />
+                android:hint="Empresa *" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Contacto -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,10 +62,9 @@
                 android:id="@+id/et_nombre_proveedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Nombre del Contacto *" />
+                android:hint="Contacto *" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Productos -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,10 +77,9 @@
                 android:id="@+id/et_productos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Productos que suministra" />
+                android:hint="Productos" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campos ocultos para evitar crashes si el Java los busca -->
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_correo"
             android:layout_width="0dp"
@@ -113,13 +107,10 @@
 
             <Button
                 android:id="@+id/btn_guardar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/Widget.Agrovet.Button.Primary"
                 android:text="Guardar"
                 android:backgroundTint="@color/terracota"
-                android:textColor="@color/white"
-                android:layout_marginStart="8dp"
-                app:cornerRadius="8dp" />
+                android:layout_marginStart="8dp" />
 
         </LinearLayout>
 
