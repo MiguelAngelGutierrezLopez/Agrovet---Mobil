@@ -2,13 +2,15 @@ package com.agrovet.pos.models;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "reporte_caja")
+@Entity(tableName = "reporte_caja",
+        indices = {@Index(name = "idx_reporte_caja_categoria", value = {"categoria"})})
 public class Movimiento {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private int id;
+    private Integer id; // Using Integer for nullability safety
 
     @ColumnInfo(name = "ingresos", defaultValue = "0.00")
     private Double ingresos;
@@ -48,9 +50,8 @@ public class Movimiento {
         }
     }
 
-    // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public Double getIngresos() { return ingresos; }
     public void setIngresos(Double ingresos) { this.ingresos = ingresos; }
@@ -73,7 +74,6 @@ public class Movimiento {
     public String getFechaEgreso() { return fechaEgreso; }
     public void setFechaEgreso(String fechaEgreso) { this.fechaEgreso = fechaEgreso; }
 
-    // Helpers for Activity compatibility
     public String getRazon() { 
         return (razonIngreso != null && !razonIngreso.isEmpty()) ? razonIngreso : razonEgreso; 
     }

@@ -12,7 +12,7 @@ import com.agrovet.pos.models.Venta;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Cliente.class, Producto.class, Proveedor.class, Venta.class, Movimiento.class}, version = 3, exportSchema = false)
+@Database(entities = {Cliente.class, Producto.class, Proveedor.class, Venta.class, Movimiento.class}, version = 4, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ClienteDao clienteDao();

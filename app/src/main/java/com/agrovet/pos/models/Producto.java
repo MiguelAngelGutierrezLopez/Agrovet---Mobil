@@ -3,13 +3,15 @@ package com.agrovet.pos.models;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "productos")
+@Entity(tableName = "productos",
+        indices = {@Index(name = "idx_productos_proveedor", value = {"proveedor"})})
 public class Producto {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private int id;
+    private Integer id; // Found: notNull=false in physical DB
 
     @NonNull
     @ColumnInfo(name = "nombre")
@@ -42,7 +44,7 @@ public class Producto {
         this.categoria = "";
     }
 
-    public Producto(int id, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {
+    public Producto(Integer id, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -54,8 +56,8 @@ public class Producto {
         this.precioVenta = precioVenta;
     }
 
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     @NonNull
     public String getNombre() { return nombre; }
@@ -83,9 +85,8 @@ public class Producto {
     public Integer getPrecioVenta() { return precioVenta; }
     public void setPrecioVenta(Integer precioVenta) { this.precioVenta = precioVenta; }
 
-    // Helper for Activity compatibility
     public double getPrecio() { return precioVenta != null ? precioVenta.doubleValue() : 0.0; }
     public int getStock() { return cantidad != null ? cantidad : 0; }
-    public String getCodigo() { return String.valueOf(id); }
+    public String getCodigo() { return String.valueOf(id != null ? id : ""); }
     public String getProveedorTelefono() { return proveedor != null ? proveedor : ""; }
 }

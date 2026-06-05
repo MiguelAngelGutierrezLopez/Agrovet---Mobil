@@ -20,8 +20,8 @@ public class VentaViewModel extends AndroidViewModel {
         return repository.getAllVentas();
     }
 
-    public void deleteVenta(long id) {
-        repository.deleteById(id);
+    public void deleteVenta(int id) {
+        repository.deleteById((long)id);
     }
     
     public void addVenta(Venta venta) {

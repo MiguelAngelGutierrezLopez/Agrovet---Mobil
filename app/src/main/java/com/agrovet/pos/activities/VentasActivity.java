@@ -171,7 +171,7 @@ public class VentasActivity extends AppCompatActivity {
 
         boolean found = false;
         for (CartItem item : cartList) {
-            if (item.getProducto().getCodigo() == producto.getCodigo()) {
+            if (item.getProducto().getId() == producto.getId()) {
                 item.setCantidad(item.getCantidad() + 1);
                 found = true;
                 break;

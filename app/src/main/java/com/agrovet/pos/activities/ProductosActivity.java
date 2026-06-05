@@ -166,11 +166,11 @@ public class ProductosActivity extends AppCompatActivity {
         }
 
         if (stockFiltro.equals("Stock bajo (≤5)")) {
-            filtrados.removeIf(p -> p.getStock() > 5);
+            filtrados.removeIf(p -> p.getCantidad() > 5);
         } else if (stockFiltro.equals("Stock medio (6-15)")) {
-            filtrados.removeIf(p -> p.getStock() < 6 || p.getStock() > 15);
+            filtrados.removeIf(p -> p.getCantidad() < 6 || p.getCantidad() > 15);
         } else if (stockFiltro.equals("Stock alto (>15)")) {
-            filtrados.removeIf(p -> p.getStock() <= 15);
+            filtrados.removeIf(p -> p.getCantidad() <= 15);
         }
 
         productosList.clear();
@@ -199,8 +199,8 @@ public class ProductosActivity extends AppCompatActivity {
         if (isEditando) {
             tituloDialog.setText("Editar Producto");
             etNombre.setText(producto.getNombre());
-            etPrecio.setText(String.valueOf((int)producto.getPrecio()));
-            etStock.setText(String.valueOf(producto.getStock()));
+            etPrecio.setText(String.valueOf(producto.getPrecioVenta() != null ? producto.getPrecioVenta() : 0));
+            etStock.setText(String.valueOf(producto.getCantidad() != null ? producto.getCantidad() : 0));
             etCategoria.setText(producto.getCategoria());
             etPresentacion.setText(producto.getPresentacion());
         } else {

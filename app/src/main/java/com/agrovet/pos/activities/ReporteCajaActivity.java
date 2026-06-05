@@ -88,7 +88,7 @@ public class ReporteCajaActivity extends AppCompatActivity {
         double totalEgresos = 0;
         
         for (Movimiento m : movimientos) {
-            if (m.getTipo().equals("Ingreso")) {
+            if ("Ingreso".equals(m.getTipo())) {
                 totalIngresos += m.getMonto();
             } else {
                 totalEgresos += m.getMonto();

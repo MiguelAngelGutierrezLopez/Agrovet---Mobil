@@ -3,13 +3,19 @@ package com.agrovet.pos.models;
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "ventas")
+@Entity(tableName = "ventas",
+        indices = {
+            @Index(name = "idx_ventas_cliente", value = {"cliente_cedula"}),
+            @Index(name = "idx_ventas_fecha", value = {"fecha_dia"}),
+            @Index(name = "idx_ventas_numero", value = {"numero_venta"})
+        })
 public class Venta {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private int id;
+    private Integer id; // Using Integer because notNull might be false in DB
 
     @ColumnInfo(name = "numero_venta")
     private Integer numeroVenta;
@@ -67,9 +73,8 @@ public class Venta {
         this.tipoPago = "";
     }
 
-    // Getters and Setters
-    public int getId() { return id; }
-    public void setId(int id) { this.id = id; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     public Integer getNumeroVenta() { return numeroVenta; }
     public void setNumeroVenta(Integer numeroVenta) { this.numeroVenta = numeroVenta; }
@@ -120,8 +125,7 @@ public class Venta {
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
 
-    // Helpers for Activity compatibility
-    public String getTicket() { return String.valueOf(numeroVenta != null ? numeroVenta : id); }
+    public String getTicket() { return String.valueOf(numeroVenta != null ? numeroVenta : (id != null ? id : "")); }
     public String getFecha() { return fechaDia + " " + fechaHora; }
     public String getCliente() { return nombreCliente; }
     public String getMetodoPago() { return tipoPago; }

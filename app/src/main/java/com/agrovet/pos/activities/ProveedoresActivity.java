@@ -154,7 +154,7 @@ public class ProveedoresActivity extends AppCompatActivity {
             etTelefono.setText(proveedor.getTelefono());
             etNombreEmpresa.setText(proveedor.getNombreEmpresa());
             etNombreProveedor.setText(proveedor.getNombreProveedor());
-            etProductos.setText(proveedor.getProductos());
+            etProductos.setText(proveedor.getProducto());
             etTelefono.setEnabled(false);
         } else {
             tituloDialog.setText("Nuevo Proveedor");
