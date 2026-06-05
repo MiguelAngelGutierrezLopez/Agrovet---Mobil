@@ -35,7 +35,7 @@ public class VentasActivity extends AppCompatActivity {
     private TextView txtTotal, txtResumenSubtotal, txtStep1Indicator, txtStep2Indicator;
     private Button btnFinalizar, btnNextStep, btnBackStep;
     private RadioGroup rgMetodoPago;
-    private LinearLayout layoutStep1, layoutStep2;
+    private View layoutStep1, layoutStep2;
     
     private ProductoViewModel productoViewModel;
     private VentaViewModel ventaViewModel;
@@ -47,6 +47,7 @@ public class VentasActivity extends AppCompatActivity {
     private final List<CartItem> cartList = new ArrayList<>();
     
     private double totalVenta = 0;
+    private String tipoPago = "Contado";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
