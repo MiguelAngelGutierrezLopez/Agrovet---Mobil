@@ -15,9 +15,13 @@ import com.agrovet.pos.adapters.CartAdapter;
 import com.agrovet.pos.adapters.ProductoAdapter;
 import com.agrovet.pos.models.CartItem;
 import com.agrovet.pos.models.Producto;
+import com.agrovet.pos.models.Venta;
 import com.agrovet.pos.viewmodels.ProductoViewModel;
+import com.agrovet.pos.viewmodels.VentaViewModel;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -30,6 +34,7 @@ public class VentasActivity extends AppCompatActivity {
     private Button btnNormal, btnMixta, btnFinalizar, btnCancelar;
     
     private ProductoViewModel productoViewModel;
+    private VentaViewModel ventaViewModel;
     private ProductoAdapter catalogAdapter;
     private CartAdapter cartAdapter;
     
@@ -38,6 +43,7 @@ public class VentasActivity extends AppCompatActivity {
     private final List<CartItem> cartList = new ArrayList<>();
     
     private double totalVenta = 0;
+    private String tipoPago = "Contado";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +51,7 @@ public class VentasActivity extends AppCompatActivity {
         setContentView(R.layout.activity_ventas);
 
         productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
+        ventaViewModel = new ViewModelProvider(this).get(VentaViewModel.class);
 
         initViews();
         setupToolbar();
@@ -114,6 +121,7 @@ public class VentasActivity extends AppCompatActivity {
         });
 
         btnNormal.setOnClickListener(v -> {
+            tipoPago = "Contado";
             btnNormal.setBackgroundTintList(getColorStateList(R.color.teal));
             btnNormal.setTextColor(getColor(R.color.white));
             btnMixta.setBackgroundTintList(getColorStateList(R.color.white));
@@ -121,6 +129,7 @@ public class VentasActivity extends AppCompatActivity {
         });
 
         btnMixta.setOnClickListener(v -> {
+            tipoPago = "Mixta";
             btnMixta.setBackgroundTintList(getColorStateList(R.color.teal));
             btnMixta.setTextColor(getColor(R.color.white));
             btnNormal.setBackgroundTintList(getColorStateList(R.color.white));
@@ -132,11 +141,29 @@ public class VentasActivity extends AppCompatActivity {
                 Toast.makeText(this, "El carrito esta vacio", Toast.LENGTH_SHORT).show();
                 return;
             }
-            Toast.makeText(this, "Venta Finalizada Exitosamente", Toast.LENGTH_LONG).show();
-            finish();
+            guardarVenta();
         });
 
         btnCancelar.setOnClickListener(v -> finish());
+    }
+
+    private void guardarVenta() {
+        String fechaDia = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
+        String fechaHora = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+        
+        Venta nuevaVenta = new Venta();
+        nuevaVenta.setFechaDia(fechaDia);
+        nuevaVenta.setFechaHora(fechaHora);
+        nuevaVenta.setNombreCliente("Cliente Final");
+        nuevaVenta.setTipoPago(tipoPago);
+        nuevaVenta.setSubtotal(totalVenta);
+        nuevaVenta.setTotal(totalVenta);
+        nuevaVenta.setEstado("completada");
+        
+        ventaViewModel.addVenta(nuevaVenta);
+        
+        Toast.makeText(this, "Venta Finalizada Exitosamente", Toast.LENGTH_LONG).show();
+        finish();
     }
 
     private void loadCatalog() {
