@@ -39,24 +39,23 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
         Cliente cliente = clientes.get(position);
 
         holder.txtNombre.setText(cliente.getNombre());
-        holder.txtCedula.setText("Cédula: " + cliente.getCedula());
+        holder.txtCedula.setText("Cedula: " + cliente.getCedula());
 
-        if (String.valueOf(cliente.getTelefono()) != null && cliente.getTelefono() != 0) {
-            holder.txtTelefono.setText("📞 " + cliente.getTelefono());
+        if (cliente.getTelefono() != null && !cliente.getTelefono().isEmpty()) {
+            holder.txtTelefono.setText(cliente.getTelefono());
             holder.txtTelefono.setVisibility(View.VISIBLE);
         } else {
             holder.txtTelefono.setVisibility(View.GONE);
         }
 
         if (cliente.getCorreo() != null && !cliente.getCorreo().isEmpty()) {
-            holder.txtCorreo.setText("✉️ " + cliente.getCorreo());
+            holder.txtCorreo.setText(cliente.getCorreo());
             holder.txtCorreo.setVisibility(View.VISIBLE);
         } else {
             holder.txtCorreo.setVisibility(View.GONE);
         }
 
-        holder.txtDireccion.setText("Deuda: $" + cliente.getDeuda());
-        holder.txtDireccion.setVisibility(View.VISIBLE);
+        holder.txtDireccion.setVisibility(View.GONE);
 
         holder.btnEditar.setOnClickListener(v -> listener.onEditar(cliente));
         holder.btnEliminar.setOnClickListener(v -> listener.onEliminar(cliente));

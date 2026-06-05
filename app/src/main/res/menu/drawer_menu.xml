@@ -21,6 +21,21 @@
             android:id="@+id/nav_productos"
             android:icon="@android:drawable/ic_menu_manage"
             android:title="@string/menu_productos" />
+
+        <item
+            android:id="@+id/nav_ventas"
+            android:icon="@android:drawable/ic_menu_add"
+            android:title="@string/menu_ventas" />
+
+        <item
+            android:id="@+id/nav_historial"
+            android:icon="@android:drawable/ic_menu_recent_history"
+            android:title="@string/titulo_historial" />
+
+        <item
+            android:id="@+id/nav_reporte_caja"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/titulo_reporte_caja" />
     </group>
 
 </menu>

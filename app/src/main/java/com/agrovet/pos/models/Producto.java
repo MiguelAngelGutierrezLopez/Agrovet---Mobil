@@ -1,72 +1,91 @@
 package com.agrovet.pos.models;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "productos")
 public class Producto {
-    @SerializedName("Nombre")
-    @ColumnInfo(name = "Nombre")
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    private int id;
+
+    @NonNull
+    @ColumnInfo(name = "nombre")
     private String nombre;
 
-    @SerializedName("id")
-    @PrimaryKey
-    @ColumnInfo(name = "Codigo")
-    private long codigo;
+    @ColumnInfo(name = "descripcion")
+    private String descripcion;
 
-    @SerializedName("Categoria")
-    @ColumnInfo(name = "Categoria")
+    @NonNull
+    @ColumnInfo(name = "categoria")
     private String categoria;
 
-    @SerializedName("Precio_venta")
-    @ColumnInfo(name = "Precio venta")
-    private Integer precioVenta;
+    @ColumnInfo(name = "cantidad", defaultValue = "0")
+    private Integer cantidad;
 
-    @SerializedName("Unidades")
-    @ColumnInfo(name = "Unidades")
-    private Integer unidades;
-
-    @SerializedName("Presentacion")
-    @ColumnInfo(name = "Presentacion")
+    @ColumnInfo(name = "presentacion")
     private String presentacion;
+
+    @ColumnInfo(name = "proveedor")
+    private String proveedor;
+
+    @ColumnInfo(name = "precio_costo")
+    private Integer precioCosto;
+
+    @ColumnInfo(name = "precio_venta")
+    private Integer precioVenta;
 
     public Producto() {
         this.nombre = "";
         this.categoria = "";
-        this.presentacion = "";
     }
 
-    public Producto(String nombre, long codigo, String categoria, Integer precioVenta, Integer unidades, String presentacion) {
+    public Producto(int id, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {
+        this.id = id;
         this.nombre = nombre;
-        this.codigo = codigo;
+        this.descripcion = descripcion;
         this.categoria = categoria;
-        this.precioVenta = precioVenta;
-        this.unidades = unidades;
+        this.cantidad = cantidad;
         this.presentacion = presentacion;
+        this.proveedor = proveedor;
+        this.precioCosto = precioCosto;
+        this.precioVenta = precioVenta;
     }
 
+    public int getId() { return id; }
+    public void setId(int id) { this.id = id; }
+
+    @NonNull
     public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public void setNombre(@NonNull String nombre) { this.nombre = nombre; }
 
-    public long getCodigo() { return codigo; }
-    public void setCodigo(long codigo) { this.codigo = codigo; }
+    public String getDescripcion() { return descripcion; }
+    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
 
+    @NonNull
     public String getCategoria() { return categoria; }
-    public void setCategoria(String categoria) { this.categoria = categoria; }
+    public void setCategoria(@NonNull String categoria) { this.categoria = categoria; }
 
-    public Integer getPrecioVenta() { return precioVenta; }
-    public void setPrecioVenta(Integer precioVenta) { this.precioVenta = precioVenta; }
-
-    public Integer getUnidades() { return unidades; }
-    public void setUnidades(Integer unidades) { this.unidades = unidades; }
+    public Integer getCantidad() { return cantidad; }
+    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
 
     public String getPresentacion() { return presentacion; }
     public void setPresentacion(String presentacion) { this.presentacion = presentacion; }
 
-    public int getId() { return (int) codigo; }
+    public String getProveedor() { return proveedor; }
+    public void setProveedor(String proveedor) { this.proveedor = proveedor; }
+
+    public Integer getPrecioCosto() { return precioCosto; }
+    public void setPrecioCosto(Integer precioCosto) { this.precioCosto = precioCosto; }
+
+    public Integer getPrecioVenta() { return precioVenta; }
+    public void setPrecioVenta(Integer precioVenta) { this.precioVenta = precioVenta; }
+
+    // Helper for Activity compatibility
     public double getPrecio() { return precioVenta != null ? precioVenta.doubleValue() : 0.0; }
-    public int getStock() { return unidades != null ? unidades : 0; }
-    public String getProveedorTelefono() { return ""; }
+    public int getStock() { return cantidad != null ? cantidad : 0; }
+    public String getCodigo() { return String.valueOf(id); }
+    public String getProveedorTelefono() { return proveedor != null ? proveedor : ""; }
 }

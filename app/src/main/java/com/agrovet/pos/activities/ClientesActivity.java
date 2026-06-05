@@ -16,8 +16,11 @@ import com.agrovet.pos.adapters.ClienteAdapter;
 import com.agrovet.pos.models.Cliente;
 import com.agrovet.pos.viewmodels.ClienteViewModel;
 import com.google.android.material.textfield.TextInputEditText;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ClientesActivity extends AppCompatActivity {
 
@@ -31,8 +34,8 @@ public class ClientesActivity extends AppCompatActivity {
 
     private ClienteAdapter adapter;
     private ClienteViewModel viewModel;
-    private List<Cliente> clientesList = new ArrayList<>();
-    private List<Cliente> clientesListOriginal = new ArrayList<>();
+    private final List<Cliente> clientesList = new ArrayList<>();
+    private final List<Cliente> clientesListOriginal = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class ClientesActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Clientes");
+            getSupportActionBar().setTitle(R.string.titulo_clientes);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -121,8 +124,7 @@ public class ClientesActivity extends AppCompatActivity {
         } else {
             for (Cliente cliente : clientesListOriginal) {
                 if (cliente.getNombre().toLowerCase().contains(query) ||
-                        String.valueOf(cliente.getCedula()).contains(query) ||
-                        String.valueOf(cliente.getTelefono()).contains(query)) {
+                        cliente.getCedula().contains(query)) {
                     clientesList.add(cliente);
                 }
             }
@@ -149,9 +151,9 @@ public class ClientesActivity extends AppCompatActivity {
 
         if (isEditando) {
             tituloDialog.setText("Editar Cliente");
-            etCedula.setText(String.valueOf(cliente.getCedula()));
+            etCedula.setText(cliente.getCedula());
             etNombre.setText(cliente.getNombre());
-            etTelefono.setText(String.valueOf(cliente.getTelefono()));
+            etTelefono.setText(cliente.getTelefono());
             etCorreo.setText(cliente.getCorreo());
             etCedula.setEnabled(false);
         } else {
@@ -162,35 +164,29 @@ public class ClientesActivity extends AppCompatActivity {
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
         btnGuardar.setOnClickListener(v -> {
-            String cedulaStr = etCedula.getText().toString().trim();
+            String cedula = etCedula.getText().toString().trim();
             String nombre = etNombre.getText().toString().trim();
-            String telefonoStr = etTelefono.getText().toString().trim();
+            String telefono = etTelefono.getText().toString().trim();
             String correo = etCorreo.getText().toString().trim();
 
-            if (cedulaStr.isEmpty() || nombre.isEmpty()) {
-                Toast.makeText(this, "Cédula y nombre son requeridos", Toast.LENGTH_SHORT).show();
+            if (cedula.isEmpty() || nombre.isEmpty()) {
+                Toast.makeText(this, "Cedula y nombre son requeridos", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            try {
-                long cedula = Long.parseLong(cedulaStr);
-                long telefono = telefonoStr.isEmpty() ? 0 : Long.parseLong(telefonoStr);
-
-                if (isEditando) {
-                    cliente.setNombre(nombre);
-                    cliente.setTelefono(telefono);
-                    cliente.setCorreo(correo);
-                    viewModel.updateCliente(cliente);
-                    Toast.makeText(this, "Cliente actualizado", Toast.LENGTH_SHORT).show();
-                } else {
-                    Cliente nuevoCliente = new Cliente(nombre, cedula, correo, telefono, 0);
-                    viewModel.createCliente(nuevoCliente);
-                    Toast.makeText(this, "Cliente creado exitosamente", Toast.LENGTH_SHORT).show();
-                }
-                dialog.dismiss();
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "Cédula y teléfono deben ser numéricos", Toast.LENGTH_SHORT).show();
+            if (isEditando) {
+                cliente.setNombre(nombre);
+                cliente.setTelefono(telefono);
+                cliente.setCorreo(correo);
+                viewModel.updateCliente(cliente);
+                Toast.makeText(this, "Cliente actualizado", Toast.LENGTH_SHORT).show();
+            } else {
+                String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+                Cliente nuevoCliente = new Cliente(cedula, nombre, telefono, correo, "", fecha);
+                viewModel.createCliente(nuevoCliente);
+                Toast.makeText(this, "Cliente creado exitosamente", Toast.LENGTH_SHORT).show();
             }
+            dialog.dismiss();
         });
 
         dialog.show();
@@ -202,9 +198,9 @@ public class ClientesActivity extends AppCompatActivity {
 
     private void onEliminarClick(Cliente cliente) {
         new AlertDialog.Builder(this)
-                .setTitle("Eliminar Cliente")
+                .setTitle(R.string.btn_eliminar)
                 .setMessage("¿Desea eliminar a " + cliente.getNombre() + "?")
-                .setPositiveButton("Sí", (dialog, which) -> {
+                .setPositiveButton("Si", (dialog, which) -> {
                     viewModel.deleteCliente(cliente.getCedula());
                     Toast.makeText(this, "Cliente eliminado", Toast.LENGTH_SHORT).show();
                 })

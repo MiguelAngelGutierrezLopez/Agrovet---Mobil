@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="Agrovet.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="3338"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><table title="proveedor" custom_title="0" dock_id="2" table="4,9:mainproveedor"/><dock_state state="000000ff00000000fd00000001000000020000042100000288fc0100000001fc00000000000004210000011e00fffffffa000000010100000002fb000000160064006f0063006b00420072006f00770073006500310000000000ffffffff0000000000000000fb000000160064006f0063006b00420072006f00770073006500320100000000ffffffff0000011e00ffffff000002690000000000000004000000040000000800000008fc00000000"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="abonos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="65"/><column index="3" value="58"/><column index="4" value="90"/><column index="5" value="45"/><column index="6" value="39"/><column index="7" value="87"/><column index="8" value="66"/><column index="9" value="102"/><column index="10" value="77"/><column index="11" value="91"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="cliente" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort><column index="0" mode="0"/></sort><column_widths><column index="1" value="202"/><column index="2" value="274"/><column index="3" value="55"/><column index="4" value="45"/><column index="5" value="59"/><column index="6" value="94"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="creditos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="58"/><column index="3" value="90"/><column index="4" value="53"/><column index="5" value="82"/><column index="6" value="102"/><column index="7" value="78"/><column index="8" value="75"/><column index="9" value="116"/><column index="10" value="47"/><column index="11" value="114"/><column index="12" value="79"/><column index="13" value="112"/><column index="14" value="90"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="productos" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="35"/><column index="2" value="300"/><column index="3" value="72"/><column index="4" value="127"/><column index="5" value="57"/><column index="6" value="82"/><column index="7" value="67"/><column index="8" value="81"/><column index="9" value="83"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="proveedor" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_" freeze_columns="0"><sort/><column_widths><column index="1" value="87"/><column index="2" value="109"/><column index="3" value="118"/><column index="4" value="151"/><column index="5" value="55"/><column index="6" value="159"/><column index="7" value="59"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1*">-- Tabla: abonos
+CREATE TABLE `abonos` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `credito_id` INTEGER NOT NULL,
+  `venta_id` INTEGER NOT NULL,
+  `cliente_cedula` TEXT NOT NULL,
+  `monto` REAL NOT NULL,
+  `fecha` TEXT NOT NULL,
+  `metodo_pago` TEXT NOT NULL DEFAULT 'efectivo',
+  `referencia` TEXT,
+  `usuario_registra` TEXT,
+  `observacion` TEXT,
+  `fecha_registro` TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Tabla: cliente
+CREATE TABLE `cliente` (
+  `cedula` TEXT NOT NULL,
+  `nombre` TEXT NOT NULL,
+  `telefono` TEXT,
+  `correo` TEXT,
+  `direccion` TEXT,
+  `fecha_creacion` TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`cedula`)
+);
+
+-- Tabla: creditos
+CREATE TABLE `creditos` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `venta_id` INTEGER NOT NULL,
+  `cliente_cedula` TEXT NOT NULL,
+  `anticipo` REAL NOT NULL DEFAULT 0.00,
+  `deuda_inicial` REAL NOT NULL DEFAULT 0.00,
+  `saldo_pendiente` REAL NOT NULL DEFAULT 0.00,
+  `dias_credito` INTEGER NOT NULL DEFAULT 30,
+  `fecha_inicio` TEXT NOT NULL,
+  `fecha_vencimiento` TEXT NOT NULL,
+  `estado` TEXT NOT NULL DEFAULT 'pendiente',
+  `abonos_realizados` REAL NOT NULL DEFAULT 0.00,
+  `ultimo_pago` TEXT,
+  `ultimo_pago_hora` TEXT,
+  `observaciones` TEXT
+);
+
+-- Tabla: detalle_venta
+CREATE TABLE `detalle_venta` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_venta` INTEGER NOT NULL,
+  `id_producto` INTEGER NOT NULL,
+  `fecha_venta` TEXT NOT NULL,
+  `cantidad_vendida` INTEGER NOT NULL,
+  `precio_unidad` REAL NOT NULL,
+  `precio_neto` REAL NOT NULL
+);
+
+-- Tabla: productos
+CREATE TABLE `productos` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `nombre` TEXT NOT NULL,
+  `descripcion` TEXT,
+  `categoria` TEXT NOT NULL,
+  `cantidad` INTEGER DEFAULT 0,
+  `presentacion` TEXT,
+  `proveedor` TEXT,
+  `precio_costo` INTEGER,
+  `precio_venta` INTEGER
+);
+
+-- Tabla: proveedor
+CREATE TABLE `proveedor` (
+  `telefono` TEXT NOT NULL,
+  `nombre_empresa` TEXT NOT NULL,
+  `nombre_proveedor` TEXT NOT NULL,
+  `correo` TEXT,
+  `estado` TEXT DEFAULT 'activo',
+  `fecha_registro` TEXT DEFAULT CURRENT_TIMESTAMP,
+  `producto` TEXT,
+  PRIMARY KEY (`telefono`)
+);
+
+-- Tabla: reporte_caja
+CREATE TABLE `reporte_caja` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `ingresos` REAL DEFAULT 0.00,
+  `razon_ingreso` TEXT,
+  `fecha_ingreso` TEXT,
+  `categoria` TEXT DEFAULT 'otros',
+  `egresos` REAL DEFAULT 0.00,
+  `razon_egreso` TEXT,
+  `fecha_egreso` TEXT
+);
+
+-- Tabla: ventas
+CREATE TABLE `ventas` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `numero_venta` INTEGER,
+  `fecha_dia` TEXT NOT NULL,
+  `fecha_hora` TEXT NOT NULL,
+  `nombre_cliente` TEXT NOT NULL,
+  `direccion_cliente` TEXT,
+  `telefono_cliente` TEXT,
+  `tipo_pago` TEXT NOT NULL,
+  `cliente_cedula` TEXT,
+  `subtotal` REAL NOT NULL DEFAULT 0.00,
+  `descuento` REAL NOT NULL DEFAULT 0.00,
+  `total` REAL NOT NULL DEFAULT 0.00,
+  `dias_credito` INTEGER,
+  `submetodo_banco` TEXT,
+  `usuario_id` INTEGER DEFAULT 1,
+  `estado` TEXT DEFAULT 'completada'
+);
+
+-- Tabla: ventas_mixtas
+CREATE TABLE `ventas_mixtas` (
+  `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+  `id_venta` INTEGER NOT NULL,
+  `identificador` TEXT NOT NULL,
+  `categoria` TEXT NOT NULL,
+  `metodo_pago` TEXT NOT NULL,
+  `submetodo` TEXT,
+  `monto` REAL NOT NULL,
+  `dinero_entregado` REAL DEFAULT 0.00,
+  `cambio` REAL DEFAULT 0.00,
+  `anticipo` REAL DEFAULT 0.00,
+  `dias_credito` INTEGER,
+  `cliente_cedula` TEXT,
+  `fecha_registro` TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Activar foreign keys
+PRAGMA foreign_keys = ON;
+
+-- Crear índices importantes
+CREATE INDEX idx_abonos_credito ON abonos(credito_id);
+CREATE INDEX idx_abonos_fecha ON abonos(fecha);
+CREATE INDEX idx_creditos_estado ON creditos(estado);
+CREATE INDEX idx_creditos_vencimiento ON creditos(fecha_vencimiento);
+CREATE INDEX idx_ventas_fecha ON ventas(fecha_dia);
+CREATE INDEX idx_ventas_numero ON ventas(numero_venta);
+CREATE INDEX idx_detalle_venta_fecha ON detalle_venta(fecha_venta, id_producto);
+
+-- =====================================================
+-- ÍNDICES CORRECTOS PARA MANTENER (11 índices)
+-- =====================================================
+
+-- Índices para tabla abonos
+CREATE INDEX idx_abonos_credito ON abonos(credito_id);
+CREATE INDEX idx_abonos_fecha ON abonos(fecha);
+CREATE INDEX idx_abonos_cliente_cedula ON abonos(cliente_cedula);
+CREATE INDEX idx_abonos_venta_id ON abonos(venta_id);
+
+-- Índices para tabla creditos
+CREATE INDEX idx_creditos_estado ON creditos(estado);
+CREATE INDEX idx_creditos_fecha_vencimiento ON creditos(fecha_vencimiento);
+
+-- Índices para tabla detalle_venta
+CREATE INDEX idx_detalle_venta_venta ON detalle_venta(id_venta);
+CREATE INDEX idx_detalle_venta_producto ON detalle_venta(id_producto);
+CREATE INDEX idx_detalle_venta_fecha_producto ON detalle_venta(fecha_venta, id_producto);
+
+-- Índices para tabla productos
+CREATE INDEX idx_productos_proveedor ON productos(proveedor);
+
+-- Índices para tabla reporte_caja
+CREATE INDEX idx_reporte_caja_categoria ON reporte_caja(categoria);
+
+-- Índices para tabla ventas
+CREATE INDEX idx_ventas_cliente ON ventas(cliente_cedula);
+CREATE INDEX idx_ventas_fecha ON ventas(fecha_dia);
+CREATE INDEX idx_ventas_numero ON ventas(numero_venta);
+
+
+INSERT INTO `cliente` (`cedula`, `nombre`, `telefono`, `correo`, `direccion`, `fecha_creacion`) VALUES
+('CL064', 'ALEJANDRO DELGADO', '3122045243', 'agrovetyacuanquer@gmail.com', 'TANGUA VRD LOS AJOS', '2000-01-01 00:00:00'),
+('CL007', 'ALVEIRO PEJENDINO', '1111111111', 'clientesceagro@gmail.com', 'ARGUELLO ALTO', '2000-01-01 00:00:00'),
+('CL048', 'BETTY BENAVIDEZ', '1111111111', 'clientesceagro@gmail.com', 'CHAPACUAL', '2000-01-01 00:00:00'),
+('CL036', 'BRAYAN BURBANO', '3152851967', 'clientesceagro@gmail.com', 'TANGUA', '2000-01-01 00:00:00'),
+('1001001005', 'Carlos Eduardo Torres', '3205556677', 'carlos.torres@email.com', 'Barrio Centro, Manzana 3, Bucaramanga', '2026-01-27 17:08:07');
+
+INSERT INTO `productos` (`id`, `nombre`, `descripcion`, `categoria`, `cantidad`, `presentacion`, `proveedor`, `precio_costo`, `precio_venta`) VALUES
+(332, 'ENROVET 5% X 10 ML', NULL, 'VETERINARIA', 2, '10 ML', NULL, 20000, 24000),
+(333, 'GENTAVET FCOK 50 ML', NULL, 'VETERINARIA', 0, '50 ML', NULL, 34800, 41000),
+(334, 'OXITETRACICLINA LARGA ACCION 50 ML MK', NULL, 'VETERINARIA', 2, '50 ML', NULL, 17019, 22000),
+(335, 'TILOCHEM INY FCOX 100 ML', NULL, 'VETERINARIA', 1, '100 ML', NULL, 30000, 36000),
+(336, 'GIBOX', NULL, 'BIOESTIMULANTES', 0, '10 GR', NULL, 4800, 7000);
+
+INSERT INTO `proveedor` (`telefono`, `nombre_empresa`, `nombre_proveedor`, `correo`, `estado`, `fecha_registro`, `producto`) VALUES
+('3202914521', 'Miguel', 'Miguel Angel', 'magear004@gmail.co', 'activo', CURRENT_TIMESTAMP, 'Arroz');</sql><current_tab id="0"/></tab_sql></sqlb_project>

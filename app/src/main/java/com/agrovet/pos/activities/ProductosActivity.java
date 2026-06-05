@@ -32,8 +32,8 @@ public class ProductosActivity extends AppCompatActivity {
 
     private ProductoAdapter adapter;
     private ProductoViewModel viewModel;
-    private List<Producto> productosList = new ArrayList<>();
-    private List<Producto> productosListOriginal = new ArrayList<>();
+    private final List<Producto> productosList = new ArrayList<>();
+    private final List<Producto> productosListOriginal = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +66,7 @@ public class ProductosActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Productos");
+            getSupportActionBar().setTitle(R.string.titulo_productos);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -75,11 +75,9 @@ public class ProductosActivity extends AppCompatActivity {
     private void setupSpinners() {
         List<String> categorias = new ArrayList<>();
         categorias.add("Todas las categorías");
-        categorias.add("Vacunas");
-        categorias.add("Medicamentos");
-        categorias.add("Fertilizantes");
-        categorias.add("Semillas");
-        categorias.add("Equipos");
+        categorias.add("VETERINARIA");
+        categorias.add("BIOESTIMULANTES");
+        categorias.add("FERTILIZANTES");
 
         ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categorias);
         categoriaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -160,8 +158,7 @@ public class ProductosActivity extends AppCompatActivity {
         List<Producto> filtrados = new ArrayList<>(productosListOriginal);
 
         if (!query.isEmpty()) {
-            filtrados.removeIf(p -> !p.getNombre().toLowerCase().contains(query) &&
-                    !String.valueOf(p.getCodigo()).contains(query));
+            filtrados.removeIf(p -> !p.getNombre().toLowerCase().contains(query));
         }
 
         if (!categoriaSeleccionada.equals("Todas las categorías")) {
@@ -169,11 +166,11 @@ public class ProductosActivity extends AppCompatActivity {
         }
 
         if (stockFiltro.equals("Stock bajo (≤5)")) {
-            filtrados.removeIf(p -> p.getUnidades() > 5);
+            filtrados.removeIf(p -> p.getStock() > 5);
         } else if (stockFiltro.equals("Stock medio (6-15)")) {
-            filtrados.removeIf(p -> p.getUnidades() < 6 || p.getUnidades() > 15);
+            filtrados.removeIf(p -> p.getStock() < 6 || p.getStock() > 15);
         } else if (stockFiltro.equals("Stock alto (>15)")) {
-            filtrados.removeIf(p -> p.getUnidades() <= 15);
+            filtrados.removeIf(p -> p.getStock() <= 15);
         }
 
         productosList.clear();
@@ -189,7 +186,6 @@ public class ProductosActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         TextView tituloDialog = view.findViewById(R.id.titulo_dialog);
-        TextInputEditText etCodigo = view.findViewById(R.id.et_codigo);
         TextInputEditText etNombre = view.findViewById(R.id.et_nombre);
         TextInputEditText etPrecio = view.findViewById(R.id.et_precio);
         TextInputEditText etStock = view.findViewById(R.id.et_stock);
@@ -202,54 +198,49 @@ public class ProductosActivity extends AppCompatActivity {
 
         if (isEditando) {
             tituloDialog.setText("Editar Producto");
-            etCodigo.setText(String.valueOf(producto.getCodigo()));
             etNombre.setText(producto.getNombre());
-            etPrecio.setText(String.valueOf(producto.getPrecioVenta()));
-            etStock.setText(String.valueOf(producto.getUnidades()));
+            etPrecio.setText(String.valueOf((int)producto.getPrecio()));
+            etStock.setText(String.valueOf(producto.getStock()));
             etCategoria.setText(producto.getCategoria());
             etPresentacion.setText(producto.getPresentacion());
-            etCodigo.setEnabled(false);
         } else {
             tituloDialog.setText("Nuevo Producto");
-            etCodigo.setEnabled(true);
         }
 
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
         btnGuardar.setOnClickListener(v -> {
-            String codigoStr = etCodigo.getText().toString().trim();
             String nombre = etNombre.getText().toString().trim();
             String precioStr = etPrecio.getText().toString().trim();
             String stockStr = etStock.getText().toString().trim();
             String categoria = etCategoria.getText().toString().trim();
             String presentacion = etPresentacion.getText().toString().trim();
 
-            if (codigoStr.isEmpty() || nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
-                Toast.makeText(this, "Código, nombre, precio y unidades son requeridos", Toast.LENGTH_SHORT).show();
+            if (nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
+                Toast.makeText(this, "Nombre, precio y unidades son requeridos", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             try {
-                long codigo = Long.parseLong(codigoStr);
                 int precio = Integer.parseInt(precioStr);
                 int unidades = Integer.parseInt(stockStr);
 
                 if (isEditando) {
                     producto.setNombre(nombre);
                     producto.setPrecioVenta(precio);
-                    producto.setUnidades(unidades);
+                    producto.setCantidad(unidades);
                     producto.setCategoria(categoria);
                     producto.setPresentacion(presentacion);
                     viewModel.updateProducto(producto);
                     Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
                 } else {
-                    Producto nuevoProducto = new Producto(nombre, codigo, categoria, precio, unidades, presentacion);
+                    Producto nuevoProducto = new Producto(0, nombre, "", categoria, unidades, presentacion, "", 0, precio);
                     viewModel.createProducto(nuevoProducto);
                     Toast.makeText(this, "Producto creado exitosamente", Toast.LENGTH_SHORT).show();
                 }
                 dialog.dismiss();
             } catch (NumberFormatException e) {
-                Toast.makeText(this, "Código, precio y unidades deben ser numéricos", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Precio y unidades deben ser numéricos", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -262,10 +253,10 @@ public class ProductosActivity extends AppCompatActivity {
 
     private void onEliminarClick(Producto producto) {
         new AlertDialog.Builder(this)
-                .setTitle("Eliminar Producto")
+                .setTitle(R.string.btn_eliminar)
                 .setMessage("¿Desea eliminar " + producto.getNombre() + "?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    viewModel.deleteProducto(producto.getCodigo());
+                .setPositiveButton("Si", (dialog, which) -> {
+                    viewModel.deleteProducto(producto.getId());
                     Toast.makeText(this, "Producto eliminado", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Cancelar", null)

@@ -9,7 +9,6 @@ import com.agrovet.pos.models.Proveedor;
 import java.util.List;
 
 public class ProveedorRepository {
-
     private final ProveedorDao proveedorDao;
 
     public ProveedorRepository(Application application) {
@@ -29,11 +28,7 @@ public class ProveedorRepository {
         AppDatabase.databaseWriteExecutor.execute(() -> proveedorDao.update(proveedor));
     }
 
-    public void delete(Proveedor proveedor) {
-        AppDatabase.databaseWriteExecutor.execute(() -> proveedorDao.delete(proveedor));
-    }
-    
-    public void deleteById(long id) {
+    public void deleteById(String id) {
         AppDatabase.databaseWriteExecutor.execute(() -> proveedorDao.deleteById(id));
     }
 }

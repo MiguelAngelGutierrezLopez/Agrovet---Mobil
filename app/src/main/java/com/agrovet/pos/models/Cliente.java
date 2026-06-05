@@ -4,62 +4,67 @@ import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "Clientes")
+@Entity(tableName = "cliente")
 public class Cliente {
-    @SerializedName("Nombre")
+    @PrimaryKey
     @NonNull
-    @ColumnInfo(name = "Nombre")
+    @ColumnInfo(name = "cedula")
+    private String cedula;
+
+    @NonNull
+    @ColumnInfo(name = "nombre")
     private String nombre;
 
-    @SerializedName("id")
-    @PrimaryKey
-    @ColumnInfo(name = "Cedula")
-    private long cedula;
+    @ColumnInfo(name = "telefono")
+    private String telefono;
 
-    @SerializedName("Correo")
-    @NonNull
-    @ColumnInfo(name = "Correo")
+    @ColumnInfo(name = "correo")
     private String correo;
 
-    @SerializedName("Telefono")
-    @ColumnInfo(name = "telefono")
-    private long telefono;
+    @ColumnInfo(name = "direccion")
+    private String direccion;
 
-    @SerializedName("Deuda")
-    @ColumnInfo(name = "Deuda")
-    private int deuda;
+    @NonNull
+    @ColumnInfo(name = "fecha_creacion", defaultValue = "CURRENT_TIMESTAMP")
+    private String fechaCreacion;
 
     public Cliente() {
+        this.cedula = "";
         this.nombre = "";
-        this.correo = "";
+        this.fechaCreacion = "";
     }
 
-    public Cliente(@NonNull String nombre, long cedula, @NonNull String correo, long telefono, int deuda) {
-        this.nombre = nombre;
+    public Cliente(@NonNull String cedula, @NonNull String nombre, String telefono, String correo, String direccion, @NonNull String fechaCreacion) {
         this.cedula = cedula;
-        this.correo = correo;
+        this.nombre = nombre;
         this.telefono = telefono;
-        this.deuda = deuda;
+        this.correo = correo;
+        this.direccion = direccion;
+        this.fechaCreacion = fechaCreacion;
     }
+
+    @NonNull
+    public String getCedula() { return cedula; }
+    public void setCedula(@NonNull String cedula) { this.cedula = cedula; }
 
     @NonNull
     public String getNombre() { return nombre; }
     public void setNombre(@NonNull String nombre) { this.nombre = nombre; }
 
-    public long getCedula() { return cedula; }
-    public void setCedula(long cedula) { this.cedula = cedula; }
+    public String getTelefono() { return telefono; }
+    public void setTelefono(String telefono) { this.telefono = telefono; }
+
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
+
+    public String getDireccion() { return direccion; }
+    public void setDireccion(String direccion) { this.direccion = direccion; }
 
     @NonNull
-    public String getCorreo() { return correo; }
-    public void setCorreo(@NonNull String correo) { this.correo = correo; }
+    public String getFechaCreacion() { return fechaCreacion; }
+    public void setFechaCreacion(@NonNull String fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
-    public long getTelefono() { return telefono; }
-    public void setTelefono(long telefono) { this.telefono = telefono; }
-
-    public int getDeuda() { return deuda; }
-    public void setDeuda(int deuda) { this.deuda = deuda; }
-
-    public String getId() { return String.valueOf(cedula); }
+    // Helper for Activity compatibility
+    public String getId() { return cedula; }
 }

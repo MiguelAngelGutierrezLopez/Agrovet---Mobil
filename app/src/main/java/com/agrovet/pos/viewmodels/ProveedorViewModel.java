@@ -9,7 +9,6 @@ import com.agrovet.pos.repositories.ProveedorRepository;
 import java.util.List;
 
 public class ProveedorViewModel extends AndroidViewModel {
-
     private final ProveedorRepository repository;
 
     public ProveedorViewModel(@NonNull Application application) {
@@ -29,7 +28,7 @@ public class ProveedorViewModel extends AndroidViewModel {
         repository.update(proveedor);
     }
 
-    public void deleteProveedor(long id) {
+    public void deleteProveedor(String id) {
         repository.deleteById(id);
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 @Dao
 public interface ProveedorDao {
-    @Query("SELECT * FROM Proveedores")
+    @Query("SELECT * FROM proveedor")
     LiveData<List<Proveedor>> getAllProveedores();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -19,6 +19,6 @@ public interface ProveedorDao {
     @Delete
     void delete(Proveedor proveedor);
     
-    @Query("DELETE FROM Proveedores WHERE Credencial = :id")
-    void deleteById(long id);
+    @Query("DELETE FROM proveedor WHERE telefono = :id")
+    void deleteById(String id);
 }

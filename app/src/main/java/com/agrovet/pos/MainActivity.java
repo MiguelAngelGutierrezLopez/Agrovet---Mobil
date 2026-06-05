@@ -1,17 +1,22 @@
 package com.agrovet.pos;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,6 +29,7 @@ import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private ActivityResultLauncher<String> requestPermissionLauncher;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private Toolbar toolbar;
@@ -48,6 +54,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupClickListeners();
         loadDashboardData();
         setupBackPressed();
+        setupPermissionLauncher();
+        askNotificationPermission();
+    }
+
+    private void setupPermissionLauncher() {
+        requestPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                isGranted -> {
+                    if (isGranted) {
+                        Toast.makeText(this, "Notificaciones activadas", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(this, "No se recibirán notificaciones", Toast.LENGTH_SHORT).show();
+                    }
+                }
+        );
+    }
+
+    private void askNotificationPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
+                    PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
     }
 
     private void initViews() {
@@ -87,8 +117,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnClientes.setOnClickListener(v -> openClientesActivity());
         btnProveedores.setOnClickListener(v -> openProveedoresActivity());
         btnProductos.setOnClickListener(v -> openProductosActivity());
-        btnVentas.setOnClickListener(v ->
-                Toast.makeText(this, "Módulo de Ventas - Próximamente", Toast.LENGTH_SHORT).show());
+        btnVentas.setOnClickListener(v -> openVentasActivity());
+    }
+
+    private void openVentasActivity() {
+        startActivity(new Intent(this, com.agrovet.pos.activities.VentasActivity.class));
     }
 
     private void loadDashboardData() {
@@ -106,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         
         txtDbStatus.setText("Local (SQLite/Room)");
     }
-
 
     private void openClientesActivity() {
         startActivity(new Intent(this, ClientesActivity.class));
@@ -132,11 +164,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             openProveedoresActivity();
         } else if (id == R.id.nav_productos) {
             openProductosActivity();
+        } else if (id == R.id.nav_ventas) {
+            openVentasActivity();
+        } else if (id == R.id.nav_historial) {
+            openHistorialVentasActivity();
+        } else if (id == R.id.nav_reporte_caja) {
+            openReporteCajaActivity();
         } else {
             drawerLayout.closeDrawer(GravityCompat.START);
         }
 
         return true;
+    }
+
+    private void openReporteCajaActivity() {
+        startActivity(new Intent(this, com.agrovet.pos.activities.ReporteCajaActivity.class));
+    }
+
+    private void openHistorialVentasActivity() {
+        startActivity(new Intent(this, com.agrovet.pos.activities.HistorialVentasActivity.class));
     }
 
     private void setupBackPressed() {

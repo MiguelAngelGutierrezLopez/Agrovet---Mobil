@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "533744407945",
+    "project_id": "agrovetmobil",
+    "storage_bucket": "agrovetmobil.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:533744407945:android:65af3c0654b906159bbd58",
+        "android_client_info": {
+          "package_name": "com.agrovet.pos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDr810Z6CkIooUQ5RpaAv7ngrWuLvp0i8I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

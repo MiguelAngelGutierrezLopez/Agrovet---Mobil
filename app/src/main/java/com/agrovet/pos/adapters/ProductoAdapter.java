@@ -43,20 +43,20 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         NumberFormat formatPeso = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
 
         holder.txtNombre.setText(producto.getNombre());
-        holder.txtCodigo.setText("Código: " + producto.getCodigo());
-        holder.txtPrecio.setText(formatPeso.format(producto.getPrecioVenta()));
-        holder.txtStock.setText("📦 Unidades: " + producto.getUnidades());
+        holder.txtCodigo.setText("ID: " + producto.getId());
+        holder.txtPrecio.setText(formatPeso.format(producto.getPrecio()));
+        holder.txtStock.setText("Stock: " + producto.getStock());
 
-        if (producto.getUnidades() <= 5) {
+        if (producto.getStock() <= 5) {
             holder.txtStock.setTextColor(holder.itemView.getContext().getColor(R.color.rojo_error));
-        } else if (producto.getUnidades() <= 15) {
+        } else if (producto.getStock() <= 15) {
             holder.txtStock.setTextColor(holder.itemView.getContext().getColor(R.color.mostaza));
         } else {
             holder.txtStock.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
         }
 
         if (producto.getPresentacion() != null && !producto.getPresentacion().isEmpty()) {
-            holder.txtCategoria.setText("Presentación: " + producto.getPresentacion());
+            holder.txtCategoria.setText(producto.getPresentacion());
             holder.txtCategoria.setVisibility(View.VISIBLE);
         } else {
             holder.txtCategoria.setVisibility(View.GONE);

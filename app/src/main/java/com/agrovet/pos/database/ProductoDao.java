@@ -19,6 +19,6 @@ public interface ProductoDao {
     @Delete
     void delete(Producto producto);
     
-    @Query("DELETE FROM productos WHERE Codigo = :id")
-    void deleteById(long id);
+    @Query("DELETE FROM productos WHERE id = :id")
+    void deleteById(int id);
 }

@@ -16,8 +16,11 @@ import com.agrovet.pos.adapters.ProveedorAdapter;
 import com.agrovet.pos.models.Proveedor;
 import com.agrovet.pos.viewmodels.ProveedorViewModel;
 import com.google.android.material.textfield.TextInputEditText;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ProveedoresActivity extends AppCompatActivity {
 
@@ -31,8 +34,8 @@ public class ProveedoresActivity extends AppCompatActivity {
 
     private ProveedorAdapter adapter;
     private ProveedorViewModel viewModel;
-    private List<Proveedor> proveedoresList = new ArrayList<>();
-    private List<Proveedor> proveedoresListOriginal = new ArrayList<>();
+    private final List<Proveedor> proveedoresList = new ArrayList<>();
+    private final List<Proveedor> proveedoresListOriginal = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +65,7 @@ public class ProveedoresActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle("Proveedores");
+            getSupportActionBar().setTitle(R.string.titulo_proveedores);
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
         }
         toolbar.setNavigationOnClickListener(v -> finish());
@@ -121,8 +124,7 @@ public class ProveedoresActivity extends AppCompatActivity {
         } else {
             for (Proveedor proveedor : proveedoresListOriginal) {
                 if (proveedor.getNombreEmpresa().toLowerCase().contains(query) ||
-                        proveedor.getNombreProveedor().toLowerCase().contains(query) ||
-                        String.valueOf(proveedor.getCredencial()).contains(query)) {
+                        proveedor.getNombreProveedor().toLowerCase().contains(query)) {
                     proveedoresList.add(proveedor);
                 }
             }
@@ -149,9 +151,9 @@ public class ProveedoresActivity extends AppCompatActivity {
 
         if (isEditando) {
             tituloDialog.setText("Editar Proveedor");
-            etTelefono.setText(String.valueOf(proveedor.getCredencial()));
-            etNombreEmpresa.setText(proveedor.getEmpresa());
-            etNombreProveedor.setText(proveedor.getNombre());
+            etTelefono.setText(proveedor.getTelefono());
+            etNombreEmpresa.setText(proveedor.getNombreEmpresa());
+            etNombreProveedor.setText(proveedor.getNombreProveedor());
             etProductos.setText(proveedor.getProductos());
             etTelefono.setEnabled(false);
         } else {
@@ -162,33 +164,29 @@ public class ProveedoresActivity extends AppCompatActivity {
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
         btnGuardar.setOnClickListener(v -> {
-            String credencialStr = etTelefono.getText().toString().trim();
+            String telefono = etTelefono.getText().toString().trim();
             String nombreEmpresa = etNombreEmpresa.getText().toString().trim();
             String nombreProveedor = etNombreProveedor.getText().toString().trim();
             String productos = etProductos.getText().toString().trim();
 
-            if (credencialStr.isEmpty() || nombreEmpresa.isEmpty() || nombreProveedor.isEmpty()) {
-                Toast.makeText(this, "Credencial, empresa y nombre son requeridos", Toast.LENGTH_SHORT).show();
+            if (telefono.isEmpty() || nombreEmpresa.isEmpty() || nombreProveedor.isEmpty()) {
+                Toast.makeText(this, "Telefono, empresa y nombre son requeridos", Toast.LENGTH_SHORT).show();
                 return;
             }
 
-            try {
-                long credencial = Long.parseLong(credencialStr);
-                if (isEditando) {
-                    proveedor.setEmpresa(nombreEmpresa);
-                    proveedor.setNombre(nombreProveedor);
-                    proveedor.setProductos(productos);
-                    viewModel.updateProveedor(proveedor);
-                    Toast.makeText(this, "Proveedor actualizado", Toast.LENGTH_SHORT).show();
-                } else {
-                    Proveedor nuevoProveedor = new Proveedor(nombreProveedor, credencial, nombreEmpresa, productos);
-                    viewModel.createProveedor(nuevoProveedor);
-                    Toast.makeText(this, "Proveedor creado exitosamente", Toast.LENGTH_SHORT).show();
-                }
-                dialog.dismiss();
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "La credencial debe ser numérica", Toast.LENGTH_SHORT).show();
+            if (isEditando) {
+                proveedor.setNombreEmpresa(nombreEmpresa);
+                proveedor.setNombreProveedor(nombreProveedor);
+                proveedor.setProducto(productos);
+                viewModel.updateProveedor(proveedor);
+                Toast.makeText(this, "Proveedor actualizado", Toast.LENGTH_SHORT).show();
+            } else {
+                String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+                Proveedor nuevoProveedor = new Proveedor(telefono, nombreEmpresa, nombreProveedor, "", "activo", fecha, productos);
+                viewModel.createProveedor(nuevoProveedor);
+                Toast.makeText(this, "Proveedor creado exitosamente", Toast.LENGTH_SHORT).show();
             }
+            dialog.dismiss();
         });
 
         dialog.show();
@@ -200,10 +198,10 @@ public class ProveedoresActivity extends AppCompatActivity {
 
     private void onEliminarClick(Proveedor proveedor) {
         new AlertDialog.Builder(this)
-                .setTitle("Eliminar Proveedor")
+                .setTitle(R.string.btn_eliminar)
                 .setMessage("¿Desea eliminar a " + proveedor.getNombreEmpresa() + "?")
-                .setPositiveButton("Sí", (dialog, which) -> {
-                    viewModel.deleteProveedor(proveedor.getCredencial());
+                .setPositiveButton("Si", (dialog, which) -> {
+                    viewModel.deleteProveedor(proveedor.getTelefono());
                     Toast.makeText(this, "Proveedor eliminado", Toast.LENGTH_SHORT).show();
                 })
                 .setNegativeButton("Cancelar", null)

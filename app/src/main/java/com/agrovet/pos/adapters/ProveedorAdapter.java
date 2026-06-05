@@ -38,13 +38,13 @@ public class ProveedorAdapter extends RecyclerView.Adapter<ProveedorAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Proveedor proveedor = proveedores.get(position);
 
-        holder.txtEmpresa.setText(proveedor.getEmpresa());
-        holder.txtNombreProveedor.setText("Contacto: " + proveedor.getNombre());
-        holder.txtTelefono.setText("Credencial: " + proveedor.getCredencial());
+        holder.txtEmpresa.setText(proveedor.getNombreEmpresa());
+        holder.txtNombreProveedor.setText("Contacto: " + proveedor.getNombreProveedor());
+        holder.txtTelefono.setText("Tel: " + proveedor.getTelefono());
         holder.txtEstado.setVisibility(View.GONE);
 
         if (proveedor.getProductos() != null && !proveedor.getProductos().isEmpty()) {
-            holder.txtProductos.setText("📦 " + proveedor.getProductos());
+            holder.txtProductos.setText(proveedor.getProductos());
             holder.txtProductos.setVisibility(View.VISIBLE);
         } else {
             holder.txtProductos.setVisibility(View.GONE);

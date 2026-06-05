@@ -1,52 +1,78 @@
 package com.agrovet.pos.models;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "Proveedores")
+@Entity(tableName = "proveedor")
 public class Proveedor {
-    @ColumnInfo(name = "Nombre")
-    private String nombre;
-
     @PrimaryKey
-    @ColumnInfo(name = "Credencial")
-    private long credencial;
+    @NonNull
+    @ColumnInfo(name = "telefono")
+    private String telefono;
 
-    @ColumnInfo(name = "Empresa")
-    private String empresa;
+    @NonNull
+    @ColumnInfo(name = "nombre_empresa")
+    private String nombreEmpresa;
 
-    @ColumnInfo(name = "Productos")
-    private String productos;
+    @NonNull
+    @ColumnInfo(name = "nombre_proveedor")
+    private String nombreProveedor;
+
+    @ColumnInfo(name = "correo")
+    private String correo;
+
+    @ColumnInfo(name = "estado", defaultValue = "activo")
+    private String estado;
+
+    @ColumnInfo(name = "fecha_registro", defaultValue = "CURRENT_TIMESTAMP")
+    private String fechaRegistro;
+
+    @ColumnInfo(name = "producto")
+    private String producto;
 
     public Proveedor() {
-        this.nombre = "";
-        this.empresa = "";
-        this.productos = "";
+        this.telefono = "";
+        this.nombreEmpresa = "";
+        this.nombreProveedor = "";
     }
 
-    public Proveedor(String nombre, long credencial, String empresa, String productos) {
-        this.nombre = nombre;
-        this.credencial = credencial;
-        this.empresa = empresa;
-        this.productos = productos;
+    public Proveedor(@NonNull String telefono, @NonNull String nombreEmpresa, @NonNull String nombreProveedor, String correo, String estado, String fechaRegistro, String producto) {
+        this.telefono = telefono;
+        this.nombreEmpresa = nombreEmpresa;
+        this.nombreProveedor = nombreProveedor;
+        this.correo = correo;
+        this.estado = estado;
+        this.fechaRegistro = fechaRegistro;
+        this.producto = producto;
     }
 
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    @NonNull
+    public String getTelefono() { return telefono; }
+    public void setTelefono(@NonNull String telefono) { this.telefono = telefono; }
 
-    public long getCredencial() { return credencial; }
-    public void setCredencial(long credencial) { this.credencial = credencial; }
+    @NonNull
+    public String getNombreEmpresa() { return nombreEmpresa; }
+    public void setNombreEmpresa(@NonNull String nombreEmpresa) { this.nombreEmpresa = nombreEmpresa; }
 
-    public String getEmpresa() { return empresa; }
-    public void setEmpresa(String empresa) { this.empresa = empresa; }
+    @NonNull
+    public String getNombreProveedor() { return nombreProveedor; }
+    public void setNombreProveedor(@NonNull String nombreProveedor) { this.nombreProveedor = nombreProveedor; }
 
-    public String getProductos() { return productos; }
-    public void setProductos(String productos) { this.productos = productos; }
+    public String getCorreo() { return correo; }
+    public void setCorreo(String correo) { this.correo = correo; }
+
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
+
+    public String getFechaRegistro() { return fechaRegistro; }
+    public void setFechaRegistro(String fechaRegistro) { this.fechaRegistro = fechaRegistro; }
+
+    public String getProducto() { return producto; }
+    public void setProducto(String producto) { this.producto = producto; }
 
     // Helpers for Activity compatibility
-    public String getId() { return String.valueOf(credencial); }
-    public String getTelefono() { return String.valueOf(credencial); }
-    public String getNombreEmpresa() { return empresa; }
-    public String getNombreProveedor() { return nombre; }
+    public String getId() { return telefono; }
+    public String getProductos() { return producto; }
 }

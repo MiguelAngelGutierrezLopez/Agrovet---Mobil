@@ -5,7 +5,7 @@
     <!-- Permisos de Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <application
         android:name=".AgrovetApplication"
         android:allowBackup="true"
@@ -48,6 +48,31 @@
             android:parentActivityName=".MainActivity"
             android:exported="false" />
 
+        <!-- Ventas Activity -->
+        <activity
+            android:name=".activities.VentasActivity"
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustPan"
+            android:exported="false" />
+
+        <!-- Historial Ventas Activity -->
+        <activity
+            android:name=".activities.HistorialVentasActivity"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
+        <!-- Reporte Caja Activity -->
+        <activity
+            android:name=".activities.ReporteCajaActivity"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
+        <service android:name=".ServicioNotificaciones" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
+        <meta-data android:name="com.google.firebase.messaging.default.notification_channel_id" android:value="default_channel_id"/>
     </application>
 
 </manifest>

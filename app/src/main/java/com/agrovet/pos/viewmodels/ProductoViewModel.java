@@ -9,7 +9,6 @@ import com.agrovet.pos.repositories.ProductoRepository;
 import java.util.List;
 
 public class ProductoViewModel extends AndroidViewModel {
-
     private final ProductoRepository repository;
 
     public ProductoViewModel(@NonNull Application application) {
@@ -29,7 +28,7 @@ public class ProductoViewModel extends AndroidViewModel {
         repository.update(producto);
     }
 
-    public void deleteProducto(long id) {
+    public void deleteProducto(int id) {
         repository.deleteById(id);
     }
 }

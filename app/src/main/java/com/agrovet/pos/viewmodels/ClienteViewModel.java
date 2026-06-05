@@ -9,7 +9,6 @@ import com.agrovet.pos.repositories.ClienteRepository;
 import java.util.List;
 
 public class ClienteViewModel extends AndroidViewModel {
-
     private final ClienteRepository repository;
 
     public ClienteViewModel(@NonNull Application application) {
@@ -29,7 +28,7 @@ public class ClienteViewModel extends AndroidViewModel {
         repository.update(cliente);
     }
 
-    public void deleteCliente(long id) {
+    public void deleteCliente(String id) {
         repository.deleteById(id);
     }
 }
