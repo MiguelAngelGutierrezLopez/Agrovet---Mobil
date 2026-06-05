@@ -3,6 +3,7 @@ package com.agrovet.pos.activities;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,6 +17,7 @@ import com.agrovet.pos.adapters.ProductoAdapter;
 import com.agrovet.pos.models.CartItem;
 import com.agrovet.pos.models.Producto;
 import com.agrovet.pos.models.Venta;
+import com.agrovet.pos.utils.AppLogger;
 import com.agrovet.pos.viewmodels.ProductoViewModel;
 import com.agrovet.pos.viewmodels.VentaViewModel;
 import java.text.NumberFormat;
@@ -30,8 +32,10 @@ public class VentasActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView rvCatalog, rvCart;
     private EditText etBuscar;
-    private TextView txtTotal, txtTicket;
-    private Button btnNormal, btnMixta, btnFinalizar, btnCancelar;
+    private TextView txtTotal, txtResumenSubtotal, txtStep1Indicator, txtStep2Indicator;
+    private Button btnFinalizar, btnNextStep, btnBackStep;
+    private RadioGroup rgMetodoPago;
+    private LinearLayout layoutStep1, layoutStep2;
     
     private ProductoViewModel productoViewModel;
     private VentaViewModel ventaViewModel;
@@ -43,7 +47,6 @@ public class VentasActivity extends AppCompatActivity {
     private final List<CartItem> cartList = new ArrayList<>();
     
     private double totalVenta = 0;
-    private String tipoPago = "Contado";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +69,18 @@ public class VentasActivity extends AppCompatActivity {
         rvCart = findViewById(R.id.rv_carrito);
         etBuscar = findViewById(R.id.et_buscar_producto);
         txtTotal = findViewById(R.id.txt_total_venta);
-        txtTicket = findViewById(R.id.txt_ticket_numero);
-        btnNormal = findViewById(R.id.btn_venta_normal);
-        btnMixta = findViewById(R.id.btn_venta_mixta);
-        btnFinalizar = findViewById(R.id.btn_finalizar_venta);
-        btnCancelar = findViewById(R.id.btn_cancelar_venta);
+        txtResumenSubtotal = findViewById(R.id.txt_resumen_subtotal);
+        txtStep1Indicator = findViewById(R.id.step1_indicator);
+        txtStep2Indicator = findViewById(R.id.step2_indicator);
         
-        txtTicket.setText("#0016");
+        btnNextStep = findViewById(R.id.btn_next_step);
+        btnBackStep = findViewById(R.id.btn_back_to_step1);
+        btnFinalizar = findViewById(R.id.btn_finalizar_venta);
+        
+        rgMetodoPago = findViewById(R.id.rg_metodo_pago);
+        
+        layoutStep1 = findViewById(R.id.layout_step1);
+        layoutStep2 = findViewById(R.id.layout_step2);
     }
 
     private void setupToolbar() {
@@ -120,48 +128,61 @@ public class VentasActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s) {}
         });
 
-        btnNormal.setOnClickListener(v -> {
-            tipoPago = "Contado";
-            btnNormal.setBackgroundTintList(getColorStateList(R.color.teal));
-            btnNormal.setTextColor(getColor(R.color.white));
-            btnMixta.setBackgroundTintList(getColorStateList(R.color.white));
-            btnMixta.setTextColor(getColor(R.color.gris_oscuro));
-        });
-
-        btnMixta.setOnClickListener(v -> {
-            tipoPago = "Mixta";
-            btnMixta.setBackgroundTintList(getColorStateList(R.color.teal));
-            btnMixta.setTextColor(getColor(R.color.white));
-            btnNormal.setBackgroundTintList(getColorStateList(R.color.white));
-            btnNormal.setTextColor(getColor(R.color.gris_oscuro));
-        });
-
-        btnFinalizar.setOnClickListener(v -> {
+        btnNextStep.setOnClickListener(v -> {
             if (cartList.isEmpty()) {
-                Toast.makeText(this, "El carrito esta vacio", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Añada productos primero", Toast.LENGTH_SHORT).show();
                 return;
             }
-            guardarVenta();
+            showStep(2);
         });
 
-        btnCancelar.setOnClickListener(v -> finish());
+        btnBackStep.setOnClickListener(v -> showStep(1));
+
+        btnFinalizar.setOnClickListener(v -> {
+            try {
+                guardarVenta();
+            } catch (Exception e) {
+                AppLogger.e("Error al finalizar venta", e);
+                Toast.makeText(this, "Error al guardar la venta", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void showStep(int step) {
+        if (step == 1) {
+            layoutStep1.setVisibility(View.VISIBLE);
+            layoutStep2.setVisibility(View.GONE);
+            txtStep1Indicator.setTextColor(getColor(R.color.teal));
+            txtStep2Indicator.setTextColor(getColor(R.color.gris_medio));
+        } else {
+            layoutStep1.setVisibility(View.GONE);
+            layoutStep2.setVisibility(View.VISIBLE);
+            txtStep1Indicator.setTextColor(getColor(R.color.gris_medio));
+            txtStep2Indicator.setTextColor(getColor(R.color.teal));
+        }
     }
 
     private void guardarVenta() {
         String fechaDia = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         String fechaHora = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         
+        int selectedId = rgMetodoPago.getCheckedRadioButtonId();
+        String metodo = "Contado";
+        if (selectedId == R.id.rb_credito) metodo = "Crédito";
+        else if (selectedId == R.id.rb_banco) metodo = "Banco";
+
         Venta nuevaVenta = new Venta();
         nuevaVenta.setFechaDia(fechaDia);
         nuevaVenta.setFechaHora(fechaHora);
         nuevaVenta.setNombreCliente("Cliente Final");
-        nuevaVenta.setTipoPago(tipoPago);
+        nuevaVenta.setTipoPago(metodo);
         nuevaVenta.setSubtotal(totalVenta);
         nuevaVenta.setTotal(totalVenta);
         nuevaVenta.setEstado("completada");
         
         ventaViewModel.addVenta(nuevaVenta);
         
+        AppLogger.i("Venta guardada exitosamente: " + totalVenta);
         Toast.makeText(this, "Venta Finalizada Exitosamente", Toast.LENGTH_LONG).show();
         finish();
     }
@@ -198,7 +219,7 @@ public class VentasActivity extends AppCompatActivity {
 
         boolean found = false;
         for (CartItem item : cartList) {
-            if (item.getProducto().getId() == producto.getId()) {
+            if (item.getProducto().getId().equals(producto.getId())) {
                 item.setCantidad(item.getCantidad() + 1);
                 found = true;
                 break;
@@ -220,5 +241,6 @@ public class VentasActivity extends AppCompatActivity {
         }
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
         txtTotal.setText(format.format(totalVenta));
+        txtResumenSubtotal.setText(format.format(totalVenta));
     }
 }

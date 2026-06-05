@@ -2,10 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Permisos de Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <application
         android:name=".AgrovetApplication"
         android:allowBackup="true"
@@ -19,49 +19,46 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
-        <!-- Main Activity -->
         <activity
-            android:name=".MainActivity"
-            android:exported="true"
-            android:launchMode="singleTop">
+            android:name=".activities.LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <!-- Clientes Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop" />
+
         <activity
             android:name=".activities.ClientesActivity"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
 
-        <!-- Proveedores Activity -->
         <activity
             android:name=".activities.ProveedoresActivity"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
 
-        <!-- Productos Activity -->
         <activity
             android:name=".activities.ProductosActivity"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
 
-        <!-- Ventas Activity -->
         <activity
             android:name=".activities.VentasActivity"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="adjustPan"
             android:exported="false" />
 
-        <!-- Historial Ventas Activity -->
         <activity
             android:name=".activities.HistorialVentasActivity"
             android:parentActivityName=".MainActivity"
             android:exported="false" />
 
-        <!-- Reporte Caja Activity -->
         <activity
             android:name=".activities.ReporteCajaActivity"
             android:parentActivityName=".MainActivity"
