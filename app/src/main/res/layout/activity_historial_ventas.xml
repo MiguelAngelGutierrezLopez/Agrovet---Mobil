@@ -4,25 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blanco_hueso">
+    android:background="#F5F0E6">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/teal"
+        android:background="#008080"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/titulo_historial"
         app:titleTextColor="@color/white" />
 
+    <!-- Stats Row -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="12dp"
+        android:padding="16dp"
         android:background="@color/white"
-        android:elevation="2dp"
-        android:layout_margin="12dp">
+        android:layout_margin="12dp"
+        android:elevation="6dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -34,16 +34,16 @@
                 android:id="@+id/txt_stats_ventas"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
-                android:textColor="@color/teal"
+                android:text="24"
+                android:textColor="#008080"
                 android:textStyle="bold"
                 android:textSize="18sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_ventas"
+                android:text="Ventas"
                 android:textSize="10sp"
-                android:textColor="@color/gris_medio" />
+                android:textColor="#9E9E9E" />
         </LinearLayout>
 
         <LinearLayout
@@ -57,15 +57,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$ 0"
-                android:textColor="@color/verde_exito"
+                android:textColor="#27ae60"
                 android:textStyle="bold"
                 android:textSize="18sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_ingresos"
+                android:text="Ingresos"
                 android:textSize="10sp"
-                android:textColor="@color/gris_medio" />
+                android:textColor="#9E9E9E" />
         </LinearLayout>
 
         <LinearLayout
@@ -79,69 +79,64 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$ 0"
-                android:textColor="@color/turquesa"
+                android:textColor="#40E0D0"
                 android:textStyle="bold"
                 android:textSize="18sp" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_utilidad"
+                android:text="Utilidad"
                 android:textSize="10sp"
-                android:textColor="@color/gris_medio" />
+                android:textColor="#9E9E9E" />
         </LinearLayout>
-
     </LinearLayout>
 
+    <!-- Period Buttons -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:paddingHorizontal="12dp"
-        android:layout_marginBottom="12dp">
+        android:paddingHorizontal="12dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:background="@color/white"
+            android:padding="6dp"
+            android:layout_marginBottom="12dp">
             <Button
                 android:id="@+id/btn_periodo_hoy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/periodo_hoy"
+                android:text="Hoy"
                 android:minHeight="0dp"
-                android:paddingHorizontal="16dp"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:backgroundTint="@color/teal"
-                android:textColor="@color/white" />
+                android:backgroundTint="#008080"
+                android:textColor="@color/white"
+                style="@style/Widget.MaterialComponents.Button.TextButton" />
             <Button
                 android:id="@+id/btn_periodo_semana"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/periodo_semana"
+                android:text="Semana"
                 android:minHeight="0dp"
-                android:paddingHorizontal="16dp"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:textColor="@color/gris_oscuro" />
+                android:textColor="#4A4A4A"
+                style="@style/Widget.MaterialComponents.Button.TextButton" />
             <Button
                 android:id="@+id/btn_periodo_mes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/periodo_mes"
+                android:text="Mes"
                 android:minHeight="0dp"
-                android:paddingHorizontal="16dp"
-                android:layout_marginEnd="8dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:textColor="@color/gris_oscuro" />
+                android:textColor="#4A4A4A"
+                style="@style/Widget.MaterialComponents.Button.TextButton" />
             <Button
                 android:id="@+id/btn_periodo_anio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/periodo_anio"
+                android:text="Año"
                 android:minHeight="0dp"
-                android:paddingHorizontal="16dp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                android:textColor="@color/gris_oscuro" />
+                android:textColor="#4A4A4A"
+                style="@style/Widget.MaterialComponents.Button.TextButton" />
         </LinearLayout>
     </HorizontalScrollView>
 

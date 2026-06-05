@@ -4,260 +4,214 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/blanco_hueso">
+    android:background="#F5F0E6">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/teal"
+        android:background="#008080"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/titulo_ventas"
         app:titleTextColor="@color/white" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        android:background="@color/white"
+        android:layout_margin="20dp"
+        android:elevation="4dp">
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Registro de Venta"
+                android:textColor="#008080"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Complete la información de la venta"
+                android:textColor="#9E9E9E"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp">
-
-            <!-- Encabezado de Venta -->
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
+            android:gravity="center"
+            android:padding="12dp"
+            android:background="#E3F0F3">
+            <TextView
+                android:id="@+id/txt_ticket_numero"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp"
-                app:cardElevation="2dp"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp"
-                    android:gravity="center_vertical">
-
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Registro de Venta"
-                            style="@style/TextAppearance.Agrovet.Headline"
-                            android:textSize="20sp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Complete la informacion de la venta"
-                            style="@style/TextAppearance.Agrovet.Subhead" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:background="@color/celeste_fondo">
-                        <TextView
-                            android:id="@+id/txt_ticket_numero"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="#0000"
-                            android:textColor="@color/teal"
-                            android:textStyle="bold"
-                            android:textSize="16sp" />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Nro de venta"
-                            android:textSize="10sp"
-                            android:textColor="@color/gris_medio" />
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <!-- Tipo de Venta -->
-            <LinearLayout
-                android:layout_width="match_parent"
+                android:text="#0016"
+                android:textColor="#008080"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-                <Button
-                    android:id="@+id/btn_venta_normal"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/venta_normal"
-                    android:backgroundTint="@color/teal"
-                    android:textColor="@color/white"
-                    android:layout_marginEnd="4dp" />
-                <Button
-                    android:id="@+id/btn_venta_mixta"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/venta_mixta"
-                    android:backgroundTint="@color/white"
-                    android:textColor="@color/gris_oscuro"
-                    android:layout_marginStart="4dp" />
-            </LinearLayout>
+                android:text="Número de venta"
+                android:textSize="11sp"
+                android:textColor="#7f8c8d" />
+        </LinearLayout>
+    </LinearLayout>
 
-            <!-- Panel Catalogo Productos -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp">
+        <Button
+            android:id="@+id/btn_venta_normal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="📋 Venta Normal"
+            android:backgroundTint="#008080"
+            android:textColor="@color/white"
+            android:layout_marginEnd="6dp" />
+        <Button
+            android:id="@+id/btn_venta_mixta"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="🔄 Venta Mixta"
+            android:backgroundTint="@color/white"
+            android:textColor="#4A4A4A"
+            android:layout_marginStart="6dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:paddingHorizontal="20dp"
+        android:paddingBottom="20dp"
+        android:baselineAligned="false">
+
+        <!-- Panel Izquierdo: Productos -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginEnd="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Productos Disponibles"
-                android:textColor="@color/teal"
+                android:textColor="#008080"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/Widget.Agrovet.Card.Search">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center_vertical"
-                    android:padding="4dp">
-                    <ImageView
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:src="@android:drawable/ic_menu_search"
-                        android:layout_marginStart="12dp"
-                        app:tint="@color/gris_medio" />
-                    <EditText
-                        android:id="@+id/et_buscar_producto"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/buscar_hint_productos"
-                        android:background="@android:color/transparent"
-                        android:padding="12dp"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_productos_disponibles"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginBottom="16dp" />
-
-            <!-- Panel Carrito -->
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Productos en Venta"
-                android:textColor="@color/teal"
-                android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
-
+                android:layout_marginBottom="12dp" />
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
                 android:layout_marginBottom="16dp">
-                <LinearLayout
+                <EditText
+                    android:id="@+id/et_buscar_producto"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="12dp">
-
-                    <!-- Header Tabla -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:background="@color/gris_claro"
-                        android:padding="8dp">
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="2" android:text="Producto" android:textSize="12sp" android:textStyle="bold" />
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Cant" android:textSize="12sp" android:textStyle="bold" android:gravity="center" />
-                        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Total" android:textSize="12sp" android:textStyle="bold" android:gravity="end" />
-                        <View android:layout_width="32dp" android:layout_height="0dp" />
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/rv_carrito"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="100dp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/teal"
-                        android:layout_marginTop="8dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingTop="12dp">
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/total_venta"
-                            android:textColor="@color/teal"
-                            android:textStyle="bold"
-                            android:textSize="18sp" />
-                        <TextView
-                            android:id="@+id/txt_total_venta"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="$ 0.00"
-                            android:textColor="@color/teal"
-                            android:textStyle="bold"
-                            android:textSize="18sp" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:hint="Buscar producto por nombre..."
+                    android:padding="12dp"
+                    android:background="@color/blanco_hueso"
+                    android:textSize="14sp" />
             </androidx.cardview.widget.CardView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_productos_disponibles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
 
-            <!-- Metodos Pago -->
+        <!-- Panel Derecho: Carrito -->
+        <LinearLayout
+            android:layout_width="320dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginStart="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Metodo de Pago"
-                android:textColor="@color/teal"
+                android:text="Productos en Venta"
+                android:textColor="#008080"
+                android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="8dp" />
+                android:layout_marginBottom="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="#E8E8E8"
+                android:padding="8dp">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="2" android:text="Producto" android:textSize="11sp" android:textStyle="bold" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Cant" android:textSize="11sp" android:textStyle="bold" android:gravity="center" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1.2" android:text="Total" android:textSize="11sp" android:textStyle="bold" android:gravity="end" />
+                <View android:layout_width="24dp" android:layout_height="0dp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_carrito"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="#008080"
+                android:layout_marginTop="12dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingTop="12dp">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="TOTAL"
+                    android:textColor="#008080"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+                <TextView
+                    android:id="@+id/txt_total_venta"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$ 0.00"
+                    android:textColor="#008080"
+                    android:textStyle="bold"
+                    android:textSize="18sp" />
+            </LinearLayout>
 
             <RadioGroup
                 android:id="@+id/rg_metodo_pago"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginBottom="24dp">
-                <RadioButton
-                    android:id="@+id/rb_contado"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/metodo_contado"
-                    android:checked="true" />
-                <RadioButton
-                    android:id="@+id/rb_credito"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/metodo_credito" />
-                <RadioButton
-                    android:id="@+id/rb_banco"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/metodo_banco" />
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="16dp">
+                <RadioButton android:id="@+id/rb_contado" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Contado" android:textSize="11sp" android:checked="true" />
+                <RadioButton android:id="@+id/rb_credito" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Credito" android:textSize="11sp" />
+                <RadioButton android:id="@+id/rb_banco" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Banco" android:textSize="11sp" />
             </RadioGroup>
 
-            <!-- Botones Accion -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -267,20 +221,22 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/cancelar_venta"
-                    android:backgroundTint="@color/gris_claro"
-                    android:textColor="@color/gris_oscuro"
-                    android:layout_marginEnd="8dp" />
+                    android:text="Cancelar"
+                    android:backgroundTint="#E8E8E8"
+                    android:textColor="#4A4A4A"
+                    android:layout_marginEnd="6dp" />
                 <Button
                     android:id="@+id/btn_finalizar_venta"
-                    style="@style/Widget.Agrovet.Button.Primary"
                     android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="@string/finalizar_venta"
-                    android:backgroundTint="@color/teal"
-                    android:layout_marginStart="8dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    android:text="Finalizar Venta"
+                    android:backgroundTint="#008080"
+                    android:textColor="@color/white"
+                    android:layout_marginStart="6dp" />
             </LinearLayout>
-
         </LinearLayout>
-    </ScrollView>
+
+    </LinearLayout>
+
 </LinearLayout>
