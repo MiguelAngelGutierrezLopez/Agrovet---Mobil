@@ -7,7 +7,7 @@ import java.util.List;
 
 @Dao
 public interface VentaDao {
-    @Query("SELECT * FROM Ventas ORDER BY id DESC")
+    @Query("SELECT * FROM ventas ORDER BY id DESC")
     LiveData<List<Venta>> getAllVentas();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -16,6 +16,6 @@ public interface VentaDao {
     @Delete
     void delete(Venta venta);
     
-    @Query("DELETE FROM Ventas WHERE id = :id")
+    @Query("DELETE FROM ventas WHERE id = :id")
     void deleteById(long id);
 }

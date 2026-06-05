@@ -41,9 +41,14 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
         holder.txtNombre.setText(cliente.getNombre());
         holder.txtCedula.setText("Cedula: " + cliente.getCedula());
 
+        // Forzar colores para visibilidad
+        holder.txtNombre.setTextColor(holder.itemView.getContext().getColor(R.color.gris_oscuro));
+        holder.txtCedula.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
+
         if (cliente.getTelefono() != null && !cliente.getTelefono().isEmpty()) {
             holder.txtTelefono.setText(cliente.getTelefono());
             holder.txtTelefono.setVisibility(View.VISIBLE);
+            holder.txtTelefono.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
         } else {
             holder.txtTelefono.setVisibility(View.GONE);
         }
@@ -51,6 +56,7 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
         if (cliente.getCorreo() != null && !cliente.getCorreo().isEmpty()) {
             holder.txtCorreo.setText(cliente.getCorreo());
             holder.txtCorreo.setVisibility(View.VISIBLE);
+            holder.txtCorreo.setTextColor(holder.itemView.getContext().getColor(R.color.teal));
         } else {
             holder.txtCorreo.setVisibility(View.GONE);
         }

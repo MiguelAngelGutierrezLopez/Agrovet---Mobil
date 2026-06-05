@@ -44,6 +44,11 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.ViewHolder> {
         holder.txtCantidad.setText(String.valueOf(item.getCantidad()));
         holder.txtTotal.setText(format.format(item.getTotal()));
 
+        // Forzar colores para visibilidad
+        holder.txtNombre.setTextColor(holder.itemView.getContext().getColor(R.color.gris_oscuro));
+        holder.txtCantidad.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
+        holder.txtTotal.setTextColor(holder.itemView.getContext().getColor(R.color.teal));
+
         holder.btnRemove.setOnClickListener(v -> listener.onRemove(item));
     }
 

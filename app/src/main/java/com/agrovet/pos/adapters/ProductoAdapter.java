@@ -47,6 +47,11 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         holder.txtPrecio.setText(formatPeso.format(producto.getPrecio()));
         holder.txtStock.setText("Stock: " + producto.getStock());
 
+        // Forzar colores para visibilidad
+        holder.txtNombre.setTextColor(holder.itemView.getContext().getColor(R.color.gris_oscuro));
+        holder.txtCodigo.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
+        holder.txtPrecio.setTextColor(holder.itemView.getContext().getColor(R.color.teal));
+
         if (producto.getStock() <= 5) {
             holder.txtStock.setTextColor(holder.itemView.getContext().getColor(R.color.rojo_error));
         } else if (producto.getStock() <= 15) {
@@ -58,6 +63,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         if (producto.getPresentacion() != null && !producto.getPresentacion().isEmpty()) {
             holder.txtCategoria.setText(producto.getPresentacion());
             holder.txtCategoria.setVisibility(View.VISIBLE);
+            holder.txtCategoria.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
         } else {
             holder.txtCategoria.setVisibility(View.GONE);
         }

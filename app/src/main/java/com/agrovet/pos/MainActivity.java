@@ -34,6 +34,8 @@ import com.agrovet.pos.viewmodels.ProductoViewModel;
 import com.agrovet.pos.viewmodels.VentaViewModel;
 import com.google.android.material.navigation.NavigationView;
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,6 +52,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ProductoViewModel productoViewModel;
     private VentaViewModel ventaViewModel;
     private MovimientoViewModel movimientoViewModel;
+
+    private List<Venta> lastVentas = new ArrayList<>();
+    private List<Movimiento> lastMovimientos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,17 +74,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupBackPressed();
         setupPermissionLauncher();
         askNotificationPermission();
+        
+        AppLogger.i("MainActivity cargada y lista");
     }
 
     private void setupPermissionLauncher() {
         requestPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
                 isGranted -> {
-                    if (isGranted) {
-                        AppLogger.i("Permiso de notificaciones concedido");
-                    } else {
-                        AppLogger.w("Permiso de notificaciones denegado");
-                    }
+                    if (isGranted) AppLogger.i("Permiso de notificaciones concedido");
+                    else AppLogger.w("Permiso de notificaciones denegado");
                 }
         );
     }
@@ -157,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         ventaViewModel.getAllVentas().observe(this, ventas -> {
             if (ventas != null) {
+                lastVentas = ventas;
                 txtVentasHoy.setText(String.valueOf(ventas.size()));
                 updateCajaTotal();
             }
@@ -164,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         movimientoViewModel.getAllMovimientos().observe(this, movimientos -> {
             if (movimientos != null) {
+                lastMovimientos = movimientos;
                 updateCajaTotal();
             }
         });
@@ -173,18 +179,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void updateCajaTotal() {
         double totalVentasVal = 0;
-        if (ventaViewModel.getAllVentas().getValue() != null) {
-            for (Venta v : ventaViewModel.getAllVentas().getValue()) {
-                totalVentasVal += v.getTotal();
-            }
+        for (Venta v : lastVentas) {
+            totalVentasVal += v.getTotal();
         }
 
         double totalMovimientosVal = 0;
-        if (movimientoViewModel.getAllMovimientos().getValue() != null) {
-            for (Movimiento m : movimientoViewModel.getAllMovimientos().getValue()) {
-                totalMovimientosVal += (m.getIngresos() != null ? m.getIngresos() : 0);
-                totalMovimientosVal -= (m.getEgresos() != null ? m.getEgresos() : 0);
-            }
+        for (Movimiento m : lastMovimientos) {
+            totalMovimientosVal += (m.getIngresos() != null ? m.getIngresos() : 0);
+            totalMovimientosVal -= (m.getEgresos() != null ? m.getEgresos() : 0);
         }
 
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));

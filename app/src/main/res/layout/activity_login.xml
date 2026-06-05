@@ -55,6 +55,7 @@
                 android:hint="Ej: admin"
                 android:textColor="@color/gris_oscuro"
                 android:textColorHint="@color/gris_medio"
+                android:background="@color/white"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,6 +84,7 @@
                 android:hint="••••••••"
                 android:textColor="@color/gris_oscuro"
                 android:textColorHint="@color/gris_medio"
+                android:background="@color/white"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 

@@ -47,6 +47,10 @@ public class VentaAdapter extends RecyclerView.Adapter<VentaAdapter.ViewHolder> 
         holder.txtTotal.setText(format.format(venta.getTotal()));
         holder.txtMetodo.setText(venta.getMetodoPago());
 
+        // Forzar colores para visibilidad
+        holder.txtCliente.setTextColor(holder.itemView.getContext().getColor(R.color.gris_oscuro));
+        holder.txtFecha.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
+
         holder.btnVer.setOnClickListener(v -> listener.onVerDetalle(venta));
         holder.btnEliminar.setOnClickListener(v -> listener.onEliminar(venta));
     }
