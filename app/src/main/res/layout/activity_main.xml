@@ -440,4 +440,17 @@
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/drawer_menu" />
 
+    <!-- Botón para ver Logs (Logger) -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_view_logs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_menu_info_details"
+        app:backgroundTint="@color/gris_oscuro"
+        app:tint="@color/white"
+        app:fabSize="mini"
+        android:contentDescription="Ver Logs" />
+
 </androidx.drawerlayout.widget.DrawerLayout>

@@ -64,6 +64,11 @@
             android:parentActivityName=".MainActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.LogViewerActivity"
+            android:parentActivityName=".MainActivity"
+            android:exported="false" />
+
         <service android:name=".ServicioNotificaciones" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>

@@ -115,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnProveedores = findViewById(R.id.btn_proveedores);
         btnProductos = findViewById(R.id.btn_productos);
         btnVentas = findViewById(R.id.btn_ventas);
+        
+        findViewById(R.id.fab_view_logs).setOnClickListener(v -> {
+            startActivity(new Intent(this, com.agrovet.pos.activities.LogViewerActivity.class));
+        });
     }
 
     private void setupToolbar() {
