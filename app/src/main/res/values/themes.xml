@@ -12,6 +12,11 @@
         <item name="colorOnSecondary">@color/white</item>
         <item name="android:windowBackground">@color/blanco_hueso</item>
 
+        <!-- Forzado de color de texto para evitar texto blanco en fondo claro -->
+        <item name="android:editTextColor">@color/gris_oscuro</item>
+        <item name="android:textColorPrimary">@color/gris_oscuro</item>
+        <item name="android:textColorSecondary">@color/gris_medio</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

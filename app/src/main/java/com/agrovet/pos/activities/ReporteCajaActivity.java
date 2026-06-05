@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.agrovet.pos.R;
 import com.agrovet.pos.adapters.MovimientoAdapter;
 import com.agrovet.pos.models.Movimiento;
+import com.agrovet.pos.utils.AppLogger;
 import com.agrovet.pos.viewmodels.MovimientoViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -114,26 +115,28 @@ public class ReporteCajaActivity extends AppCompatActivity {
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
         btnGuardar.setOnClickListener(v -> {
-            String razon = etRazon.getText().toString().trim();
-            String montoStr = etMonto.getText().toString().trim();
-            
-            if (razon.isEmpty() || montoStr.isEmpty()) {
-                Toast.makeText(this, "Complete todos los campos", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             try {
+                String razon = etRazon.getText().toString().trim();
+                String montoStr = etMonto.getText().toString().trim();
+                
+                if (razon.isEmpty() || montoStr.isEmpty()) {
+                    Toast.makeText(this, "Complete todos los campos", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 double monto = Double.parseDouble(montoStr);
                 String tipo = rgTipo.getCheckedRadioButtonId() == R.id.rb_mov_ingreso ? "Ingreso" : "Egreso";
                 String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
                 Movimiento m = new Movimiento(razon, fecha, monto, tipo);
                 viewModel.addMovimiento(m);
-
+                
+                AppLogger.i("Movimiento registrado localmente: " + razon + " (" + tipo + ")");
                 Toast.makeText(this, "Movimiento registrado", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "Monto invalido", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                AppLogger.e("Error al registrar movimiento", e);
+                Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

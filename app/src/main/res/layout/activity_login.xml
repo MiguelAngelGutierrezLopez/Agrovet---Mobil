@@ -31,7 +31,6 @@
             android:textSize="14sp"
             android:layout_marginBottom="48dp" />
 
-        <!-- Campo Usuario -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,10 +53,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Ej: admin"
+                android:textColor="@color/gris_oscuro"
+                android:textColorHint="@color/gris_medio"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Campo ContraseÃ±a -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,6 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="••••••••"
+                android:textColor="@color/gris_oscuro"
+                android:textColorHint="@color/gris_medio"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 

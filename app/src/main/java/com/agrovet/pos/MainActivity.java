@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -27,6 +26,7 @@ import com.agrovet.pos.activities.ProveedoresActivity;
 import com.agrovet.pos.activities.ReporteCajaActivity;
 import com.agrovet.pos.activities.VentasActivity;
 import com.agrovet.pos.models.Movimiento;
+import com.agrovet.pos.models.Venta;
 import com.agrovet.pos.utils.AppLogger;
 import com.agrovet.pos.viewmodels.ClienteViewModel;
 import com.agrovet.pos.viewmodels.MovimientoViewModel;
@@ -69,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupBackPressed();
         setupPermissionLauncher();
         askNotificationPermission();
-        
-        AppLogger.i("MainActivity iniciada correctamente");
     }
 
     private void setupPermissionLauncher() {
@@ -137,13 +135,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setupClickListeners() {
-        // Atajos desde las tarjetas de resumen
         cardClientes.setOnClickListener(v -> openClientesActivity());
         cardProductos.setOnClickListener(v -> openProductosActivity());
         cardVentasHoy.setOnClickListener(v -> openHistorialVentasActivity());
         cardReporteCaja.setOnClickListener(v -> openReporteCajaActivity());
 
-        // Botones de la cuadricula
         btnClientes.setOnClickListener(v -> openClientesActivity());
         btnProveedores.setOnClickListener(v -> openProveedoresActivity());
         btnProductos.setOnClickListener(v -> openProductosActivity());
@@ -160,22 +156,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         ventaViewModel.getAllVentas().observe(this, ventas -> {
-            if (ventas != null) txtVentasHoy.setText(String.valueOf(ventas.size()));
+            if (ventas != null) {
+                txtVentasHoy.setText(String.valueOf(ventas.size()));
+                updateCajaTotal();
+            }
         });
 
         movimientoViewModel.getAllMovimientos().observe(this, movimientos -> {
             if (movimientos != null) {
-                double total = 0;
-                for (Movimiento m : movimientos) {
-                    total += (m.getIngresos() != null ? m.getIngresos() : 0);
-                    total -= (m.getEgresos() != null ? m.getEgresos() : 0);
-                }
-                NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
-                txtCajaSaldo.setText(format.format(total));
+                updateCajaTotal();
             }
         });
         
         txtDbStatus.setText("Sesion: Administrador");
+    }
+
+    private void updateCajaTotal() {
+        double totalVentasVal = 0;
+        if (ventaViewModel.getAllVentas().getValue() != null) {
+            for (Venta v : ventaViewModel.getAllVentas().getValue()) {
+                totalVentasVal += v.getTotal();
+            }
+        }
+
+        double totalMovimientosVal = 0;
+        if (movimientoViewModel.getAllMovimientos().getValue() != null) {
+            for (Movimiento m : movimientoViewModel.getAllMovimientos().getValue()) {
+                totalMovimientosVal += (m.getIngresos() != null ? m.getIngresos() : 0);
+                totalMovimientosVal -= (m.getEgresos() != null ? m.getEgresos() : 0);
+            }
+        }
+
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+        txtCajaSaldo.setText(format.format(totalVentasVal + totalMovimientosVal));
     }
 
     private void openClientesActivity() {
