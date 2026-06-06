@@ -36,6 +36,11 @@
             android:id="@+id/nav_reporte_caja"
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="@string/titulo_reporte_caja" />
+
+        <item
+            android:id="@+id/nav_estadisticas"
+            android:icon="@android:drawable/ic_menu_sort_by_size"
+            android:title="@string/menu_estadisticas" />
     </group>
 
 </menu>

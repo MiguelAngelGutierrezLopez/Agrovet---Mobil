@@ -89,8 +89,8 @@ public class ReporteCajaActivity extends AppCompatActivity {
         double totalEgresos = 0;
         
         for (Movimiento m : movimientos) {
-            totalIngresos += (m.getIngresos() != null ? m.getIngresos() : 0);
-            totalEgresos += (m.getEgresos() != null ? m.getEgresos() : 0);
+            totalIngresos += (m.getIngresos() != null ? m.getIngresos() : 0.0);
+            totalEgresos += (m.getEgresos() != null ? m.getEgresos() : 0.0);
         }
         
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
@@ -128,7 +128,17 @@ public class ReporteCajaActivity extends AppCompatActivity {
                 String tipo = rgTipo.getCheckedRadioButtonId() == R.id.rb_mov_ingreso ? "Ingreso" : "Egreso";
                 String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
 
-                Movimiento m = new Movimiento(razon, fecha, monto, tipo);
+                Movimiento m = new Movimiento();
+                if ("Ingreso".equals(tipo)) {
+                    m.setIngresos(monto);
+                    m.setRazonIngreso(razon);
+                    m.setFechaIngreso(fecha);
+                } else {
+                    m.setEgresos(monto);
+                    m.setRazonEgreso(razon);
+                    m.setFechaEgreso(fecha);
+                }
+
                 viewModel.addMovimiento(m);
                 
                 AppLogger.i("Movimiento registrado localmente: " + razon + " (" + tipo + ")");

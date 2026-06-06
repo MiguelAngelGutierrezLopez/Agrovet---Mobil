@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private TextView txtTotalClientes, txtTotalProductos, txtVentasHoy, txtCajaSaldo, txtDbStatus;
     private CardView cardClientes, cardProductos, cardVentasHoy, cardReporteCaja;
-    private CardView btnClientes, btnProveedores, btnProductos, btnVentas;
+    private CardView btnClientes, btnProveedores, btnProductos, btnVentas, btnStats;
     
     private ClienteViewModel clienteViewModel;
     private ProductoViewModel productoViewModel;
@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupPermissionLauncher();
         askNotificationPermission();
         
-        AppLogger.i("MainActivity cargada y lista");
+        AppLogger.i("MainActivity lista");
     }
 
     private void setupPermissionLauncher() {
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnProveedores = findViewById(R.id.btn_proveedores);
         btnProductos = findViewById(R.id.btn_productos);
         btnVentas = findViewById(R.id.btn_ventas);
+        btnStats = findViewById(R.id.btn_stats);
         
         findViewById(R.id.fab_view_logs).setOnClickListener(v -> {
             startActivity(new Intent(this, com.agrovet.pos.activities.LogViewerActivity.class));
@@ -148,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnProveedores.setOnClickListener(v -> openProveedoresActivity());
         btnProductos.setOnClickListener(v -> openProductosActivity());
         btnVentas.setOnClickListener(v -> openVentasActivity());
+        btnStats.setOnClickListener(v -> openStatsActivity());
     }
 
     private void loadDashboardData() {
@@ -185,8 +187,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         double totalMovimientosVal = 0;
         for (Movimiento m : lastMovimientos) {
-            totalMovimientosVal += (m.getIngresos() != null ? m.getIngresos() : 0);
-            totalMovimientosVal -= (m.getEgresos() != null ? m.getEgresos() : 0);
+            totalMovimientosVal += (m.getIngresos() != null ? m.getIngresos() : 0.0);
+            totalMovimientosVal -= (m.getEgresos() != null ? m.getEgresos() : 0.0);
         }
 
         NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
@@ -217,6 +219,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(new Intent(this, ReporteCajaActivity.class));
     }
 
+    private void openStatsActivity() {
+        startActivity(new Intent(this, com.agrovet.pos.activities.StatsActivity.class));
+    }
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -234,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             openHistorialVentasActivity();
         } else if (id == R.id.nav_reporte_caja) {
             openReporteCajaActivity();
+        } else if (id == R.id.nav_estadisticas) {
+            openStatsActivity();
         } else {
             drawerLayout.closeDrawer(GravityCompat.START);
         }

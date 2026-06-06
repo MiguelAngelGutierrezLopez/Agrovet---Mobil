@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Colores principales de Agrovet -->
-    <color name="teal">#1F8A86</color>
-    <color name="teal_dark">#166b68</color>
-    <color name="teal_light">#3FA6A0</color>
-    <color name="terracota">#C08A67</color>
-    <color name="mostaza">#D9C357</color>
-    <color name="turquesa">#3FA6A0</color>
-    <color name="celeste_fondo">#E3F0F3</color>
-    <color name="blanco_hueso">#F7F7F4</color>
-    <color name="verde_oliva">#B7C3A1</color>
-    <color name="rojo_rosado">#D44A5E</color>
+    <!-- Paleta Corporativa Principal -->
+    <color name="teal">#008080</color>
+    <color name="turquesa">#008080</color>
+    <color name="teal_dark">#006666</color>
+    <color name="teal_light">#E0F2F2</color>
+    <color name="blanco_hueso">#F5F0E6</color>
+    <color name="white">#FFFFFF</color>
 
-    <!-- Colores generales -->
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gris_oscuro">#2c3e50</color>
-    <color name="gris_medio">#7f8c8d</color>
-    <color name="gris_claro">#ecf0f1</color>
-    <color name="verde_exito">#27ae60</color>
-    <color name="rojo_error">#e74c3c</color>
-    <color name="azul_info">#3498db</color>
+    <!-- Escala de Grises y Bordes -->
+    <color name="gris_oscuro">#2C3E50</color>
+    <color name="gris_medio">#7F8C8D</color>
+    <color name="gris_claro">#95A5A6</color>
+    <color name="borde_sutil">#E2DCD3</color>
+    <color name="separador">#F0ECE5</color>
+
+    <!-- Estados y Categorias -->
+    <color name="verde_exito">#2E7D32</color>
+    <color name="verde_fondo">#E8F5E9</color>
+    <color name="azul_info">#1565C0</color>
+    <color name="azul_fondo">#E3F2FD</color>
+    <color name="purpura_nequi">#4527A0</color>
+    <color name="purpura_fondo">#EDE7F6</color>
+    <color name="rojo_error">#C0392B</color>
+    <color name="rojo_fondo">#FDEDEC</color>
+    <color name="mostaza">#D4A017</color>
+    <color name="terracota">#D2691E</color>
 </resources>

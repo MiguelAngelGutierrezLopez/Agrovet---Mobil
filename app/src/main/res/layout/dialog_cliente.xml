@@ -108,6 +108,8 @@
         <Button
             android:id="@+id/btn_guardar"
             style="@style/Widget.Agrovet.Button.Primary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Guardar"
             android:backgroundTint="@color/teal"
             android:layout_marginStart="8dp" />

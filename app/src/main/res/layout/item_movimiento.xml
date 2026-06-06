@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    style="@style/Widget.Agrovet.Card.ListItem">
+    android:layout_marginBottom="10dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp"
+    android:backgroundTint="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
+        android:padding="14dp"
+        android:background="@drawable/bg_card_border"
         android:gravity="center_vertical">
 
         <LinearLayout
@@ -23,16 +27,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Razon"
-                style="@style/TextAppearance.Agrovet.Headline"
-                android:textSize="15sp" />
+                android:textColor="@color/gris_oscuro"
+                android:textStyle="bold"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/txt_movimiento_fecha"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fecha"
-                style="@style/TextAppearance.Agrovet.Subhead"
-                android:textSize="11sp"
+                android:textColor="@color/gris_claro"
+                android:textSize="10sp"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
@@ -41,7 +46,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="$ 0.00"
-            android:textSize="16sp"
+            android:textSize="15sp"
             android:textStyle="bold"
             android:textColor="@color/verde_exito" />
 

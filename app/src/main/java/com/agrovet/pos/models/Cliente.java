@@ -19,6 +19,7 @@ public class Cliente {
     @ColumnInfo(name = "telefono")
     private String telefono;
 
+    // Permitir nulos para que coincida con la base de datos
     @ColumnInfo(name = "correo")
     private String correo;
 
@@ -32,6 +33,7 @@ public class Cliente {
     public Cliente() {
         this.cedula = "";
         this.nombre = "";
+        this.telefono = ""; // Inicialización segura
         this.fechaCreacion = "";
     }
 
@@ -65,6 +67,6 @@ public class Cliente {
     public String getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(@NonNull String fechaCreacion) { this.fechaCreacion = fechaCreacion; }
 
-    // Helper for Activity compatibility
+    // Ajuste para compatibilidad con las actividades
     public String getId() { return cedula; }
 }

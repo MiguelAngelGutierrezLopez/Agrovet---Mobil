@@ -4,91 +4,78 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F0E6">
+    android:background="@color/blanco_hueso">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="#008080"
+        android:layout_height="60dp"
+        android:background="@color/teal"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"
+        app:title="Historial de Ventas" />
 
-    <!-- Stats Row -->
+    <!-- Stats Row (Corporate Style) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="16dp"
-        android:background="@color/white"
-        android:layout_margin="12dp"
-        android:elevation="6dp">
+        android:padding="12dp">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/txt_stats_ventas"
-                android:layout_width="wrap_content"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="24"
-                android:textColor="#008080"
-                android:textStyle="bold"
-                android:textSize="18sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ventas"
-                android:textSize="10sp"
-                android:textColor="#9E9E9E" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="14dp"
+                android:background="@drawable/bg_stat_ingresos">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="INGRESOS" android:textSize="10sp" android:textStyle="bold" android:textColor="@color/gris_medio" />
+                <TextView android:id="@+id/txt_stats_ingresos" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$ 0" android:textColor="@color/gris_oscuro" android:textStyle="bold" android:textSize="18sp" android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/txt_stats_ingresos"
-                android:layout_width="wrap_content"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="$ 0"
-                android:textColor="#27ae60"
-                android:textStyle="bold"
-                android:textSize="18sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ingresos"
-                android:textSize="10sp"
-                android:textColor="#9E9E9E" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="14dp"
+                android:background="@drawable/bg_stat_ventas">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="VENTAS" android:textSize="10sp" android:textStyle="bold" android:textColor="@color/gris_medio" />
+                <TextView android:id="@+id/txt_stats_ventas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="0" android:textColor="@color/gris_oscuro" android:textStyle="bold" android:textSize="18sp" android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/txt_stats_utilidad"
-                android:layout_width="wrap_content"
+            android:layout_margin="4dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp">
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="$ 0"
-                android:textColor="#40E0D0"
-                android:textStyle="bold"
-                android:textSize="18sp" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Utilidad"
-                android:textSize="10sp"
-                android:textColor="#9E9E9E" />
-        </LinearLayout>
+                android:orientation="vertical"
+                android:padding="14dp"
+                android:background="@drawable/bg_stat_pendiente">
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="PENDIENTE" android:textSize="10sp" android:textStyle="bold" android:textColor="@color/gris_medio" />
+                <TextView android:id="@+id/txt_stats_utilidad" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="$ 0" android:textColor="@color/gris_oscuro" android:textStyle="bold" android:textSize="18sp" android:layout_marginTop="4dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
     </LinearLayout>
 
     <!-- Period Buttons -->
@@ -96,47 +83,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
-        android:paddingHorizontal="12dp">
+        android:paddingHorizontal="16dp"
+        android:layout_marginBottom="12dp">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="@color/white"
-            android:padding="6dp"
-            android:layout_marginBottom="12dp">
-            <Button
-                android:id="@+id/btn_periodo_hoy"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Hoy"
-                android:minHeight="0dp"
-                android:backgroundTint="#008080"
-                android:textColor="@color/white"
-                style="@style/Widget.MaterialComponents.Button.TextButton" />
-            <Button
-                android:id="@+id/btn_periodo_semana"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Semana"
-                android:minHeight="0dp"
-                android:textColor="#4A4A4A"
-                style="@style/Widget.MaterialComponents.Button.TextButton" />
-            <Button
-                android:id="@+id/btn_periodo_mes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Mes"
-                android:minHeight="0dp"
-                android:textColor="#4A4A4A"
-                style="@style/Widget.MaterialComponents.Button.TextButton" />
-            <Button
-                android:id="@+id/btn_periodo_anio"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Año"
-                android:minHeight="0dp"
-                android:textColor="#4A4A4A"
-                style="@style/Widget.MaterialComponents.Button.TextButton" />
+            android:orientation="horizontal">
+            <Button android:id="@+id/btn_periodo_hoy" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Hoy" style="@style/Widget.Agrovet.Button.Period" />
+            <View android:layout_width="8dp" android:layout_height="0dp" />
+            <Button android:id="@+id/btn_periodo_semana" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Semana" style="@style/Widget.Agrovet.Button.Period" />
+            <View android:layout_width="8dp" android:layout_height="0dp" />
+            <Button android:id="@+id/btn_periodo_mes" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Mes" style="@style/Widget.Agrovet.Button.Period" />
+            <View android:layout_width="8dp" android:layout_height="0dp" />
+            <Button android:id="@+id/btn_periodo_anio" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Año" style="@style/Widget.Agrovet.Button.Period" />
         </LinearLayout>
     </HorizontalScrollView>
 
@@ -144,7 +103,7 @@
         android:id="@+id/rv_historial_ventas"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="12dp"
+        android:paddingHorizontal="12dp"
         android:clipToPadding="false" />
 
 </LinearLayout>

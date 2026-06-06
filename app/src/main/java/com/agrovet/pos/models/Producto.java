@@ -40,8 +40,6 @@ public class Producto {
     private Integer precioVenta;
 
     public Producto() {
-        this.nombre = "";
-        this.categoria = "";
     }
 
     public Producto(Integer id, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {

@@ -72,7 +72,7 @@ public class Proveedor {
     public String getProducto() { return producto; }
     public void setProducto(String producto) { this.producto = producto; }
 
-    // Helpers for Activity compatibility
+    // Metodos de ayuda para las actividades
     public String getId() { return telefono; }
     public String getProductos() { return producto; }
 }

@@ -9,80 +9,58 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="60dp"
         android:background="@color/teal"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:title="@string/titulo_clientes"
-        app:titleTextColor="@color/white" />
+        app:titleTextColor="@color/white"
+        app:title="Clientes" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="16dp">
 
-        <androidx.cardview.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.Agrovet.Card.Search">
+            android:orientation="horizontal"
+            android:layout_marginBottom="12dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <EditText
+                android:id="@+id/et_buscar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="4dp">
+                android:layout_weight="1"
+                android:hint="Buscar por nombre o cédula..."
+                android:padding="12dp"
+                android:background="@drawable/bg_edittext_corporate"
+                android:textColor="@color/gris_oscuro"
+                android:textSize="13sp" />
 
-                <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@android:drawable/ic_menu_search"
-                    android:layout_marginStart="12dp"
-                    app:tint="@color/gris_medio" />
+            <Button
+                android:id="@+id/btn_buscar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="BUSCAR"
+                android:textSize="10sp"
+                android:layout_marginStart="8dp"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:backgroundTint="@color/teal"
+                android:textColor="@color/white" />
+        </LinearLayout>
 
-                <EditText
-                    android:id="@+id/et_buscar"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/buscar_hint_clientes"
-                    android:background="@android:color/transparent"
-                    android:padding="12dp"
-                    android:textSize="14sp"
-                    android:inputType="text" />
-
-                <Button
-                    android:id="@+id/btn_buscar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/btn_buscar"
-                    android:backgroundTint="@color/teal"
-                    android:textColor="@color/white"
-                    android:layout_marginEnd="4dp"
-                    style="@style/Widget.MaterialComponents.Button.TextButton" />
-
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
+        <Button
             android:id="@+id/btn_agregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.Agrovet.Card.Action"
-            android:layout_margin="0dp"
-            android:layout_marginBottom="16dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/btn_agregar_cliente"
-                android:background="@color/teal"
-                android:textColor="@color/white"
-                android:gravity="center"
-                android:padding="14dp"
-                android:textStyle="bold"
-                android:textSize="14sp" />
-        </androidx.cardview.widget.CardView>
+            android:text="+ AGREGAR NUEVO CLIENTE"
+            android:textSize="11sp"
+            android:textStyle="bold"
+            android:backgroundTint="@color/white"
+            android:textColor="@color/teal"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:strokeColor="@color/teal" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -90,20 +68,21 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:visibility="gone"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginTop="20dp" />
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginTop="12dp">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_clientes"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:clipToPadding="false" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
     </LinearLayout>
 
 </LinearLayout>

@@ -3,7 +3,7 @@ package com.agrovet.pos.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
+import android.widget.Button;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -68,7 +68,7 @@ public class ProveedorAdapter extends RecyclerView.Adapter<ProveedorAdapter.View
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtEmpresa, txtNombreProveedor, txtTelefono, txtEstado, txtProductos;
-        ImageButton btnEditar, btnEliminar;
+        Button btnEditar, btnEliminar;
 
         ViewHolder(View itemView) {
             super(itemView);

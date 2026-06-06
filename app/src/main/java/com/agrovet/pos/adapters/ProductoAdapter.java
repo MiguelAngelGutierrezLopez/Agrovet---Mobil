@@ -21,6 +21,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
     public interface OnProductoActionListener {
         void onEditar(Producto producto);
         void onEliminar(Producto producto);
+        default void onAddCart(Producto producto) {}
     }
 
     public ProductoAdapter(List<Producto> productos, OnProductoActionListener listener) {
@@ -70,6 +71,20 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
 
         holder.btnEditar.setOnClickListener(v -> listener.onEditar(producto));
         holder.btnEliminar.setOnClickListener(v -> listener.onEliminar(producto));
+        
+        if (holder.btnAddCart != null) {
+            holder.btnAddCart.setOnClickListener(v -> listener.onAddCart(producto));
+            // Si estamos en modo ventas (listener es VentasActivity), ocultar editar/eliminar y mostrar añadir
+            if (listener.getClass().getSimpleName().contains("Ventas")) {
+                holder.btnEditar.setVisibility(View.GONE);
+                holder.btnEliminar.setVisibility(View.GONE);
+                holder.btnAddCart.setVisibility(View.VISIBLE);
+            } else {
+                holder.btnEditar.setVisibility(View.VISIBLE);
+                holder.btnEliminar.setVisibility(View.VISIBLE);
+                holder.btnAddCart.setVisibility(View.GONE);
+            }
+        }
     }
 
     @Override
@@ -78,8 +93,8 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView txtNombre, txtCodigo, txtPrecio, txtStock, txtCategoria;
-        ImageButton btnEditar, btnEliminar;
+        TextView txtNombre, txtPrecio, txtStock, txtCategoria, txtCodigo;
+        View btnEditar, btnEliminar, btnAddCart;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -90,6 +105,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             txtCategoria = itemView.findViewById(R.id.txt_categoria);
             btnEditar = itemView.findViewById(R.id.btn_editar);
             btnEliminar = itemView.findViewById(R.id.btn_eliminar);
+            btnAddCart = itemView.findViewById(R.id.btn_add_cart);
         }
     }
 }
