@@ -48,6 +48,16 @@ public abstract class AppDatabase extends RoomDatabase {
         }
     };
 
+    // Migración desde versiones antiguas (1 o similar) a la actual
+    static final Migration MIGRATION_1_13 = new Migration(1, 13) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {
+            // Esta migración maneja casos donde el dispositivo tiene una versión muy vieja.
+            // Creamos las tablas necesarias si no existen.
+            database.execSQL("CREATE TABLE IF NOT EXISTS `abonos` (`id` INTEGER PRIMARY KEY AUTOINCREMENT, `credito_id` INTEGER NOT NULL, `venta_id` INTEGER NOT NULL, `cliente_cedula` TEXT NOT NULL, `monto` REAL NOT NULL, `fecha` TEXT NOT NULL, `metodo_pago` TEXT NOT NULL DEFAULT 'efectivo', `referencia` TEXT, `usuario_registra` TEXT, `observacion` TEXT, `fecha_registro` TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP)");
+        }
+    };
+
     // Sincronizacion de tablas y esquemas
     static final Migration MIGRATION_12_13 = new Migration(12, 13) {
         @Override
@@ -109,7 +119,8 @@ public abstract class AppDatabase extends RoomDatabase {
                     INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
                                     AppDatabase.class, "Agrovet.db")
                             .createFromAsset("databases/Agrovet.db")
-                            .addMigrations(MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13)
+                            .addMigrations(MIGRATION_10_11, MIGRATION_11_12, MIGRATION_12_13, MIGRATION_1_13)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
