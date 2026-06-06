@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupPermissionLauncher();
         setContentView(R.layout.activity_main);
 
         clienteViewModel = new ViewModelProvider(this).get(ClienteViewModel.class);
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setupClickListeners();
         loadDashboardData();
         setupBackPressed();
-        setupPermissionLauncher();
         askNotificationPermission();
         
         AppLogger.i("MainActivity lista");
