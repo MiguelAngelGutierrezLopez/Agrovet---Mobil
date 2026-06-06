@@ -141,7 +141,7 @@ public class ReporteCajaActivity extends AppCompatActivity {
 
                 viewModel.addMovimiento(m);
                 
-                AppLogger.i("Movimiento registrado localmente: " + razon + " (" + tipo + ")");
+                AppLogger.i("Movimiento registrado: " + razon + " (" + tipo + ")");
                 Toast.makeText(this, "Movimiento registrado", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             } catch (Exception e) {

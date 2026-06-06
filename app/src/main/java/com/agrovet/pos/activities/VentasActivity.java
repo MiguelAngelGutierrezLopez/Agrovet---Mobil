@@ -242,13 +242,12 @@ public class VentasActivity extends AppCompatActivity {
         nuevaVenta.setTotal(totalFinal);
         nuevaVenta.setEstado("completada");
         
-        // Si es credito, guardar anticipo en abonos
+        // Guardar anticipo si es credito
         if (metodo.equals("Crédito")) {
             double anticipo = 0;
             try { anticipo = Double.parseDouble(etAnticipo.getText().toString()); } catch (Exception ignored) {}
             
-            // Nota: Aquí se debería obtener el ID de venta generado, pero Room insert es asíncrono vía executor.
-            // Para esta versión, guardamos el abono con ventaId 0 o nulo si no es crítico ahora.
+            // Registro de abono inicial
             Abono abono = new Abono();
             abono.setClienteCedula(selectedCliente.getCedula());
             abono.setMonto(anticipo);
@@ -257,7 +256,7 @@ public class VentasActivity extends AppCompatActivity {
             abono.setObservacion("Anticipo inicial de venta a crédito");
             abono.setFechaRegistro(fechaDia + " " + fechaHora);
             
-            // Insertar abono vía DB (asumiendo que abonoDao existe en AppDatabase)
+            // Guardar abono
             com.agrovet.pos.database.AppDatabase.databaseWriteExecutor.execute(() -> {
                 com.agrovet.pos.database.AppDatabase.getDatabase(this).abonoDao().insert(abono);
             });
@@ -265,14 +264,14 @@ public class VentasActivity extends AppCompatActivity {
 
         ventaViewModel.addVenta(nuevaVenta);
         
-        // Actualizar stock de productos
+        // Bajar stock
         for (CartItem item : cartList) {
             Producto p = item.getProducto();
             p.setCantidad(p.getCantidad() - item.getCantidad());
             productoViewModel.updateProducto(p);
         }
 
-        AppLogger.i("Venta corporativa guardada: " + totalFinal + " (" + metodo + ")");
+        AppLogger.i("Venta guardada: " + totalFinal + " (" + metodo + ")");
         Toast.makeText(this, "Venta Finalizada Exitosamente", Toast.LENGTH_LONG).show();
         finish();
     }

@@ -19,7 +19,6 @@ public class Cliente {
     @ColumnInfo(name = "telefono")
     private String telefono;
 
-    // Permitir nulos para que coincida con la base de datos
     @ColumnInfo(name = "correo")
     private String correo;
 

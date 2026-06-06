@@ -11,7 +11,7 @@ import androidx.room.PrimaryKey;
 public class Producto {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private Integer id; // Found: notNull=false in physical DB
+    private Integer id;
 
     @NonNull
     @ColumnInfo(name = "nombre")
@@ -40,6 +40,8 @@ public class Producto {
     private Integer precioVenta;
 
     public Producto() {
+        this.nombre = "";
+        this.categoria = "";
     }
 
     public Producto(Integer id, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {

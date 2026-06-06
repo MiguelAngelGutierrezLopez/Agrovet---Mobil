@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey;
 public class Venta {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private Integer id; // Using Integer because notNull might be false in DB
+    private Integer id;
 
     @ColumnInfo(name = "numero_venta")
     private Integer numeroVenta;
