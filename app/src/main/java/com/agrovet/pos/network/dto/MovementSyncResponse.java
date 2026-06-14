@@ -15,6 +15,8 @@ public class MovementSyncResponse {
     public Integer total;
 
     public static class MovementData {
+        public MovementData() {}
+
         @SerializedName("movimientos")
         public List<Movimiento> movimientos;
 

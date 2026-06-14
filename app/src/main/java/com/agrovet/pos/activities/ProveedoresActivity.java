@@ -49,6 +49,8 @@ public class ProveedoresActivity extends BaseActivity {
         setupRecyclerView();
         setupListeners();
         loadProveedores();
+        
+        Toast.makeText(this, R.string.aviso_proveedores_corto, Toast.LENGTH_LONG).show();
     }
 
     private void initViews() {
@@ -184,7 +186,7 @@ public class ProveedoresActivity extends BaseActivity {
                 String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
                 Proveedor nuevoProveedor = new Proveedor(telefono, nombreEmpresa, nombreProveedor, "", "activo", fecha, productos);
                 viewModel.createProveedor(nuevoProveedor);
-                Toast.makeText(this, "Proveedor creado exitosamente", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.msg_registrar_web, Toast.LENGTH_LONG).show();
             }
             dialog.dismiss();
         });

@@ -109,9 +109,6 @@ public class MainActivity extends BaseActivity {
                     public void onSuccess(String modulo) {
                         runOnUiThread(() -> {
                             if (syncIndicator != null) syncIndicator.setVisibility(View.VISIBLE);
-                            Intent intent = new Intent(MainActivity.this, SyncAlertActivity.class);
-                            intent.putExtra("modulo", modulo);
-                            startActivity(intent);
                         });
                     }
                     @Override public void onError(String message) {}

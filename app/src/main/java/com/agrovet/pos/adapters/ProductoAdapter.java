@@ -81,6 +81,10 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             }
         }
 
+        // Ocultar botones de editar y eliminar
+        if (holder.btnEditar != null) holder.btnEditar.setVisibility(View.GONE);
+        if (holder.btnEliminar != null) holder.btnEliminar.setVisibility(View.GONE);
+
         holder.itemView.setOnClickListener(v -> {
             if (itemClickListener != null) {
                 itemClickListener.onItemClick(producto);
