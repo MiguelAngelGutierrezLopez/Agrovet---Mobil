@@ -12,37 +12,40 @@ import retrofit2.http.*;
 
 public interface UserApiService {
     // Clientes
-    @GET("clientes")
+    @GET("api/clientes")
     Call<Map<String, Object>> getClientes(@Query("per_page") int perPage);
 
-    @GET("cliente/{cedula}")
+    @GET("api/cliente/{cedula}")
     Call<Map<String, Object>> getCliente(@Path("cedula") String cedula);
 
-    @POST("clientes-proveedores/cliente")
+    @POST("api/clientes-proveedores/cliente")
     Call<GenericResponse> createCliente(@Body ClienteRequest request);
 
-    @PUT("clientes/{id}")
+    @PUT("api/clientes/{id}")
     Call<Map<String, Object>> updateCliente(@Path("id") int id, @Body Map<String, Object> clienteData);
 
-    @DELETE("cliente/{cedula}")
+    @DELETE("api/cliente/{cedula}")
     Call<Map<String, Object>> deleteCliente(@Path("cedula") String cedula);
 
     // Proveedores
-    @GET("proveedores")
+    @GET("api/proveedores")
     Call<Map<String, Object>> getProveedores();
 
-    @GET("proveedor/{telefono}")
+    @GET("api/proveedor/{telefono}")
     Call<Map<String, Object>> getProveedor(@Path("telefono") String telefono);
 
-    @POST("proveedor/completo")
+    @POST("api/proveedor/completo")
     Call<GenericResponse> createProveedorCompleto(@Body Proveedor proveedor);
 
-    @PUT("proveedor/{telefono}")
+    @PUT("api/proveedor/{telefono}")
     Call<GenericResponse> updateProveedorCompleto(@Path("telefono") String telefono, @Body Proveedor proveedor);
 
-    @DELETE("proveedor/{telefono}")
+    @DELETE("api/proveedor/{telefono}")
     Call<Map<String, Object>> deleteProveedor(@Path("telefono") String telefono);
 
-    @GET("clientes-proveedores/clientes")
+    @GET("api/clientes")
+    Call<ClientSyncResponse> getClientesSync();
+
+    @GET("api/clientes-proveedores/clientes")
     Call<ClientSyncResponse> getSyncClientes(@Query("last_sync_id") Integer lastSyncId);
 }

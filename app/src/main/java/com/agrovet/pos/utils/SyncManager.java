@@ -99,7 +99,7 @@ public class SyncManager {
 
                 // 1. Clientes
                 AppLogger.d("PULL: Solicitando clientes...");
-                Response<ClientSyncResponse> respCli = userApi.getSyncClientes(null).execute();
+                Response<ClientSyncResponse> respCli = userApi.getClientesSync().execute();
                 if (respCli.isSuccessful() && respCli.body() != null && respCli.body().getClientes() != null) {
                     List<Cliente> clientes = respCli.body().getClientes();
                     AppLogger.i("PULL: Recibidos " + clientes.size() + " clientes.");

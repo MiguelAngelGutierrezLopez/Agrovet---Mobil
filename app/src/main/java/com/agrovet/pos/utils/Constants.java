@@ -8,7 +8,7 @@ public class Constants {
     public static final String DOMAIN_REPORTES = "api-reportes-production.up.railway.app";
 
     // URLs Base (Usando HTTPS para dominios públicos)
-    public static final String URL_USUARIOS = "https://" + DOMAIN_USUARIOS + "/api/";
+    public static final String URL_USUARIOS = "https://" + DOMAIN_USUARIOS + "/";
     public static final String URL_INVENTARIO = "https://" + DOMAIN_INVENTARIO + "/";
     public static final String URL_VENTAS = "https://" + DOMAIN_VENTAS + "/";
     public static final String URL_REPORTES = "https://" + DOMAIN_REPORTES + "/";
