@@ -424,8 +424,9 @@ public class VentasActivity extends BaseActivity {
                 clientesList.clear();
                 clientesList.addAll(clientes);
                 
-                // Adaptador que solo muestra el nombre del cliente en la lista
-                ArrayAdapter<Cliente> adapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_dropdown_item_1line, clientesList) {
+                // Adaptador personalizado para manejar el filtrado correctamente sin perder la lista original
+                List<Cliente> filteredList = new ArrayList<>(clientesList);
+                ArrayAdapter<Cliente> adapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_dropdown_item_1line, filteredList) {
                     @NonNull
                     @Override
                     public View getView(int position, View convertView, @NonNull android.view.ViewGroup parent) {
@@ -446,7 +447,10 @@ public class VentasActivity extends BaseActivity {
                             protected FilterResults performFiltering(CharSequence constraint) {
                                 FilterResults results = new FilterResults();
                                 List<Cliente> suggestions = new ArrayList<>();
-                                if (constraint != null) {
+                                
+                                if (constraint == null || constraint.length() == 0) {
+                                    suggestions.addAll(clientesList);
+                                } else {
                                     String filterPattern = constraint.toString().toLowerCase().trim();
                                     for (Cliente c : clientesList) {
                                         if (c.getNombre().toLowerCase().contains(filterPattern)) {
@@ -454,6 +458,7 @@ public class VentasActivity extends BaseActivity {
                                         }
                                     }
                                 }
+
                                 results.values = suggestions;
                                 results.count = suggestions.size();
                                 return results;

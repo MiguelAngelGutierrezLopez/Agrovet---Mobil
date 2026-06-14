@@ -105,7 +105,12 @@ public class SyncManager {
                     AppLogger.i("PULL: Recibidos " + clientes.size() + " clientes.");
                     for (Cliente c : clientes) {
                         c.setSynced(true);
-                        db.clienteDao().insert(c);
+                        Cliente existing = db.clienteDao().findByCedula(c.getCedula());
+                        if (existing != null) {
+                            db.clienteDao().update(c);
+                        } else {
+                            db.clienteDao().insert(c);
+                        }
                         totalNewItems++;
                     }
                     summary.append("• ").append(clientes.size()).append(" Clientes\n");
