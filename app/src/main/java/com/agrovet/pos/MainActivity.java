@@ -56,8 +56,9 @@ public class MainActivity extends BaseActivity {
     private Toolbar toolbar;
     private TextView txtTotalClientes, txtTotalProductos, txtVentasHoy, txtCajaSaldo, txtDbStatus;
     private View syncIndicator;
+    private com.github.mikephil.charting.charts.LineChart chartVentas;
     private CardView cardClientes, cardProductos, cardVentasHoy, cardReporteCaja;
-    private CardView btnProveedores, btnProductos, btnVentas, btnStats, btnHistorial, btnCaja;
+    private Button btnSyncBatch;
 
     private ClienteViewModel clienteViewModel;
     private ProductoViewModel productoViewModel;
@@ -154,13 +155,9 @@ public class MainActivity extends BaseActivity {
         cardVentasHoy = findViewById(R.id.card_ventas_hoy);
         cardReporteCaja = findViewById(R.id.card_reporte_caja);
         
-        btnProveedores = findViewById(R.id.btn_proveedores);
-        btnProductos = findViewById(R.id.btn_productos);
-        btnVentas = findViewById(R.id.btn_ventas);
-        btnHistorial = findViewById(R.id.btn_historial);
-        btnCaja = findViewById(R.id.btn_caja);
+        chartVentas = findViewById(R.id.chart_ventas);
         
-        Button btnSyncBatch = findViewById(R.id.btn_sync_to_web);
+        btnSyncBatch = findViewById(R.id.btn_sync_to_web);
         if (btnSyncBatch != null) {
             btnSyncBatch.setOnClickListener(v -> showSyncDashboard());
         }
@@ -190,13 +187,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupClickListeners() {
-        btnProveedores.setOnClickListener(v -> openProveedoresActivity());
-        btnProductos.setOnClickListener(v -> openProductosActivity());
-        btnVentas.setOnClickListener(v -> openVentasActivity());
-        btnHistorial.setOnClickListener(v -> openHistorialVentasActivity());
-        btnCaja.setOnClickListener(v -> openReporteCajaActivity());
-        
-        // Las tarjetas ya no funcionan como links, solo muestran datos
+        // Los botones de acceso directo han sido removidos del layout
     }
 
     private void loadDashboardData() {
@@ -214,6 +205,7 @@ public class MainActivity extends BaseActivity {
                 lastVentas.addAll(ventas);
                 txtVentasHoy.setText(String.valueOf(ventas.size()));
                 updateCajaTotal();
+                updateChart(ventas);
             }
         });
 
@@ -224,6 +216,56 @@ public class MainActivity extends BaseActivity {
                 updateCajaTotal();
             }
         });
+    }
+
+    private void updateChart(List<Venta> ventas) {
+        if (chartVentas == null || ventas == null || ventas.isEmpty()) return;
+
+        Map<String, Double> salesByDate = new TreeMap<>();
+        for (Venta v : ventas) {
+            String date = v.getFechaDia();
+            salesByDate.put(date, salesByDate.getOrDefault(date, 0.0) + v.getTotal());
+        }
+
+        List<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
+        int i = 0;
+        final List<String> dates = new ArrayList<>(salesByDate.keySet());
+        for (String date : dates) {
+            entries.add(new com.github.mikephil.charting.data.Entry(i++, salesByDate.get(date).floatValue()));
+        }
+
+        com.github.mikephil.charting.data.LineDataSet dataSet = new com.github.mikephil.charting.data.LineDataSet(entries, "Ventas por Día");
+        dataSet.setColor(getResources().getColor(R.color.teal));
+        dataSet.setCircleColor(getResources().getColor(R.color.mostaza));
+        dataSet.setLineWidth(2f);
+        dataSet.setCircleRadius(4f);
+        dataSet.setDrawCircleHole(false);
+        dataSet.setValueTextSize(10f);
+        dataSet.setDrawFilled(true);
+        dataSet.setFillAlpha(50);
+        dataSet.setFillColor(getResources().getColor(R.color.teal_light));
+
+        com.github.mikephil.charting.data.LineData lineData = new com.github.mikephil.charting.data.LineData(dataSet);
+        chartVentas.setData(lineData);
+        
+        chartVentas.getXAxis().setValueFormatter(new com.github.mikephil.charting.formatter.ValueFormatter() {
+            @Override
+            public String getFormattedValue(float value) {
+                int index = (int) value;
+                if (index >= 0 && index < dates.size()) {
+                    String d = dates.get(index);
+                    return d.length() > 5 ? d.substring(5) : d; // MM-DD
+                }
+                return "";
+            }
+        });
+        
+        chartVentas.getXAxis().setPosition(com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM);
+        chartVentas.getXAxis().setGranularity(1f);
+        chartVentas.getAxisRight().setEnabled(false);
+        chartVentas.getDescription().setEnabled(false);
+        chartVentas.animateX(1000);
+        chartVentas.invalidate();
     }
 
     private void updateCajaTotal() {

@@ -132,25 +132,55 @@ public class SyncManager {
                     summary.append("• ").append(productos.size()).append(" Productos\n");
                 }
 
-                // 3. Movimientos
-                Integer lastMovId = db.movimientoDao().getMaxServerId();
-                AppLogger.d("PULL: Solicitando movimientos...");
-                Response<MovementSyncResponse> respMov = reportApi.syncMovimientos(lastMovId).execute();
-                if (respMov.isSuccessful() && respMov.body() != null && respMov.body().getData() != null && respMov.body().getData().getMovimientos() != null) {
-                    List<Movimiento> movimientos = respMov.body().getData().getMovimientos();
-                    AppLogger.i("PULL: Recibidos " + movimientos.size() + " movimientos.");
-                    for (Movimiento m : movimientos) {
-                        m.setSynced(true);
-                        Movimiento existing = db.movimientoDao().findByServerId(m.getServerId());
-                        if (existing != null) {
-                            m.setId(existing.getId());
-                            db.movimientoDao().update(m);
-                        } else {
-                            db.movimientoDao().insertOrIgnore(m);
+                // 3. Movimientos (API-REPORTES)
+                AppLogger.d("PULL: Solicitando movimientos de api-reportes...");
+                Response<Map<String, Object>> respMov = reportApi.getMovimientos().execute();
+                if (respMov.isSuccessful() && respMov.body() != null) {
+                    Map<String, Object> body = respMov.body();
+                    List<Map<String, Object>> movimientosRaw = null;
+                    
+                    if (body.get("data") instanceof List) {
+                        movimientosRaw = (List<Map<String, Object>>) body.get("data");
+                    } else if (body.get("data") instanceof Map) {
+                        Map<String, Object> dataMap = (Map<String, Object>) body.get("data");
+                        if (dataMap.get("movimientos") instanceof List) {
+                            movimientosRaw = (List<Map<String, Object>>) dataMap.get("movimientos");
                         }
-                        totalNewItems++;
+                    } else if (body.get("movimientos") instanceof List) {
+                        movimientosRaw = (List<Map<String, Object>>) body.get("movimientos");
                     }
-                    summary.append("• ").append(movimientos.size()).append(" Movimientos\n");
+
+                    if (movimientosRaw != null) {
+                        AppLogger.i("PULL: Recibidos " + movimientosRaw.size() + " movimientos de api-reportes.");
+                        for (Map<String, Object> map : movimientosRaw) {
+                            Movimiento m = new Movimiento();
+                            // El server_id viene como "id" en el JSON
+                            if (map.get("id") != null) {
+                                m.setServerId(((Double) map.get("id")).intValue());
+                            }
+                            
+                            m.setIngresos(map.get("ingresos") != null ? Double.parseDouble(String.valueOf(map.get("ingresos"))) : 0.0);
+                            m.setEgresos(map.get("egresos") != null ? Double.parseDouble(String.valueOf(map.get("egresos"))) : 0.0);
+                            m.setRazonIngreso(map.get("razon_ingreso") != null ? String.valueOf(map.get("razon_ingreso")) : "");
+                            m.setRazonEgreso(map.get("razon_egreso") != null ? String.valueOf(map.get("razon_egreso")) : "");
+                            m.setFechaIngreso(map.get("fecha_ingreso") != null ? String.valueOf(map.get("fecha_ingreso")) : null);
+                            m.setFechaEgreso(map.get("fecha_egreso") != null ? String.valueOf(map.get("fecha_egreso")) : null);
+                            m.setCategoria(map.get("categoria") != null ? String.valueOf(map.get("categoria")) : "otros");
+                            m.setVenta(Boolean.TRUE.equals(map.get("is_venta")));
+                            m.setSynced(true);
+
+                            Movimiento existing = db.movimientoDao().findByServerId(m.getServerId());
+                            if (existing != null) {
+                                m.setId(existing.getId());
+                                db.movimientoDao().update(m);
+                            } else {
+                                db.movimientoDao().insert(m);
+                            }
+                        }
+                        summary.append("• ").append(movimientosRaw.size()).append(" Movimientos (Caja)\n");
+                    } else {
+                        AppLogger.w("PULL: Estructura de respuesta de movimientos no reconocida o vacía.");
+                    }
                 }
 
                 // 4. Ventas (Carga Historial Completo)
