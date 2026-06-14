@@ -61,7 +61,13 @@ public class ClienteAdapter extends RecyclerView.Adapter<ClienteAdapter.ViewHold
             holder.txtCorreo.setVisibility(View.GONE);
         }
 
-        holder.txtDireccion.setVisibility(View.GONE);
+        if (cliente.getDireccion() != null && !cliente.getDireccion().isEmpty()) {
+            holder.txtDireccion.setText(cliente.getDireccion());
+            holder.txtDireccion.setVisibility(View.VISIBLE);
+            holder.txtDireccion.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
+        } else {
+            holder.txtDireccion.setVisibility(View.GONE);
+        }
 
         holder.btnEditar.setOnClickListener(v -> listener.onEditar(cliente));
         holder.btnEliminar.setOnClickListener(v -> listener.onEliminar(cliente));

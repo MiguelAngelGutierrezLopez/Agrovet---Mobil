@@ -5,47 +5,61 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "productos",
         indices = {@Index(name = "idx_productos_proveedor", value = {"proveedor"})})
 public class Producto {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private Integer id;
+    private transient Integer localId; // Renombrado de 'id' a 'localId' para evitar conflicto con GSON
 
     @NonNull
+    @SerializedName("nombre")
     @ColumnInfo(name = "nombre")
     private String nombre;
 
+    @SerializedName("descripcion")
     @ColumnInfo(name = "descripcion")
     private String descripcion;
 
     @NonNull
+    @SerializedName("categoria")
     @ColumnInfo(name = "categoria")
     private String categoria;
 
+    @SerializedName("cantidad")
     @ColumnInfo(name = "cantidad", defaultValue = "0")
     private Integer cantidad;
 
+    @SerializedName("presentacion")
     @ColumnInfo(name = "presentacion")
     private String presentacion;
 
+    @SerializedName("proveedor")
     @ColumnInfo(name = "proveedor")
     private String proveedor;
 
+    @SerializedName("precio_costo")
     @ColumnInfo(name = "precio_costo")
     private Integer precioCosto;
 
+    @SerializedName("precio_venta")
     @ColumnInfo(name = "precio_venta")
     private Integer precioVenta;
 
+    @SerializedName("id")
+    @ColumnInfo(name = "server_id")
+    private Integer serverId;
+
+    @ColumnInfo(name = "is_synced", defaultValue = "0")
+    private boolean isSynced = false;
+
     public Producto() {
-        this.nombre = "";
-        this.categoria = "";
     }
 
-    public Producto(Integer id, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {
-        this.id = id;
+    public Producto(Integer localId, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {
+        this.localId = localId;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
@@ -56,8 +70,12 @@ public class Producto {
         this.precioVenta = precioVenta;
     }
 
-    public Integer getId() { return id; }
-    public void setId(Integer id) { this.id = id; }
+    public Integer getLocalId() { return localId; }
+    public void setLocalId(Integer localId) { this.localId = localId; }
+
+    // Mantener getId para compatibilidad con código existente
+    public Integer getId() { return localId; }
+    public void setId(Integer localId) { this.localId = localId; }
 
     @NonNull
     public String getNombre() { return nombre; }
@@ -85,8 +103,14 @@ public class Producto {
     public Integer getPrecioVenta() { return precioVenta; }
     public void setPrecioVenta(Integer precioVenta) { this.precioVenta = precioVenta; }
 
+    public Integer getServerId() { return serverId; }
+    public void setServerId(Integer serverId) { this.serverId = serverId; }
+
+    public boolean isSynced() { return isSynced; }
+    public void setSynced(boolean synced) { isSynced = synced; }
+
     public double getPrecio() { return precioVenta != null ? precioVenta.doubleValue() : 0.0; }
     public int getStock() { return cantidad != null ? cantidad : 0; }
-    public String getCodigo() { return String.valueOf(id != null ? id : ""); }
+    public String getCodigo() { return String.valueOf(localId != null ? localId : ""); }
     public String getProveedorTelefono() { return proveedor != null ? proveedor : ""; }
 }

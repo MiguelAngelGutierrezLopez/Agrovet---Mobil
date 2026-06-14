@@ -1,111 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:fitsSystemWindows="true"
     android:background="@color/blanco_hueso">
-
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@color/teal"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:titleTextColor="@color/white"
-        app:title="Productos" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/teal"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:titleTextColor="@color/white"
+            app:title="Productos" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="12dp">
-
-            <EditText
-                android:id="@+id/et_buscar"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Buscar producto..."
-                android:padding="12dp"
-                android:background="@drawable/bg_edittext_corporate"
-                android:textColor="@color/gris_oscuro"
-                android:textSize="13sp" />
-
-            <Button
-                android:id="@+id/btn_buscar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="BUSCAR"
-                android:textSize="10sp"
-                android:layout_marginStart="8dp"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:backgroundTint="@color/teal"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="12dp">
-
-            <Spinner
-                android:id="@+id/spinner_categoria"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_edittext_corporate"
-                android:layout_marginEnd="5dp" />
-
-            <Spinner
-                android:id="@+id/spinner_stock"
-                android:layout_width="0dp"
-                android:layout_height="40dp"
-                android:layout_weight="1"
-                android:background="@drawable/bg_edittext_corporate"
-                android:layout_marginStart="5dp" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btn_agregar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="+ AGREGAR PRODUCTO"
-            android:textSize="11sp"
-            android:textStyle="bold"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/teal"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            app:strokeColor="@color/teal" />
-
-        <ProgressBar
-            android:id="@+id/progressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone"
-            android:layout_marginTop="16dp" />
-
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="12dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_productos"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <EditText
+                    android:id="@+id/et_buscar"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="Buscar producto..."
+                    android:padding="12dp"
+                    android:background="@drawable/bg_edittext_corporate"
+                    android:textColor="@color/gris_oscuro"
+                    android:textColorHint="@color/gris_medio"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/btn_buscar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="BUSCAR"
+                    android:textSize="10sp"
+                    android:layout_marginStart="8dp"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:backgroundTint="@color/teal"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="12dp">
+
+                <Spinner
+                    android:id="@+id/spinner_categoria"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_edittext_corporate"
+                    android:layout_marginEnd="5dp"
+                    android:prompt="@string/prompt_categoria" />
+
+                <Spinner
+                    android:id="@+id/spinner_stock"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_edittext_corporate"
+                    android:layout_marginStart="5dp"
+                    android:prompt="@string/prompt_stock" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_agregar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="+ AGREGAR PRODUCTO"
+                android:textSize="11sp"
+                android:textStyle="bold"
+                android:backgroundTint="@color/white"
+                android:textColor="@color/teal"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:strokeColor="@color/teal" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                android:layout_marginTop="16dp" />
+
+            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:clipToPadding="false" />
+                android:layout_marginTop="12dp">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_productos"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false" />
+
+            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        </LinearLayout>
     </LinearLayout>
 
-</LinearLayout>
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:headerLayout="@layout/nav_header_main"
+        app:menu="@menu/drawer_menu" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

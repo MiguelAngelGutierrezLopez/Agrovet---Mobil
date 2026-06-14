@@ -15,7 +15,10 @@
         <item name="android:editTextColor">@color/gris_oscuro</item>
         <item name="android:textColorPrimary">@color/gris_oscuro</item>
         <item name="android:textColorSecondary">@color/gris_medio</item>
-        <item name="android:textColorHint">@color/gris_claro</item>
+        <item name="android:textColorHint">@color/gris_medio</item>
+
+        <item name="dialogTheme">@style/Theme.AgrovetPOS.Dialog</item>
+        <item name="alertDialogTheme">@style/Theme.AgrovetPOS.Dialog</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -41,6 +44,32 @@
         <item name="android:paddingTop">12dp</item>
         <item name="android:paddingBottom">12dp</item>
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Widget.Agrovet.Button.Secondary" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">@color/teal</item>
+        <item name="strokeColor">@color/teal</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Widget.Agrovet.Button.Action.Edit" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">#5D6D7E</item>
+        <item name="strokeColor">#D0CBC2</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cornerRadius">4dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+    </style>
+
+    <style name="Widget.Agrovet.Button.Action.Delete" parent="Widget.MaterialComponents.Button.UnelevatedButton">
+        <item name="android:textColor">@color/rojo_error</item>
+        <item name="backgroundTint">@color/rojo_fondo</item>
+        <item name="cornerRadius">4dp</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:padding">8dp</item>
     </style>
 
     <!-- Stats Cards -->
@@ -86,11 +115,41 @@
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="TextAppearance.Agrovet.Headline.Dialog">
+        <item name="android:textSize">22sp</item>
+        <item name="android:textColor">@color/teal</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.Agrovet.Label" parent="TextAppearance.MaterialComponents.Subtitle2">
         <item name="android:textColor">@color/gris_medio</item>
         <item name="android:textSize">11sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.Agrovet.Label.Field">
+        <item name="android:textSize">13sp</item>
+        <item name="android:textColor">@color/gris_oscuro</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- TextInputLayout -->
+    <style name="Widget.Agrovet.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/teal</item>
+        <item name="hintTextColor">@color/teal</item>
+        <item name="boxCornerRadiusBottomEnd">6dp</item>
+        <item name="boxCornerRadiusBottomStart">6dp</item>
+        <item name="boxCornerRadiusTopEnd">6dp</item>
+        <item name="boxCornerRadiusTopStart">6dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="Theme.AgrovetPOS.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="android:windowBackground">@color/white</item>
+        <item name="android:colorBackground">@color/white</item>
+        <item name="colorPrimary">@color/teal</item>
     </style>
 
 </resources>

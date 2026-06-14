@@ -36,8 +36,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Fecha"
-                android:textColor="@color/gris_claro"
-                android:textSize="10sp"
+                android:textColor="@color/gris_medio"
+                android:textSize="11sp"
                 android:layout_marginTop="4dp" />
         </LinearLayout>
 
@@ -50,5 +50,32 @@
             android:textStyle="bold"
             android:textColor="@color/verde_exito" />
 
+        <LinearLayout
+            android:id="@+id/layout_acciones_movimiento"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginStart="12dp">
+
+            <Button
+                android:id="@+id/btn_editar"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="Editar"
+                android:textSize="10sp"
+                android:textColor="@color/teal"
+                android:background="@android:color/transparent"
+                android:stateListAnimator="@null" />
+
+            <Button
+                android:id="@+id/btn_eliminar"
+                android:layout_width="wrap_content"
+                android:layout_height="32dp"
+                android:text="Eliminar"
+                android:textSize="10sp"
+                android:textColor="@color/rojo_error"
+                android:background="@android:color/transparent"
+                android:stateListAnimator="@null" />
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

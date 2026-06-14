@@ -3,119 +3,97 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    app:cardCornerRadius="6dp"
-    app:cardElevation="0dp"
-    android:backgroundTint="@color/white">
+    android:layout_marginBottom="10dp"
+    style="@style/Widget.Agrovet.Card.ListItem">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="8dp"
+        android:padding="14dp"
         android:background="@drawable/bg_card_border">
 
         <TextView
             android:id="@+id/txt_nombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre"
+            android:text="@string/nombre_del_producto"
             android:textColor="@color/gris_oscuro"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:maxLines="2"
             android:ellipsize="end" />
 
         <TextView
             android:id="@+id/txt_categoria"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Presentacion"
-            android:textColor="@color/gris_medio"
-            android:textSize="10sp"
+            android:text="@string/label_categoria"
+            android:textColor="@color/teal"
+            android:textSize="12sp"
             android:layout_marginTop="2dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="6dp"
-            android:gravity="bottom">
+            android:layout_marginTop="8dp">
 
             <TextView
                 android:id="@+id/txt_precio"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="$ 0"
+                android:text="@string/_0_00"
                 android:textColor="@color/teal"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/txt_stock"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/stock_0"
                 android:textColor="@color/gris_medio"
-                android:textSize="10sp"
-                android:textStyle="bold" />
+                android:textSize="11sp" />
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/txt_codigo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/c_digo"
+            android:textColor="@color/gris_medio"
+            android:textSize="11sp"
+            android:layout_marginTop="4dp" />
+
         <LinearLayout
+            android:id="@+id/layout_acciones_producto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center_vertical">
+            android:layout_marginTop="12dp"
+            android:paddingTop="10dp"
+            android:background="@drawable/bg_top_divider">
 
-            <TextView
-                android:id="@+id/txt_codigo"
+            <Button
+                android:id="@+id/btn_editar"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="@string/id_label"
-                android:textColor="@color/gris_medio"
-                android:textSize="10sp" />
+                android:text="@string/btn_editar_caps"
+                style="@style/Widget.Agrovet.Button.Action.Edit" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
+            <View android:layout_width="10dp" android:layout_height="0dp" />
+
+            <Button
+                android:id="@+id/btn_eliminar"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageButton
-                    android:id="@+id/btn_editar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@android:drawable/ic_menu_edit"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/teal"
-                    android:padding="8dp"
-                    android:contentDescription="@string/btn_ver" />
-
-                <ImageButton
-                    android:id="@+id/btn_eliminar"
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@android:drawable/ic_menu_delete"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:tint="@color/rojo_error"
-                    android:padding="8dp"
-                    android:contentDescription="@string/btn_eliminar" />
-
-                <Button
-                    android:id="@+id/btn_add_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="36dp"
-                    android:text="@string/btn_add_cart"
-                    android:textSize="10sp"
-                    android:backgroundTint="@color/teal"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                    app:cornerRadius="4dp" />
-            </LinearLayout>
+                android:layout_weight="1"
+                android:text="@string/btn_eliminar_caps"
+                style="@style/Widget.Agrovet.Button.Action.Delete" />
         </LinearLayout>
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

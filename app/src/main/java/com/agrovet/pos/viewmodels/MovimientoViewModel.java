@@ -23,4 +23,12 @@ public class MovimientoViewModel extends AndroidViewModel {
     public void addMovimiento(Movimiento movimiento) {
         repository.insert(movimiento);
     }
+
+    public void deleteMovimiento(Movimiento movimiento) {
+        repository.delete(movimiento);
+    }
+
+    public void updateMovimiento(Movimiento movimiento) {
+        repository.update(movimiento);
+    }
 }

@@ -1,53 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center_vertical"
-    android:background="@drawable/bg_bottom_divider">
+    android:layout_marginBottom="8dp"
+    style="@style/Widget.Agrovet.Card.ListItem">
 
-    <TextView
-        android:id="@+id/txt_cart_nombre"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="Producto"
-        android:textColor="@color/gris_oscuro"
-        android:textSize="11sp"
-        android:maxLines="1"
-        android:ellipsize="end" />
+        android:orientation="horizontal"
+        android:padding="12dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/bg_card_border">
 
-    <TextView
-        android:id="@+id/txt_cart_cantidad"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="1"
-        android:textColor="@color/gris_medio"
-        android:textSize="11sp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/txt_cart_nombre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="Producto"
+            android:textColor="@color/gris_oscuro"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:maxLines="2"
+            android:ellipsize="end" />
 
-    <TextView
-        android:id="@+id/txt_cart_total"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.2"
-        android:text="$ 0.00"
-        android:textColor="@color/teal"
-        android:textSize="11sp"
-        android:textStyle="bold"
-        android:gravity="end" />
+        <TextView
+            android:id="@+id/txt_cart_cantidad"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1"
+            android:textColor="@color/gris_medio"
+            android:textSize="12sp"
+            android:gravity="center" />
 
-    <ImageButton
-        android:id="@+id/btn_cart_remove"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        app:tint="@color/rojo_error"
-        android:layout_marginStart="4dp"
-        android:contentDescription="Eliminar" />
+        <TextView
+            android:id="@+id/txt_cart_total"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.2"
+            android:text="$ 0.00"
+            android:textColor="@color/teal"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:gravity="end" />
 
-</LinearLayout>
+        <ImageButton
+            android:id="@+id/btn_cart_remove"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            app:tint="@color/rojo_error"
+            android:layout_marginStart="12dp"
+            android:contentDescription="Eliminar" />
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

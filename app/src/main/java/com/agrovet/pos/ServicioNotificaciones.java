@@ -1,9 +1,7 @@
 package com.agrovet.pos;
 
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.os.Build;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -13,43 +11,55 @@ import androidx.core.content.ContextCompat;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-public class ServicioNotificaciones extends FirebaseMessagingService{
+public class ServicioNotificaciones extends FirebaseMessagingService {
+
+    private static final String TAG = "FirebaseMsg";
+    private static final String CHANNEL_ID = "default_channel_id";
+
+    @Override
+    public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
+        Log.i(TAG, " Nuevo token Firebase: " + token);
+    }
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage message) {
-        if (message.getNotification() != null) {
+        Log.i(TAG, "Mensaje recibido de: " + message.getFrom());
 
-            String title = message.getNotification().getTitle();
-            String body = message.getNotification().getBody();
-            Log.i("FCM", "title: " + title + "body: " + body);
-            showNotification(title, body);
+        String title = "AgroVet";
+        String body = "Tienes una nueva notificación";
+
+        if (message.getNotification() != null) {
+            if (message.getNotification().getTitle() != null) {
+                title = message.getNotification().getTitle();
+            }
+            if (message.getNotification().getBody() != null) {
+                body = message.getNotification().getBody();
+            }
+            Log.i(TAG, "Título: " + title + " | Cuerpo: " + body);
         }
+
+        showNotification(title, body);
     }
 
-    public void showNotification(String title,String body)
-    {
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        String channelId = "default_channel_id";
-        String channelName = "Default Channel";
+    private void showNotification(String title, String body) {
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
-        {
-            NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("CANAL PREDETERMINADO PARA RECIBIR NOTIFICACIONES");
-            channel.enableVibration(true);
-            notificationManager.createNotificationChannel(channel);
+        int icon = getResources().getIdentifier("ic_launcher", "drawable", getPackageName());
+        if (icon == 0) {
+            icon = android.R.drawable.ic_dialog_info;
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId)
-                .setSmallIcon(R.drawable.bg_circle_teal)
-                .setColor(ContextCompat.getColor(this, R.color.teal_light))
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(icon)
                 .setContentTitle(title)
                 .setContentText(body)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
-                .setAutoCancel(true);
-        notificationManager.notify(0, builder.build());
+                .setAutoCancel(true)
+                .setColor(ContextCompat.getColor(this, android.R.color.holo_blue_dark));
+
+        notificationManager.notify(100, builder.build());
+        Log.i(TAG, "Notificación mostrada");
     }
-
-
-
 }

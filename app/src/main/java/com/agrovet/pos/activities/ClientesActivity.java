@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ClientesActivity extends AppCompatActivity {
+public class ClientesActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private RecyclerView rvClientes;
@@ -45,7 +45,7 @@ public class ClientesActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(ClienteViewModel.class);
 
         initViews();
-        setupToolbar();
+        setupDrawer();
         setupRecyclerView();
         setupListeners();
         loadClientes();
@@ -144,6 +144,7 @@ public class ClientesActivity extends AppCompatActivity {
         TextInputEditText etNombre = view.findViewById(R.id.et_nombre);
         TextInputEditText etTelefono = view.findViewById(R.id.et_telefono);
         TextInputEditText etCorreo = view.findViewById(R.id.et_correo);
+        TextInputEditText etDireccion = view.findViewById(R.id.et_direccion);
         Button btnCancelar = view.findViewById(R.id.btn_cancelar);
         Button btnGuardar = view.findViewById(R.id.btn_guardar);
 
@@ -155,6 +156,7 @@ public class ClientesActivity extends AppCompatActivity {
             etNombre.setText(cliente.getNombre());
             etTelefono.setText(cliente.getTelefono());
             etCorreo.setText(cliente.getCorreo());
+            etDireccion.setText(cliente.getDireccion());
             etCedula.setEnabled(false);
         } else {
             tituloDialog.setText("Nuevo Cliente");
@@ -168,6 +170,7 @@ public class ClientesActivity extends AppCompatActivity {
             String nombre = etNombre.getText().toString().trim();
             String telefono = etTelefono.getText().toString().trim();
             String correo = etCorreo.getText().toString().trim();
+            String direccion = etDireccion.getText().toString().trim();
 
             if (cedula.isEmpty() || nombre.isEmpty()) {
                 Toast.makeText(this, "Cedula y nombre son requeridos", Toast.LENGTH_SHORT).show();
@@ -178,11 +181,12 @@ public class ClientesActivity extends AppCompatActivity {
                 cliente.setNombre(nombre);
                 cliente.setTelefono(telefono);
                 cliente.setCorreo(correo);
+                cliente.setDireccion(direccion);
                 viewModel.updateCliente(cliente);
                 Toast.makeText(this, "Cliente actualizado", Toast.LENGTH_SHORT).show();
             } else {
                 String fecha = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
-                Cliente nuevoCliente = new Cliente(cedula, nombre, telefono, correo, "", fecha);
+                Cliente nuevoCliente = new Cliente(cedula, nombre, telefono, correo, direccion, fecha);
                 viewModel.createCliente(nuevoCliente);
                 Toast.makeText(this, "Cliente creado exitosamente", Toast.LENGTH_SHORT).show();
             }

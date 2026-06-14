@@ -45,7 +45,17 @@ public class VentaAdapter extends RecyclerView.Adapter<VentaAdapter.ViewHolder> 
         holder.txtFecha.setText(venta.getFecha());
         holder.txtCliente.setText(venta.getCliente());
         holder.txtTotal.setText(format.format(venta.getTotal()));
-        holder.txtMetodo.setText(venta.getMetodoPago());
+        
+        // Ajuste de visualizacion para el metodo y estado
+        if ("Crédito".equalsIgnoreCase(venta.getTipoPago())) {
+            holder.txtMetodo.setText("CRÉDITO");
+            holder.txtMetodo.setBackgroundResource(R.drawable.bg_stat_pendiente);
+            holder.txtMetodo.setTextColor(holder.itemView.getContext().getColor(R.color.terracota));
+        } else {
+            holder.txtMetodo.setText(venta.getMetodoPago().toUpperCase());
+            holder.txtMetodo.setBackgroundResource(R.drawable.bg_badge_contado);
+            holder.txtMetodo.setTextColor(holder.itemView.getContext().getColor(R.color.verde_exito));
+        }
 
         // Forzar colores para visibilidad
         holder.txtCliente.setTextColor(holder.itemView.getContext().getColor(R.color.gris_oscuro));

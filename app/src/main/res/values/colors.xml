@@ -12,6 +12,7 @@
     <color name="gris_oscuro">#2C3E50</color>
     <color name="gris_medio">#7F8C8D</color>
     <color name="gris_claro">#95A5A6</color>
+    <color name="gris_suave">#F8F9FA</color>
     <color name="borde_sutil">#E2DCD3</color>
     <color name="separador">#F0ECE5</color>
 

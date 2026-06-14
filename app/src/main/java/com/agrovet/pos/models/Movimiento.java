@@ -33,6 +33,13 @@ public class Movimiento {
     @ColumnInfo(name = "categoria", defaultValue = "otros")
     private String categoria;
 
+    @com.google.gson.annotations.SerializedName("id")
+    @ColumnInfo(name = "server_id")
+    private Integer serverId;
+
+    @ColumnInfo(name = "is_synced", defaultValue = "0")
+    private boolean isSynced = false;
+
     public Movimiento() {
     }
 
@@ -60,13 +67,19 @@ public class Movimiento {
     public String getCategoria() { return categoria; }
     public void setCategoria(String categoria) { this.categoria = categoria; }
 
+    public Integer getServerId() { return serverId; }
+    public void setServerId(Integer serverId) { this.serverId = serverId; }
+
+    public boolean isSynced() { return isSynced; }
+    public void setSynced(boolean synced) { isSynced = synced; }
+
     public String getRazon() { 
-        if (ingresos != null && ingresos > 0) return razonIngreso != null ? razonIngreso : "";
+        if (razonIngreso != null && !razonIngreso.isEmpty()) return razonIngreso;
         return razonEgreso != null ? razonEgreso : "";
     }
     
     public String getFecha() { 
-        if (ingresos != null && ingresos > 0) return fechaIngreso != null ? fechaIngreso : "";
+        if (razonIngreso != null && !razonIngreso.isEmpty()) return fechaIngreso != null ? fechaIngreso : "";
         return fechaEgreso != null ? fechaEgreso : "";
     }
     
@@ -77,6 +90,7 @@ public class Movimiento {
     }
     
     public String getTipo() { 
-        return (ingresos != null && ingresos > 0) ? "Ingreso" : "Egreso";
+        if (razonIngreso != null && !razonIngreso.isEmpty()) return "Ingreso";
+        return "Egreso";
     }
 }

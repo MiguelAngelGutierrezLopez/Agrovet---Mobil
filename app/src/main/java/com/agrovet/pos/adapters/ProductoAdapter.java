@@ -24,6 +24,16 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         default void onAddCart(Producto producto) {}
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(Producto producto);
+    }
+
+    private OnItemClickListener itemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener itemClickListener) {
+        this.itemClickListener = itemClickListener;
+    }
+
     public ProductoAdapter(List<Producto> productos, OnProductoActionListener listener) {
         this.productos = productos;
         this.listener = listener;
@@ -61,28 +71,36 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             holder.txtStock.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
         }
 
-        if (producto.getPresentacion() != null && !producto.getPresentacion().isEmpty()) {
-            holder.txtCategoria.setText(producto.getPresentacion());
-            holder.txtCategoria.setVisibility(View.VISIBLE);
-            holder.txtCategoria.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
-        } else {
-            holder.txtCategoria.setVisibility(View.GONE);
+        if (holder.txtCategoria != null) {
+            if (producto.getPresentacion() != null && !producto.getPresentacion().isEmpty()) {
+                holder.txtCategoria.setText(producto.getPresentacion());
+                holder.txtCategoria.setVisibility(View.VISIBLE);
+                holder.txtCategoria.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
+            } else {
+                holder.txtCategoria.setVisibility(View.GONE);
+            }
         }
 
-        holder.btnEditar.setOnClickListener(v -> listener.onEditar(producto));
-        holder.btnEliminar.setOnClickListener(v -> listener.onEliminar(producto));
+        holder.itemView.setOnClickListener(v -> {
+            if (itemClickListener != null) {
+                itemClickListener.onItemClick(producto);
+            }
+        });
+
+        if (holder.btnEditar != null) {
+            holder.btnEditar.setOnClickListener(v -> listener.onEditar(producto));
+        }
         
-        if (holder.btnAddCart != null) {
-            holder.btnAddCart.setOnClickListener(v -> listener.onAddCart(producto));
-            // Si estamos en modo ventas (listener es VentasActivity), ocultar editar/eliminar y mostrar añadir
-            if (listener.getClass().getSimpleName().contains("Ventas")) {
-                holder.btnEditar.setVisibility(View.GONE);
-                holder.btnEliminar.setVisibility(View.GONE);
-                holder.btnAddCart.setVisibility(View.VISIBLE);
+        if (holder.btnEliminar != null) {
+            holder.btnEliminar.setOnClickListener(v -> listener.onEliminar(producto));
+        }
+
+        // Si estamos en modo ventas, ocultar botones de gestion
+        if (holder.layoutAcciones != null) {
+            if (holder.itemView.getContext().getClass().getSimpleName().contains("Ventas")) {
+                holder.layoutAcciones.setVisibility(View.GONE);
             } else {
-                holder.btnEditar.setVisibility(View.VISIBLE);
-                holder.btnEliminar.setVisibility(View.VISIBLE);
-                holder.btnAddCart.setVisibility(View.GONE);
+                holder.layoutAcciones.setVisibility(View.VISIBLE);
             }
         }
     }
@@ -94,7 +112,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
 
     static class ViewHolder extends RecyclerView.ViewHolder {
         TextView txtNombre, txtPrecio, txtStock, txtCategoria, txtCodigo;
-        View btnEditar, btnEliminar, btnAddCart;
+        View btnEditar, btnEliminar, layoutAcciones;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -105,7 +123,7 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             txtCategoria = itemView.findViewById(R.id.txt_categoria);
             btnEditar = itemView.findViewById(R.id.btn_editar);
             btnEliminar = itemView.findViewById(R.id.btn_eliminar);
-            btnAddCart = itemView.findViewById(R.id.btn_add_cart);
+            layoutAcciones = itemView.findViewById(R.id.layout_acciones_producto);
         }
     }
 }

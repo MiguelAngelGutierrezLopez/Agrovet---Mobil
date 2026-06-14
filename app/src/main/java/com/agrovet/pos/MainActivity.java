@@ -1,17 +1,23 @@
 package com.agrovet.pos;
 
+import com.agrovet.pos.activities.BaseActivity;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -20,6 +26,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
 import com.agrovet.pos.activities.ClientesActivity;
+import com.agrovet.pos.activities.SyncAlertActivity;
+import android.os.Handler;
+import android.os.Looper;
 import com.agrovet.pos.activities.HistorialVentasActivity;
 import com.agrovet.pos.activities.ProductosActivity;
 import com.agrovet.pos.activities.ProveedoresActivity;
@@ -28,17 +37,19 @@ import com.agrovet.pos.activities.VentasActivity;
 import com.agrovet.pos.models.Movimiento;
 import com.agrovet.pos.models.Venta;
 import com.agrovet.pos.utils.AppLogger;
+import com.agrovet.pos.utils.SyncManager;
 import com.agrovet.pos.viewmodels.ClienteViewModel;
 import com.agrovet.pos.viewmodels.MovimientoViewModel;
 import com.agrovet.pos.viewmodels.ProductoViewModel;
 import com.agrovet.pos.viewmodels.VentaViewModel;
+import android.widget.LinearLayout;
 import com.google.android.material.navigation.NavigationView;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity {
 
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private DrawerLayout drawerLayout;
@@ -46,52 +57,81 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private TextView txtTotalClientes, txtTotalProductos, txtVentasHoy, txtCajaSaldo, txtDbStatus;
     private CardView cardClientes, cardProductos, cardVentasHoy, cardReporteCaja;
-    private CardView btnClientes, btnProveedores, btnProductos, btnVentas, btnStats;
-    
+    private CardView btnClientes, btnProveedores, btnProductos, btnVentas, btnStats, btnHistorial, btnCaja;
+
     private ClienteViewModel clienteViewModel;
     private ProductoViewModel productoViewModel;
     private VentaViewModel ventaViewModel;
     private MovimientoViewModel movimientoViewModel;
 
-    private List<Venta> lastVentas = new ArrayList<>();
-    private List<Movimiento> lastMovimientos = new ArrayList<>();
+    private final List<Venta> lastVentas = new ArrayList<>();
+    private final List<Movimiento> lastMovimientos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupPermissionLauncher();
         setContentView(R.layout.activity_main);
+        
+        setupPermissionLauncher();
+        askNotificationPermission();
+
+        initViews();
+        setupDrawer();
+        setupClickListeners();
 
         clienteViewModel = new ViewModelProvider(this).get(ClienteViewModel.class);
         productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
         ventaViewModel = new ViewModelProvider(this).get(VentaViewModel.class);
         movimientoViewModel = new ViewModelProvider(this).get(MovimientoViewModel.class);
 
-        initViews();
-        setupToolbar();
-        setupNavigationDrawer();
-        setupClickListeners();
         loadDashboardData();
         setupBackPressed();
-        askNotificationPermission();
+        
+        handleSyncIntent();
+        startChangeObserver();
         
         AppLogger.i("MainActivity lista");
     }
 
+    private void handleSyncIntent() {
+        if (getIntent().getBooleanExtra("perform_sync_pull", false)) {
+            new Handler(Looper.getMainLooper()).postDelayed(this::showSyncDashboardManual, 500);
+        }
+    }
+
+    private void startChangeObserver() {
+        // Ejecutar cada minuto
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                new SyncManager(MainActivity.this).checkForServerChanges(new SyncManager.SyncCallback() {
+                    @Override
+                    public void onSuccess(String modulo) {
+                        Intent intent = new Intent(MainActivity.this, SyncAlertActivity.class);
+                        intent.putExtra("modulo", modulo);
+                        startActivity(intent);
+                    }
+                    @Override public void onError(String message) {}
+                    @Override public void onProgress(String status) {}
+                });
+                new Handler(Looper.getMainLooper()).postDelayed(this, 60000);
+            }
+        }, 30000); // Primera ejecución a los 30s
+    }
+
     private void setupPermissionLauncher() {
-        requestPermissionLauncher = registerForActivityResult(
-                new ActivityResultContracts.RequestPermission(),
-                isGranted -> {
-                    if (isGranted) AppLogger.i("Permiso de notificaciones concedido");
-                    else AppLogger.w("Permiso de notificaciones denegado");
-                }
-        );
+        requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+            if (isGranted) {
+                AppLogger.i("Permiso de notificaciones concedido");
+            } else {
+                AppLogger.w("Permiso de notificaciones denegado");
+            }
+        });
     }
 
     private void askNotificationPermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) !=
-                    PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
             }
         }
@@ -117,7 +157,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         btnProveedores = findViewById(R.id.btn_proveedores);
         btnProductos = findViewById(R.id.btn_productos);
         btnVentas = findViewById(R.id.btn_ventas);
-        btnStats = findViewById(R.id.btn_stats);
+        btnHistorial = findViewById(R.id.btn_historial);
+        btnCaja = findViewById(R.id.btn_caja);
+        
+        Button btnSyncBatch = findViewById(R.id.btn_sync_to_web);
+        if (btnSyncBatch != null) {
+            btnSyncBatch.setOnClickListener(v -> showSyncDashboard());
+        }
+
+        View btnManualReboot = findViewById(R.id.btn_manual_reboot);
+        if (btnManualReboot != null) {
+            btnManualReboot.setOnClickListener(v -> showSyncDashboardManual());
+        }
         
         findViewById(R.id.fab_view_logs).setOnClickListener(v -> {
             startActivity(new Intent(this, com.agrovet.pos.activities.LogViewerActivity.class));
@@ -132,38 +183,36 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void setupNavigationDrawer() {
-        navigationView.setNavigationItemSelectedListener(this);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private void setupClickListeners() {
-        cardClientes.setOnClickListener(v -> openClientesActivity());
-        cardProductos.setOnClickListener(v -> openProductosActivity());
-        cardVentasHoy.setOnClickListener(v -> openHistorialVentasActivity());
-        cardReporteCaja.setOnClickListener(v -> openReporteCajaActivity());
-
         btnClientes.setOnClickListener(v -> openClientesActivity());
         btnProveedores.setOnClickListener(v -> openProveedoresActivity());
         btnProductos.setOnClickListener(v -> openProductosActivity());
         btnVentas.setOnClickListener(v -> openVentasActivity());
-        btnStats.setOnClickListener(v -> openStatsActivity());
+        btnHistorial.setOnClickListener(v -> openHistorialVentasActivity());
+        btnCaja.setOnClickListener(v -> openReporteCajaActivity());
+        
+        // Las tarjetas ya no funcionan como links, solo muestran datos
     }
 
     private void loadDashboardData() {
         clienteViewModel.getClientes().observe(this, clientes -> {
             if (clientes != null) txtTotalClientes.setText(String.valueOf(clientes.size()));
         });
-        
+
         productoViewModel.getProductos().observe(this, productos -> {
             if (productos != null) txtTotalProductos.setText(String.valueOf(productos.size()));
         });
 
         ventaViewModel.getAllVentas().observe(this, ventas -> {
             if (ventas != null) {
-                lastVentas = ventas;
+                lastVentas.clear();
+                lastVentas.addAll(ventas);
                 txtVentasHoy.setText(String.valueOf(ventas.size()));
                 updateCajaTotal();
             }
@@ -171,28 +220,212 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         movimientoViewModel.getAllMovimientos().observe(this, movimientos -> {
             if (movimientos != null) {
-                lastMovimientos = movimientos;
+                lastMovimientos.clear();
+                lastMovimientos.addAll(movimientos);
                 updateCajaTotal();
             }
         });
-        
-        txtDbStatus.setText("Sesion: Administrador");
     }
 
     private void updateCajaTotal() {
-        double totalVentasVal = 0;
-        for (Venta v : lastVentas) {
-            totalVentasVal += v.getTotal();
-        }
-
-        double totalMovimientosVal = 0;
+        // El usuario pide que SALDO CAJA sea igual al TOTAL en el reporte de caja.
+        // El reporte de caja calcula: ingresos - egresos.
+        // No incluye las ventas directamente a menos que se registren como ingresos.
+        double totalIngresos = 0;
+        double totalEgresos = 0;
+        
         for (Movimiento m : lastMovimientos) {
-            totalMovimientosVal += (m.getIngresos() != null ? m.getIngresos() : 0.0);
-            totalMovimientosVal -= (m.getEgresos() != null ? m.getEgresos() : 0.0);
+            totalIngresos += (m.getIngresos() != null ? m.getIngresos() : 0);
+            totalEgresos += (m.getEgresos() != null ? m.getEgresos() : 0);
+        }
+        
+        double saldo = totalIngresos - totalEgresos;
+        
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+        txtCajaSaldo.setText(format.format(saldo));
+    }
+
+    private void showSyncDashboardManual() {
+        ProgressBar mainProgressBar = findViewById(R.id.progress_main_sync);
+        if (mainProgressBar != null) {
+            mainProgressBar.setVisibility(View.VISIBLE);
+        }
+        
+        SyncManager syncManager = new SyncManager(this);
+        syncManager.pullNewData(new SyncManager.SyncCallback() {
+            @Override
+            public void onSuccess(String summary) {
+                runOnUiThread(() -> {
+                    if (mainProgressBar != null) mainProgressBar.setVisibility(View.GONE);
+                    Toast.makeText(MainActivity.this, summary, Toast.LENGTH_LONG).show();
+                    loadDashboardData();
+                });
+            }
+
+            @Override
+            public void onError(String message) {
+                runOnUiThread(() -> {
+                    if (mainProgressBar != null) mainProgressBar.setVisibility(View.GONE);
+                    com.agrovet.pos.utils.DialogHelper.showCustomAlert(
+                            MainActivity.this,
+                            com.agrovet.pos.utils.DialogHelper.DialogType.ERROR,
+                            getString(R.string.sync_error_title),
+                            message,
+                            null
+                    );
+                });
+            }
+
+            @Override
+            public void onProgress(String status) {
+                // Opcional: podrías mostrar el progreso en un Toast o TextView pequeño
+            }
+        });
+    }
+
+    private void showSyncDashboard() {
+        showSyncDashboardWithAction(false);
+    }
+
+    private void showSyncDashboardWithAction(boolean autoPull) {
+        View view = getLayoutInflater().inflate(R.layout.dialog_sync_dashboard, null);
+        AlertDialog dialog = new AlertDialog.Builder(this)
+                .setView(view)
+                .setCancelable(true)
+                .create();
+
+        TextView txtSummary = view.findViewById(R.id.txt_sync_summary);
+        TextView txtStatus = view.findViewById(R.id.txt_sync_status);
+        ProgressBar progressBar = view.findViewById(R.id.progress_sync);
+        Button btnCorregir = view.findViewById(R.id.btn_corregir_formatos);
+        Button btnEnviar = view.findViewById(R.id.btn_enviar_datos);
+
+        SyncManager syncManager = new SyncManager(this);
+
+        syncManager.getSyncSummary(new SyncManager.SyncCallback() {
+            @Override
+            public void onSuccess(String summary) {
+                runOnUiThread(() -> txtSummary.setText(summary));
+            }
+            @Override public void onError(String message) {}
+            @Override public void onProgress(String status) {}
+        });
+
+        Runnable performPull = () -> {
+            btnEnviar.setEnabled(false);
+            btnCorregir.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            txtStatus.setVisibility(View.VISIBLE);
+            
+            syncManager.pullNewData(new SyncManager.SyncCallback() {
+                @Override
+                public void onSuccess(String summary) {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        txtStatus.setText(summary);
+                        btnEnviar.setEnabled(true);
+                        btnCorregir.setEnabled(true);
+                        Toast.makeText(MainActivity.this, "Base de datos actualizada", Toast.LENGTH_SHORT).show();
+                        loadDashboardData();
+                    });
+                }
+                @Override
+                public void onError(String message) {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        txtStatus.setText(message);
+                        btnEnviar.setEnabled(true);
+                        btnCorregir.setEnabled(true);
+                        com.agrovet.pos.utils.DialogHelper.showCustomAlert(
+                                MainActivity.this,
+                                com.agrovet.pos.utils.DialogHelper.DialogType.ERROR,
+                                getString(R.string.sync_error_title),
+                                message,
+                                null
+                        );
+                    });
+                }
+                @Override
+                public void onProgress(String status) {
+                    runOnUiThread(() -> txtStatus.setText(status));
+                }
+            });
+        };
+
+        if (autoPull) {
+            new Handler(Looper.getMainLooper()).postDelayed(performPull, 500);
         }
 
-        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
-        txtCajaSaldo.setText(format.format(totalVentasVal + totalMovimientosVal));
+        btnCorregir.setOnClickListener(v -> {
+            btnCorregir.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            txtStatus.setVisibility(View.VISIBLE);
+            
+            syncManager.correctFormats(new SyncManager.SyncCallback() {
+                @Override
+                public void onSuccess(String summary) {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        txtStatus.setText(summary);
+                        btnCorregir.setEnabled(true);
+                    });
+                }
+                @Override
+                public void onError(String message) {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        txtStatus.setText(message);
+                        btnCorregir.setEnabled(true);
+                    });
+                }
+                @Override
+                public void onProgress(String status) {
+                    runOnUiThread(() -> txtStatus.setText(status));
+                }
+            });
+        });
+
+        btnEnviar.setOnClickListener(v -> {
+            btnEnviar.setEnabled(false);
+            btnCorregir.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+            txtStatus.setVisibility(View.VISIBLE);
+
+            syncManager.sendDataToWeb(new SyncManager.SyncCallback() {
+                @Override
+                public void onSuccess(String summary) {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        txtStatus.setText(summary);
+                        Toast.makeText(MainActivity.this, summary, Toast.LENGTH_SHORT).show();
+                        loadDashboardData(); // Refresh main screen counts
+                        dialog.dismiss();
+                    });
+                }
+                @Override
+                public void onError(String message) {
+                    runOnUiThread(() -> {
+                        progressBar.setVisibility(View.GONE);
+                        txtStatus.setText(message);
+                        btnEnviar.setEnabled(true);
+                        btnCorregir.setEnabled(true);
+                        com.agrovet.pos.utils.DialogHelper.showCustomAlert(
+                                MainActivity.this,
+                                com.agrovet.pos.utils.DialogHelper.DialogType.ERROR,
+                                getString(R.string.sync_error_title),
+                                message,
+                                null
+                        );
+                    });
+                }
+                @Override
+                public void onProgress(String status) {
+                    runOnUiThread(() -> txtStatus.setText(status));
+                }
+            });
+        });
+
+        dialog.show();
     }
 
     private void openClientesActivity() {
@@ -219,10 +452,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startActivity(new Intent(this, ReporteCajaActivity.class));
     }
 
-    private void openStatsActivity() {
-        startActivity(new Intent(this, com.agrovet.pos.activities.StatsActivity.class));
-    }
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
@@ -240,25 +469,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             openHistorialVentasActivity();
         } else if (id == R.id.nav_reporte_caja) {
             openReporteCajaActivity();
-        } else if (id == R.id.nav_estadisticas) {
-            openStatsActivity();
-        } else {
-            drawerLayout.closeDrawer(GravityCompat.START);
         }
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
     private void setupBackPressed() {
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+        OnBackPressedCallback callback = new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {
                 if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 } else {
-                    setEnabled(false);
-                    getOnBackPressedDispatcher().onBackPressed();
+                    finish();
                 }
             }
-        });
+        };
+        getOnBackPressedDispatcher().addCallback(this, callback);
     }
 }

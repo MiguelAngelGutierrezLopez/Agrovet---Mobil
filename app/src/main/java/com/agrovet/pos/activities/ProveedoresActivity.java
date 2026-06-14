@@ -22,7 +22,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ProveedoresActivity extends AppCompatActivity {
+public class ProveedoresActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private RecyclerView rvProveedores;
@@ -45,7 +45,7 @@ public class ProveedoresActivity extends AppCompatActivity {
         viewModel = new ViewModelProvider(this).get(ProveedorViewModel.class);
 
         initViews();
-        setupToolbar();
+        setupDrawer();
         setupRecyclerView();
         setupListeners();
         loadProveedores();

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_venta"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
-    android:backgroundTint="@color/white">
+    style="@style/Widget.Agrovet.Card.ListItem">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,12 +14,13 @@
         android:padding="14dp"
         android:background="@drawable/bg_card_border">
 
+        <!-- Fila superior: Ticket y Fecha -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:layout_marginBottom="4dp">
+            android:layout_marginBottom="8dp">
 
             <TextView
                 android:id="@+id/txt_venta_ticket"
@@ -30,7 +30,7 @@
                 android:text="#0000"
                 android:textColor="@color/teal"
                 android:textStyle="bold"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 android:letterSpacing="0.03" />
 
             <TextView
@@ -38,35 +38,35 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="15/05/2026 10:30"
-                android:textColor="@color/gris_claro"
-                android:textSize="10sp" />
+                android:textColor="@color/gris_medio"
+                android:textSize="11sp" />
         </LinearLayout>
 
+        <!-- Cliente -->
         <TextView
             android:id="@+id/txt_venta_cliente"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CLIENTE NOMBRE"
             android:textColor="@color/gris_oscuro"
             android:textSize="14sp"
             android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginBottom="12dp" />
 
-        <TextView
+        <!-- Línea divisoria -->
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Productos y servicios registrados"
-            android:textColor="@color/gris_medio"
-            android:textSize="11sp"
-            android:paddingBottom="8dp"
-            android:background="@drawable/bg_bottom_divider" />
+            android:layout_height="1dp"
+            android:background="@color/separador"
+            android:layout_marginBottom="12dp" />
 
+        <!-- Total y Método de pago -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:paddingTop="12dp">
+            android:layout_marginBottom="16dp">
 
             <TextView
                 android:id="@+id/txt_venta_total"
@@ -74,8 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="$ 0.00"
-                android:textColor="@color/gris_oscuro"
-                android:textSize="15sp"
+                android:textColor="@color/teal"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -83,16 +83,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="CONTADO"
-                style="@style/Widget.Agrovet.Badge"
                 android:background="@drawable/bg_badge_contado"
-                android:textColor="@color/verde_exito" />
+                android:textColor="@color/verde_exito"
+                style="@style/Widget.Agrovet.Badge"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp" />
         </LinearLayout>
 
+        <!-- Botones de acción -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="12dp"
             android:paddingTop="10dp"
             android:background="@drawable/bg_top_divider">
 
@@ -101,14 +103,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Detalle"
-                android:textSize="11sp"
-                android:textColor="#5D6D7E"
-                android:backgroundTint="@android:color/transparent"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#D0CBC2"
-                android:padding="8dp"
-                app:cornerRadius="4dp" />
+                android:text="Ver Detalle"
+                style="@style/Widget.Agrovet.Button.Action.Edit" />
 
             <View android:layout_width="10dp" android:layout_height="0dp" />
 
@@ -118,13 +114,297 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Eliminar"
-                android:textSize="11sp"
-                android:textColor="@color/rojo_error"
-                android:backgroundTint="@color/rojo_fondo"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:padding="8dp"
-                app:cornerRadius="4dp" />
+                style="@style/Widget.Agrovet.Button.Action.Delete" />
         </LinearLayout>
 
+        <!-- Panel detallado -->
+        <LinearLayout
+            android:id="@+id/layout_detalle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="12dp"
+            android:paddingTop="12dp"
+            android:background="@drawable/bg_top_divider">
+
+            <!-- Información General -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="INFORMACIÓN GENERAL"
+                style="@style/TextAppearance.Agrovet.Label"
+                android:textColor="@color/teal"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/gris_suave"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="N° Ticket:"
+                        android:textColor="@color/gris_medio"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/detalle_ticket"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="#0000"
+                        android:textColor="@color/teal"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha:"
+                        android:textColor="@color/gris_medio"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/detalle_fecha"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="15/05/2026 10:30"
+                        android:textColor="@color/gris_oscuro"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Cliente:"
+                        android:textColor="@color/gris_medio"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/detalle_cliente"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Consumidor Final"
+                        android:textColor="@color/gris_oscuro"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Método Pago:"
+                        android:textColor="@color/gris_medio"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/detalle_metodo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="CONTADO"
+                        android:textColor="@color/verde_exito"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Resumen Económico -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RESUMEN ECONÓMICO"
+                style="@style/TextAppearance.Agrovet.Label"
+                android:textColor="@color/teal"
+                android:layout_marginBottom="8dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/gris_suave"
+                android:padding="12dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Subtotal:"
+                        android:textColor="@color/gris_medio"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/detalle_subtotal"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$ 0.00"
+                        android:textColor="@color/gris_oscuro"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="6dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Descuento:"
+                        android:textColor="@color/gris_medio"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/detalle_descuento"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$ 0.00"
+                        android:textColor="@color/rojo_error"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/separador"
+                    android:layout_marginVertical="6dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="TOTAL:"
+                        android:textColor="@color/teal"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/detalle_total"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$ 0.00"
+                        android:textColor="@color/teal"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- Para crédito -->
+            <LinearLayout
+                android:id="@+id/detalle_credito_section"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="INFORMACIÓN CRÉDITO"
+                    style="@style/TextAppearance.Agrovet.Label"
+                    android:textColor="@color/terracota"
+                    android:layout_marginBottom="8dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:background="@color/gris_suave"
+                    android:padding="12dp"
+                    android:layout_marginBottom="12dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="6dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Anticipo:"
+                            android:textColor="@color/gris_medio"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:id="@+id/detalle_anticipo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$ 0.00"
+                            android:textColor="@color/gris_oscuro"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Saldo Pendiente:"
+                            android:textColor="@color/terracota"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/detalle_saldo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="$ 0.00"
+                            android:textColor="@color/terracota"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

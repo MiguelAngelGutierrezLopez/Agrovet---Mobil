@@ -19,6 +19,21 @@ public interface ProductoDao {
     @Delete
     void delete(Producto producto);
     
+    @Query("SELECT * FROM productos WHERE is_synced = 0")
+    List<Producto> getUnsyncedProductos();
+
+    @Query("SELECT * FROM productos WHERE server_id = :serverId LIMIT 1")
+    Producto findByServerId(Integer serverId);
+
+    @Query("SELECT MAX(server_id) FROM productos")
+    Integer getMaxServerId();
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertOrIgnore(Producto producto);
+
     @Query("DELETE FROM productos WHERE id = :id")
     void deleteById(int id);
+
+    @Query("SELECT * FROM productos WHERE id = :id LIMIT 1")
+    Producto getProductoById(int id);
 }

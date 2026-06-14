@@ -32,6 +32,9 @@ public class Proveedor {
     @ColumnInfo(name = "producto")
     private String producto;
 
+    @ColumnInfo(name = "is_synced", defaultValue = "1")
+    private boolean isSynced = true;
+
     public Proveedor() {
         this.telefono = "";
         this.nombreEmpresa = "";
@@ -71,6 +74,9 @@ public class Proveedor {
 
     public String getProducto() { return producto; }
     public void setProducto(String producto) { this.producto = producto; }
+
+    public boolean isSynced() { return isSynced; }
+    public void setSynced(boolean synced) { isSynced = synced; }
 
     // Metodos de ayuda para las actividades
     public String getId() { return telefono; }

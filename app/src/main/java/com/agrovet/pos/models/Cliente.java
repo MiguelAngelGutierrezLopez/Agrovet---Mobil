@@ -19,6 +19,7 @@ public class Cliente {
     @ColumnInfo(name = "telefono")
     private String telefono;
 
+    // Permitir nulos para que coincida con la base de datos
     @ColumnInfo(name = "correo")
     private String correo;
 
@@ -28,6 +29,9 @@ public class Cliente {
     @NonNull
     @ColumnInfo(name = "fecha_creacion", defaultValue = "CURRENT_TIMESTAMP")
     private String fechaCreacion;
+
+    @ColumnInfo(name = "is_synced", defaultValue = "0")
+    private boolean isSynced = false;
 
     public Cliente() {
         this.cedula = "";
@@ -65,6 +69,9 @@ public class Cliente {
     @NonNull
     public String getFechaCreacion() { return fechaCreacion; }
     public void setFechaCreacion(@NonNull String fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+
+    public boolean isSynced() { return isSynced; }
+    public void setSynced(boolean synced) { isSynced = synced; }
 
     // Ajuste para compatibilidad con las actividades
     public String getId() { return cedula; }

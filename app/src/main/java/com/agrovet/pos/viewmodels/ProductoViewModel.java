@@ -31,4 +31,8 @@ public class ProductoViewModel extends AndroidViewModel {
     public void deleteProducto(int id) {
         repository.deleteById(id);
     }
+
+    public void refreshProductos() {
+        repository.refreshProductos();
+    }
 }

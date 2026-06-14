@@ -5,22 +5,32 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import com.agrovet.pos.R;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.chip.Chip;
+
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.agrovet.pos.R;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import java.text.Normalizer;
 import com.agrovet.pos.adapters.CartAdapter;
 import com.agrovet.pos.adapters.ProductoAdapter;
 import com.agrovet.pos.models.Abono;
 import com.agrovet.pos.models.CartItem;
 import com.agrovet.pos.models.Cliente;
+import com.agrovet.pos.models.Movimiento;
 import com.agrovet.pos.models.Producto;
 import com.agrovet.pos.models.Venta;
 import com.agrovet.pos.utils.AppLogger;
 import com.agrovet.pos.viewmodels.ClienteViewModel;
+import com.agrovet.pos.viewmodels.MovimientoViewModel;
 import com.agrovet.pos.viewmodels.ProductoViewModel;
 import com.agrovet.pos.viewmodels.VentaViewModel;
 import java.text.NumberFormat;
@@ -30,20 +40,23 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class VentasActivity extends AppCompatActivity {
+public class VentasActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private RecyclerView rvCatalog, rvCart;
-    private EditText etBuscar, etDescuento, etMontoRecibido, etAnticipo;
+    private EditText etBuscar, etDescuento, etMontoRecibido, etAnticipo, etDiasCredito;
     private AutoCompleteTextView etBuscarCliente;
     private TextView txtTotal, txtResumenSubtotal, txtStep1Indicator, txtStep2Indicator, txtVuelto;
     private Button btnFinalizar, btnNextStep, btnBackStep, btnVentaEspecifica;
-    private RadioGroup rgMetodoPago;
-    private View layoutStep1, layoutStep2, layoutAnticipo;
+    private MaterialCardView cardContado, cardCredito, cardBanco;
+    private RadioButton rbContado, rbCredito, rbBanco;
+    private ChipGroup cgSubmetodoBanco;
+    private View layoutStep1, layoutStep2, layoutAnticipo, layoutBancoOptions;
     
     private ProductoViewModel productoViewModel;
     private VentaViewModel ventaViewModel;
     private ClienteViewModel clienteViewModel;
+    private MovimientoViewModel movimientoViewModel;
     
     private ProductoAdapter catalogAdapter;
     private CartAdapter cartAdapter;
@@ -52,11 +65,23 @@ public class VentasActivity extends AppCompatActivity {
     private final List<Producto> catalogListFull = new ArrayList<>();
     private final List<CartItem> cartList = new ArrayList<>();
     private final List<Cliente> clientesList = new ArrayList<>();
-    
+
+    private boolean isVentaEspecifica = false;
+    private Cliente selectedCliente = null;
     private double subtotalVenta = 0;
     private double totalFinal = 0;
-    private Cliente selectedCliente = null;
-    private boolean isVentaEspecifica = false;
+    private String metodoSeleccionado = "Contado";
+    
+    private String[] CATEGORIAS = {
+            "ANTIBIOTICOS", "BIOESTIMULANTES", "BIOLOGICOS", "COADYUVANTES", "CONCENTRADOS",
+            "CONCENTRADO AVES PRODUCCION", "CONCENTRADOS GATOS", "CONCENTRADOS PERROS", "ENMIENDA",
+            "FERTILIZANTES", "FUNGICIDAS", "HERBICIDAS", "INSECTICIDAS", "MAIZ", "MASCOTAS",
+            "REGULADOR DE CRECIMIENTO", "REPUESTOS, BOMBAS Y ESTACIONARIAS", "SALES GANADERAS",
+            "SEMILLAS", "VETERINARIA"
+    };
+
+    private ChipGroup cgFiltroCategorias;
+    private String categoriaSeleccionada = "TODOS";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +91,10 @@ public class VentasActivity extends AppCompatActivity {
         productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
         ventaViewModel = new ViewModelProvider(this).get(VentaViewModel.class);
         clienteViewModel = new ViewModelProvider(this).get(ClienteViewModel.class);
+        movimientoViewModel = new ViewModelProvider(this).get(MovimientoViewModel.class);
 
         initViews();
-        setupToolbar();
+        setupDrawer();
         setupRecyclerViews();
         setupListeners();
         loadCatalog();
@@ -84,6 +110,7 @@ public class VentasActivity extends AppCompatActivity {
         etDescuento = findViewById(R.id.et_descuento);
         etMontoRecibido = findViewById(R.id.et_monto_recibido);
         etAnticipo = findViewById(R.id.et_anticipo);
+        etDiasCredito = findViewById(R.id.et_dias_credito);
         
         txtTotal = findViewById(R.id.txt_total_venta);
         txtResumenSubtotal = findViewById(R.id.txt_resumen_subtotal);
@@ -96,11 +123,51 @@ public class VentasActivity extends AppCompatActivity {
         btnFinalizar = findViewById(R.id.btn_finalizar_venta);
         btnVentaEspecifica = findViewById(R.id.btn_venta_especifica);
         
-        rgMetodoPago = findViewById(R.id.rg_metodo_pago);
+        cardContado = findViewById(R.id.card_contado);
+        cardCredito = findViewById(R.id.card_credito);
+        cardBanco = findViewById(R.id.card_banco);
+        
+        rbContado = findViewById(R.id.rb_contado);
+        rbCredito = findViewById(R.id.rb_credito);
+        rbBanco = findViewById(R.id.rb_banco);
+        
+        cgSubmetodoBanco = findViewById(R.id.cg_submetodo_banco);
         
         layoutStep1 = findViewById(R.id.layout_step1);
         layoutStep2 = findViewById(R.id.layout_step2);
         layoutAnticipo = findViewById(R.id.layout_anticipo);
+        layoutBancoOptions = findViewById(R.id.layout_banco_options);
+
+        cgFiltroCategorias = findViewById(R.id.cg_filtro_categorias);
+        setupFiltroCategorias();
+    }
+
+    private void setupFiltroCategorias() {
+        if (cgFiltroCategorias == null) return;
+        
+        // Opción para ver todos
+        Chip chipTodos = new Chip(this);
+        chipTodos.setText("TODOS");
+        chipTodos.setCheckable(true);
+        chipTodos.setChecked(true);
+        cgFiltroCategorias.addView(chipTodos);
+
+        for (String cat : CATEGORIAS) {
+            Chip chip = new Chip(this);
+            chip.setText(cat);
+            chip.setCheckable(true);
+            cgFiltroCategorias.addView(chip);
+        }
+
+        cgFiltroCategorias.setOnCheckedChangeListener((group, checkedId) -> {
+            Chip selectedChip = group.findViewById(checkedId);
+            if (selectedChip != null) {
+                categoriaSeleccionada = selectedChip.getText().toString();
+            } else {
+                categoriaSeleccionada = "TODOS";
+            }
+            filterCatalog(etBuscar.getText().toString());
+        });
     }
 
     private void setupToolbar() {
@@ -121,6 +188,9 @@ public class VentasActivity extends AppCompatActivity {
             @Override
             public void onAddCart(Producto producto) { addToCart(producto); }
         });
+        // Simplificamos la acción: cualquier clic en la tarjeta agrega al carrito
+        catalogAdapter.setOnItemClickListener(this::addToCart);
+        
         rvCatalog.setLayoutManager(new GridLayoutManager(this, 2));
         rvCatalog.setAdapter(catalogAdapter);
 
@@ -152,8 +222,7 @@ public class VentasActivity extends AppCompatActivity {
 
         etBuscarCliente.setOnItemClickListener((parent, view, position, id) -> {
             selectedCliente = (Cliente) parent.getItemAtPosition(position);
-            etBuscarCliente.setText(selectedCliente.getNombre());
-            Toast.makeText(this, "Cliente seleccionado: " + selectedCliente.getNombre(), Toast.LENGTH_SHORT).show();
+            // El convertResultToString del filtro ya se encarga de poner el nombre en el texto
         });
 
         btnNextStep.setOnClickListener(v -> {
@@ -182,18 +251,13 @@ public class VentasActivity extends AppCompatActivity {
             @Override public void afterTextChanged(Editable s) {}
         });
 
-        rgMetodoPago.setOnCheckedChangeListener((group, checkedId) -> {
-            if (checkedId == R.id.rb_credito) {
-                if (!isVentaEspecifica || selectedCliente == null) {
-                    Toast.makeText(this, "Crédito solo disponible para clientes específicos", Toast.LENGTH_LONG).show();
-                    rgMetodoPago.check(R.id.rb_contado);
-                } else {
-                    layoutAnticipo.setVisibility(View.VISIBLE);
-                }
-            } else {
-                layoutAnticipo.setVisibility(View.GONE);
-            }
-        });
+        cardContado.setOnClickListener(v -> selectPaymentMethod("Contado"));
+        cardCredito.setOnClickListener(v -> selectPaymentMethod("Crédito"));
+        cardBanco.setOnClickListener(v -> selectPaymentMethod("Banco"));
+        
+        rbContado.setOnClickListener(v -> selectPaymentMethod("Contado"));
+        rbCredito.setOnClickListener(v -> selectPaymentMethod("Crédito"));
+        rbBanco.setOnClickListener(v -> selectPaymentMethod("Banco"));
 
         btnFinalizar.setOnClickListener(v -> {
             try {
@@ -203,6 +267,47 @@ public class VentasActivity extends AppCompatActivity {
                 Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void selectPaymentMethod(String metodo) {
+        if ("Crédito".equals(metodo)) {
+            if (!isVentaEspecifica || selectedCliente == null) {
+                Toast.makeText(this, "Crédito solo disponible para clientes específicos", Toast.LENGTH_LONG).show();
+                return;
+            }
+        }
+
+        metodoSeleccionado = metodo;
+        
+        // Update selection UI
+        rbContado.setChecked("Contado".equals(metodo));
+        rbCredito.setChecked("Crédito".equals(metodo));
+        rbBanco.setChecked("Banco".equals(metodo));
+        
+        rbContado.setTextColor(getColor("Contado".equals(metodo) ? R.color.teal : R.color.gris_oscuro));
+        rbCredito.setTextColor(getColor("Crédito".equals(metodo) ? R.color.teal : R.color.gris_oscuro));
+        rbBanco.setTextColor(getColor("Banco".equals(metodo) ? R.color.teal : R.color.gris_oscuro));
+        
+        // Update Card Styles
+        cardContado.setStrokeColor(getColor("Contado".equals(metodo) ? R.color.teal : R.color.gris_claro));
+        cardContado.setStrokeWidth("Contado".equals(metodo) ? 4 : 2);
+        
+        cardCredito.setStrokeColor(getColor("Crédito".equals(metodo) ? R.color.teal : R.color.gris_claro));
+        cardCredito.setStrokeWidth("Crédito".equals(metodo) ? 4 : 2);
+        
+        cardBanco.setStrokeColor(getColor("Banco".equals(metodo) ? R.color.teal : R.color.gris_claro));
+        cardBanco.setStrokeWidth("Banco".equals(metodo) ? 4 : 2);
+        
+        // Update Layout visibility
+        layoutAnticipo.setVisibility("Crédito".equals(metodo) ? View.VISIBLE : View.GONE);
+        layoutBancoOptions.setVisibility("Banco".equals(metodo) ? View.VISIBLE : View.GONE);
+        
+        if ("Banco".equals(metodo)) {
+            // Default to Nequi if nothing selected
+            if (cgSubmetodoBanco.getCheckedChipId() == View.NO_ID) {
+                cgSubmetodoBanco.check(R.id.chip_nequi);
+            }
+        }
     }
 
     private void showStep(int step) {
@@ -223,13 +328,25 @@ public class VentasActivity extends AppCompatActivity {
         String fechaDia = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         String fechaHora = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
         
-        int selectedId = rgMetodoPago.getCheckedRadioButtonId();
-        String metodo = "Contado";
-        if (selectedId == R.id.rb_credito) metodo = "Crédito";
-        else if (selectedId == R.id.rb_banco) metodo = "Banco";
+        String metodo = metodoSeleccionado;
+        String submetodo = null;
+        
+        if ("Banco".equals(metodo)) {
+            int subId = cgSubmetodoBanco.getCheckedChipId();
+            if (subId == R.id.chip_nequi) submetodo = "Nequi";
+            else if (subId == R.id.chip_transaccion) submetodo = "Transacción";
+            else if (subId == R.id.chip_tarjeta) submetodo = "Tarjeta";
+        }
 
         double descuento = 0;
         try { descuento = Double.parseDouble(etDescuento.getText().toString()); } catch (Exception ignored) {}
+
+        double anticipoVal = 0;
+        int diasCreditoVal = 30;
+        if ("Crédito".equals(metodo)) {
+            try { anticipoVal = Double.parseDouble(etAnticipo.getText().toString()); } catch (Exception ignored) {}
+            try { diasCreditoVal = Integer.parseInt(etDiasCredito.getText().toString()); } catch (Exception ignored) {}
+        }
 
         Venta nuevaVenta = new Venta();
         nuevaVenta.setFechaDia(fechaDia);
@@ -237,41 +354,65 @@ public class VentasActivity extends AppCompatActivity {
         nuevaVenta.setNombreCliente(selectedCliente != null ? selectedCliente.getNombre() : "Cliente Final");
         nuevaVenta.setClienteCedula(selectedCliente != null ? selectedCliente.getCedula() : null);
         nuevaVenta.setTipoPago(metodo);
+        nuevaVenta.setSubmetodoBanco(submetodo);
         nuevaVenta.setSubtotal(subtotalVenta);
         nuevaVenta.setDescuento(descuento);
         nuevaVenta.setTotal(totalFinal);
+        nuevaVenta.setAnticipo(anticipoVal);
+        nuevaVenta.setDiasCredito(diasCreditoVal);
         nuevaVenta.setEstado("completada");
         
-        // Guardar anticipo si es credito
+        // Si es credito, guardar anticipo en abonos
         if (metodo.equals("Crédito")) {
-            double anticipo = 0;
-            try { anticipo = Double.parseDouble(etAnticipo.getText().toString()); } catch (Exception ignored) {}
-            
-            // Registro de abono inicial
             Abono abono = new Abono();
             abono.setClienteCedula(selectedCliente.getCedula());
-            abono.setMonto(anticipo);
+            abono.setMonto(anticipoVal);
             abono.setFecha(fechaDia);
             abono.setMetodoPago("efectivo");
             abono.setObservacion("Anticipo inicial de venta a crédito");
             abono.setFechaRegistro(fechaDia + " " + fechaHora);
             
-            // Guardar abono
             com.agrovet.pos.database.AppDatabase.databaseWriteExecutor.execute(() -> {
                 com.agrovet.pos.database.AppDatabase.getDatabase(this).abonoDao().insert(abono);
             });
         }
 
-        ventaViewModel.addVenta(nuevaVenta);
+        // Sincronizamos las listas después de guardar la venta
+        Venta finalVenta = nuevaVenta;
+        ventaViewModel.addVenta(finalVenta, cartList);
         
-        // Bajar stock
+        // Actualizar stock de productos localmente
         for (CartItem item : cartList) {
             Producto p = item.getProducto();
             p.setCantidad(p.getCantidad() - item.getCantidad());
             productoViewModel.updateProducto(p);
         }
 
-        AppLogger.i("Venta guardada: " + totalFinal + " (" + metodo + ")");
+        // Registrar movimiento de caja localmente
+        // Ingreso real: anticipo si es crédito, total si es banco o contado
+        double ingresoRealCaja = ("Crédito".equals(metodo)) ? anticipoVal : totalFinal;
+
+        Movimiento mov = new Movimiento();
+        mov.setIngresos(ingresoRealCaja);
+        
+        java.text.NumberFormat curFormat = java.text.NumberFormat.getCurrencyInstance(new Locale("es", "CO"));
+        String razon = "Venta " + ("Crédito".equals(metodo) ? "Crédito (Abono)" : "Contado") + 
+                      " - " + finalVenta.getNombreCliente() + 
+                      " [Total: " + curFormat.format(totalFinal) + "]";
+        
+        mov.setRazonIngreso(razon);
+        mov.setFechaIngreso(fechaDia + " " + fechaHora);
+        mov.setCategoria("Venta de productos");
+        
+        // IMPORTANTE: Marcamos como sincronizado para que no se envíe al servidor,
+        // ya que el servidor genera sus propios movimientos de caja al recibir la venta.
+        mov.setSynced(true); 
+
+        if (movimientoViewModel != null) {
+            movimientoViewModel.addMovimiento(mov);
+        }
+
+        AppLogger.i("Venta corporativa guardada: " + totalFinal + " (" + metodo + ")");
         Toast.makeText(this, "Venta Finalizada Exitosamente", Toast.LENGTH_LONG).show();
         finish();
     }
@@ -292,34 +433,82 @@ public class VentasActivity extends AppCompatActivity {
                 clientesList.clear();
                 clientesList.addAll(clientes);
                 
-                // Usamos un adaptador personalizado para que muestre el nombre del cliente
+                // Adaptador que solo muestra el nombre del cliente en la lista
                 ArrayAdapter<Cliente> adapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_dropdown_item_1line, clientesList) {
+                    @NonNull
                     @Override
-                    public View getView(int position, View convertView, android.view.ViewGroup parent) {
-                        View v = super.getView(position, convertView, parent);
-                        if (v instanceof TextView) {
-                            ((TextView) v).setText(getItem(position).getNombre());
-                        }
-                        return v;
+                    public View getView(int position, View convertView, @NonNull android.view.ViewGroup parent) {
+                        TextView tv = (TextView) super.getView(position, convertView, parent);
+                        tv.setText(getItem(position).getNombre());
+                        tv.setTextColor(getColor(R.color.gris_oscuro));
+                        return tv;
+                    }
+
+                    @NonNull
+                    @Override
+                    public Filter getFilter() {
+                        return new Filter() {
+                            @Override
+                            protected FilterResults performFiltering(CharSequence constraint) {
+                                FilterResults results = new FilterResults();
+                                List<Cliente> suggestions = new ArrayList<>();
+                                if (constraint != null) {
+                                    String filterPattern = constraint.toString().toLowerCase().trim();
+                                    for (Cliente c : clientesList) {
+                                        if (c.getNombre().toLowerCase().contains(filterPattern)) {
+                                            suggestions.add(c);
+                                        }
+                                    }
+                                }
+                                results.values = suggestions;
+                                results.count = suggestions.size();
+                                return results;
+                            }
+
+                            @Override
+                            protected void publishResults(CharSequence constraint, FilterResults results) {
+                                clear();
+                                if (results != null && results.count > 0) {
+                                    addAll((List<Cliente>) results.values);
+                                }
+                                notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public CharSequence convertResultToString(Object resultValue) {
+                                return ((Cliente) resultValue).getNombre();
+                            }
+                        };
                     }
                 };
                 etBuscarCliente.setAdapter(adapter);
-                
-                // Configurar el umbral para que empiece a sugerir desde el primer caracter
                 etBuscarCliente.setThreshold(1);
+
+                // Forzar mostrar sugerencias al tocar el campo
+                etBuscarCliente.setOnClickListener(v -> {
+                    if (etBuscarCliente.getText().toString().isEmpty()) {
+                        etBuscarCliente.showDropDown();
+                    }
+                });
             }
         });
     }
 
     private void filterCatalog(String query) {
         catalogList.clear();
-        if (query.isEmpty()) {
-            catalogList.addAll(catalogListFull);
-        } else {
-            for (Producto p : catalogListFull) {
-                if (p.getNombre().toLowerCase().contains(query.toLowerCase())) {
-                    catalogList.add(p);
-                }
+        String queryLower = query.toLowerCase().trim();
+        
+        for (Producto p : catalogListFull) {
+            boolean matchQuery = queryLower.isEmpty() || p.getNombre().toLowerCase().contains(queryLower);
+            
+            String catProducto = p.getCategoria() != null ? p.getCategoria().toUpperCase() : "";
+            // Normalizar categoría del producto para comparar
+            catProducto = Normalizer.normalize(catProducto, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
+            
+            boolean matchCat = categoriaSeleccionada.equals("TODOS") || catProducto.equals(categoriaSeleccionada);
+            
+            if (matchQuery && matchCat) {
+                catalogList.add(p);
             }
         }
         catalogAdapter.notifyDataSetChanged();

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
+    android:background="@drawable/bg_dialog_corporate">
+
+    <ImageView
+        android:id="@+id/img_alert_icon"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@android:drawable/ic_dialog_info"
+        app:tint="@color/teal"
+        android:layout_marginBottom="16dp"
+        android:contentDescription="@string/alert_title_default" />
+
+    <TextView
+        android:id="@+id/txt_alert_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alert_title_default"
+        android:textColor="@color/gris_oscuro"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="8dp" />
+
+    <TextView
+        android:id="@+id/txt_alert_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/alert_message_default"
+        android:textColor="@color/gris_medio"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <Button
+        android:id="@+id/btn_alert_positive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_continuar"
+        style="@style/Widget.Agrovet.Button.Primary" />
+
+    <Button
+        android:id="@+id/btn_alert_negative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_cancelar"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:textColor="@color/gris_medio"
+        android:layout_marginTop="8dp"
+        android:visibility="gone" />
+
+</LinearLayout>

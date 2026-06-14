@@ -19,6 +19,18 @@ public interface ClienteDao {
     @Delete
     void delete(Cliente cliente);
     
+    @Query("SELECT * FROM cliente WHERE is_synced = 0")
+    List<Cliente> getUnsyncedClientes();
+
+    @Query("SELECT * FROM cliente WHERE cedula = :cedula LIMIT 1")
+    Cliente findByCedula(String cedula);
+
+    @Query("SELECT MAX(cedula) FROM cliente") // Clientes use Cedula as ID, but if there's a serial sync ID we'd use that.
+    String getMaxId();
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    void insertOrIgnore(Cliente cliente);
+
     @Query("DELETE FROM cliente WHERE cedula = :id")
     void deleteById(String id);
 }

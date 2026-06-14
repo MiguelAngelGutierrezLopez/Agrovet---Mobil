@@ -5,6 +5,10 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
+import java.text.Normalizer;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -15,11 +19,15 @@ import com.agrovet.pos.R;
 import com.agrovet.pos.adapters.ProductoAdapter;
 import com.agrovet.pos.models.Producto;
 import com.agrovet.pos.viewmodels.ProductoViewModel;
+import com.agrovet.pos.models.Proveedor;
+import com.agrovet.pos.viewmodels.ProveedorViewModel;
 import com.google.android.material.textfield.TextInputEditText;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
-public class ProductosActivity extends AppCompatActivity {
+public class ProductosActivity extends BaseActivity {
 
     private Toolbar toolbar;
     private RecyclerView rvProductos;
@@ -32,6 +40,7 @@ public class ProductosActivity extends AppCompatActivity {
 
     private ProductoAdapter adapter;
     private ProductoViewModel viewModel;
+    private ProveedorViewModel proveedorViewModel;
     private final List<Producto> productosList = new ArrayList<>();
     private final List<Producto> productosListOriginal = new ArrayList<>();
 
@@ -41,13 +50,17 @@ public class ProductosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_productos);
 
         viewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
+        proveedorViewModel = new ViewModelProvider(this).get(ProveedorViewModel.class);
 
         initViews();
-        setupToolbar();
+        setupDrawer();
         setupSpinners();
         setupRecyclerView();
         setupListeners();
         loadProductos();
+
+        // Mensaje de advertencia sobre sincronización de proveedores
+        Toast.makeText(this, "Si un proveedor creado en la aplicación movil no está ingresado en el servidor puede generar problemas a la hora de mandar productos nuevos, por favor recuerde mantener estos datos sincronizados", Toast.LENGTH_LONG).show();
     }
 
     private void initViews() {
@@ -75,9 +88,27 @@ public class ProductosActivity extends AppCompatActivity {
     private void setupSpinners() {
         List<String> categorias = new ArrayList<>();
         categorias.add("Todas las categorías");
-        categorias.add("VETERINARIA");
+        categorias.add("ANTIBIOTICOS");
         categorias.add("BIOESTIMULANTES");
+        categorias.add("BIOLOGICOS");
+        categorias.add("COADYUVANTES");
+        categorias.add("CONCENTRADOS");
+        categorias.add("CONCETRADO AVES PRODUCCION");
+        categorias.add("CONCENTRADOS GATOS");
+        categorias.add("CONCENTRADOS PERROS");
+        categorias.add("ENMIENDA");
         categorias.add("FERTILIZANTES");
+        categorias.add("FUNGICIDAS");
+        categorias.add("HERBICIDAS");
+        categorias.add("INSECTICIDAS");
+        categorias.add("MAIZ");
+        categorias.add("MASCOTAS");
+        categorias.add("REGULADOR DE CRECIMIENTO");
+        categorias.add("REPUESTOS, BOMBAS Y ESTACIONARIAS");
+        categorias.add("SALES GANADERAS");
+        categorias.add("SEMILLAS");
+        categorias.add("VETERINARIA");
+
 
         ArrayAdapter<String> categoriaAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categorias);
         categoriaAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -178,30 +209,84 @@ public class ProductosActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
     }
 
+    private String[] CATEGORIAS = {
+            "ANTIBIOTICOS", "BIOESTIMULANTES", "BIOLOGICOS", "COADYUVANTES", "CONCENTRADOS",
+            "CONCENTRADO AVES PRODUCCION", "CONCENTRADOS GATOS", "CONCENTRADOS PERROS", "ENMIENDA",
+            "FERTILIZANTES", "FUNGICIDAS", "HERBICIDAS", "INSECTICIDAS", "MAIZ", "MASCOTAS",
+            "REGULADOR DE CRECIMIENTO", "REPUESTOS, BOMBAS Y ESTACIONARIAS", "SALES GANADERAS",
+            "SEMILLAS", "VETERINARIA"
+    };
+
     private void mostrarDialogoProducto(Producto producto) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = LayoutInflater.from(this).inflate(R.layout.dialog_producto, null);
+        View view = getLayoutInflater().inflate(R.layout.dialog_producto, null);
         builder.setView(view);
 
         AlertDialog dialog = builder.create();
 
         TextView tituloDialog = view.findViewById(R.id.titulo_dialog);
+        EditText etCodigo = view.findViewById(R.id.et_codigo);
         TextInputEditText etNombre = view.findViewById(R.id.et_nombre);
         TextInputEditText etPrecio = view.findViewById(R.id.et_precio);
         TextInputEditText etStock = view.findViewById(R.id.et_stock);
-        TextInputEditText etCategoria = view.findViewById(R.id.et_categoria);
-        TextInputEditText etPresentacion = view.findViewById(R.id.et_proveedor);
+        ChipGroup cgCategorias = view.findViewById(R.id.cg_categorias);
+        TextInputEditText etPresentacion = view.findViewById(R.id.et_presentacion);
+        AutoCompleteTextView etProveedor = view.findViewById(R.id.et_producto_proveedor);
         Button btnCancelar = view.findViewById(R.id.btn_cancelar);
         Button btnGuardar = view.findViewById(R.id.btn_guardar);
+
+        // Llenar Proveedores
+        final Map<String, String> mapProveedores = new HashMap<>();
+        proveedorViewModel.getProveedores().observe(this, listaProv -> {
+            if (listaProv != null) {
+                List<String> nombres = new ArrayList<>();
+                for (Proveedor prov : listaProv) {
+                    String label = prov.getNombreEmpresa() + " (" + prov.getNombreProveedor() + ")";
+                    nombres.add(label);
+                    mapProveedores.put(label, prov.getTelefono());
+                }
+                
+                if (nombres.isEmpty()) {
+                    nombres.add("No hay registros");
+                }
+
+                ArrayAdapter<String> provAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, nombres);
+                etProveedor.setAdapter(provAdapter);
+                
+                // Si estamos editando y el producto tiene proveedor, intentar seleccionarlo por nombre
+                if (producto != null && producto.getProveedor() != null) {
+                    for (Proveedor prov : listaProv) {
+                        if (prov.getTelefono().equals(producto.getProveedor())) {
+                            String label = prov.getNombreEmpresa() + " (" + prov.getNombreProveedor() + ")";
+                            etProveedor.setText(label, false);
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+
+        etProveedor.setOnClickListener(v -> etProveedor.showDropDown());
+
+        // Llenar Chips de Categorias
+        for (String cat : CATEGORIAS) {
+            Chip chip = new Chip(this);
+            chip.setText(cat);
+            chip.setCheckable(true);
+            cgCategorias.addView(chip);
+            if (producto != null && cat.equalsIgnoreCase(producto.getCategoria())) {
+                chip.setChecked(true);
+            }
+        }
 
         boolean isEditando = producto != null;
 
         if (isEditando) {
             tituloDialog.setText("Editar Producto");
+            if (etCodigo != null) etCodigo.setText(String.valueOf(producto.getId()));
             etNombre.setText(producto.getNombre());
             etPrecio.setText(String.valueOf(producto.getPrecioVenta() != null ? producto.getPrecioVenta() : 0));
             etStock.setText(String.valueOf(producto.getCantidad() != null ? producto.getCantidad() : 0));
-            etCategoria.setText(producto.getCategoria());
             etPresentacion.setText(producto.getPresentacion());
         } else {
             tituloDialog.setText("Nuevo Producto");
@@ -213,17 +298,22 @@ public class ProductosActivity extends AppCompatActivity {
             String nombre = etNombre.getText().toString().trim();
             String precioStr = etPrecio.getText().toString().trim();
             String stockStr = etStock.getText().toString().trim();
-            String categoria = etCategoria.getText().toString().trim();
             String presentacion = etPresentacion.getText().toString().trim();
+            String nombreProv = etProveedor.getText().toString().trim();
+            String telefonoProv = mapProveedores.get(nombreProv);
+            
+            int selectedChipId = cgCategorias.getCheckedChipId();
 
-            if (nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty()) {
-                Toast.makeText(this, "Nombre, precio y unidades son requeridos", Toast.LENGTH_SHORT).show();
+            if (nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || selectedChipId == -1) {
+                Toast.makeText(this, "Nombre, precio, unidades y categoría son requeridos", Toast.LENGTH_SHORT).show();
                 return;
             }
 
             try {
                 int precio = Integer.parseInt(precioStr);
                 int unidades = Integer.parseInt(stockStr);
+                String categoria = ((Chip) view.findViewById(selectedChipId)).getText().toString().toUpperCase();
+                categoria = Normalizer.normalize(categoria, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
 
                 if (isEditando) {
                     producto.setNombre(nombre);
@@ -231,10 +321,12 @@ public class ProductosActivity extends AppCompatActivity {
                     producto.setCantidad(unidades);
                     producto.setCategoria(categoria);
                     producto.setPresentacion(presentacion);
+                    producto.setProveedor(telefonoProv != null ? telefonoProv : "");
                     viewModel.updateProducto(producto);
                     Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
                 } else {
-                    Producto nuevoProducto = new Producto(0, nombre, "", categoria, unidades, presentacion, "", 0, precio);
+                    Producto nuevoProducto = new Producto(0, nombre, "", categoria, unidades, presentacion, telefonoProv != null ? telefonoProv : "", 0, precio);
+                    nuevoProducto.setSynced(false);
                     viewModel.createProducto(nuevoProducto);
                     Toast.makeText(this, "Producto creado exitosamente", Toast.LENGTH_SHORT).show();
                 }

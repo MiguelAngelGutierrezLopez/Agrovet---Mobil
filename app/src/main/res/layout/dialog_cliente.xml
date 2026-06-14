@@ -1,119 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <TextView
-        android:id="@+id/titulo_dialog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/teal"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:boxStrokeColor="@color/teal"
-        app:hintTextColor="@color/teal"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_cedula"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nro. Cedula (ID) *"
-            android:inputType="number"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:boxStrokeColor="@color/teal"
-        app:hintTextColor="@color/teal"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_nombre"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre Completo *"
-            android:inputType="textPersonName"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:boxStrokeColor="@color/teal"
-        app:hintTextColor="@color/teal"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_telefono"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nro. Telefono"
-            android:inputType="phone"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        app:boxStrokeColor="@color/teal"
-        app:hintTextColor="@color/teal"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_correo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Correo Electronico"
-            android:inputType="textEmailAddress"
-            android:textSize="15sp" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="* Campos obligatorios"
-        android:textColor="@color/gris_medio"
-        android:textSize="11sp"
-        android:layout_marginBottom="24dp" />
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end">
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="@drawable/bg_dialog_corporate">
 
-        <Button
-            android:id="@+id/btn_cancelar"
+        <TextView
+            android:id="@+id/titulo_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancelar"
-            android:textColor="@color/gris_medio"
-            style="@style/Widget.MaterialComponents.Button.TextButton" />
+            android:text="@string/label_cliente"
+            style="@style/TextAppearance.Agrovet.Headline.Dialog"
+            android:layout_marginBottom="24dp" />
 
-        <Button
-            android:id="@+id/btn_guardar"
-            style="@style/Widget.Agrovet.Button.Primary"
+        <!-- Campo: Nro. Cédula -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_cedula"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:backgroundTint="@color/teal"
-            android:layout_marginStart="8dp" />
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_cedula"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_cedula"
+                android:inputType="number"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Nombre Completo -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_nombre_completo"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_nombre"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_nombre_cliente"
+                android:inputType="textPersonName"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Nro. Teléfono -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_telefono"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_telefono"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_telefono"
+                android:inputType="phone"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Correo Electrónico -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_correo"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_correo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_correo"
+                android:inputType="textEmailAddress"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Dirección -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_direccion"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_direccion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/hint_direccion"
+                android:inputType="textPostalAddress"
+                android:textSize="15sp"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campos obligatorios -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/campos_obligatorios"
+            android:textColor="@color/gris_medio"
+            android:textSize="11sp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btn_cancelar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_cancelar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/gris_medio" />
+
+            <Button
+                android:id="@+id/btn_guardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_guardar"
+                style="@style/Widget.Agrovet.Button.Primary"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

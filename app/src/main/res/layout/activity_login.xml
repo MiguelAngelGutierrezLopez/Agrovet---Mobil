@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bienvenido usuario administrador"
+            android:text="@string/welcome_admin"
             android:textColor="@color/teal"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -26,7 +26,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Por favor digite sus credenciales"
+            android:text="@string/login_instructions"
             android:textColor="@color/gris_medio"
             android:textSize="14sp"
             android:layout_marginBottom="48dp" />
@@ -34,7 +34,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingrese su nombre"
+            android:text="@string/label_username"
             android:textColor="@color/gris_oscuro"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -52,7 +52,7 @@
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Ej: admin"
+                android:hint="@string/hint_username"
                 android:textColor="@color/gris_oscuro"
                 android:textColorHint="@color/gris_medio"
                 android:background="@color/white"
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingrese su contraseña"
+            android:text="@string/label_password"
             android:textColor="@color/gris_oscuro"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -81,7 +81,7 @@
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="••••••••"
+                android:hint="@string/hint_password"
                 android:textColor="@color/gris_oscuro"
                 android:textColorHint="@color/gris_medio"
                 android:background="@color/white"
@@ -92,7 +92,7 @@
             android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingresar al Sistema"
+            android:text="@string/btn_login"
             android:backgroundTint="@color/teal"
             android:textColor="@color/white"
             android:padding="14dp"

@@ -31,4 +31,8 @@ public class ClienteViewModel extends AndroidViewModel {
     public void deleteCliente(String id) {
         repository.deleteById(id);
     }
+
+    public void refreshClientes() {
+        repository.refreshClientes();
+    }
 }

@@ -7,9 +7,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
 import com.agrovet.pos.R;
 import com.agrovet.pos.models.Movimiento;
-import com.agrovet.pos.models.Producto;
+import com.agrovet.pos.models.Venta;
 import com.agrovet.pos.viewmodels.MovimientoViewModel;
-import com.agrovet.pos.viewmodels.ProductoViewModel;
+import com.agrovet.pos.viewmodels.VentaViewModel;
 import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.XAxis;
@@ -27,56 +27,53 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StatsActivity extends AppCompatActivity {
+public class StatsActivity extends BaseActivity {
 
     private HorizontalBarChart barChart;
     private PieChart pieChart;
-    private ProductoViewModel productoViewModel;
     private MovimientoViewModel movimientoViewModel;
+    private VentaViewModel ventaViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stats);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
-
         barChart = findViewById(R.id.barChart);
         pieChart = findViewById(R.id.pieChart);
 
-        productoViewModel = new ViewModelProvider(this).get(ProductoViewModel.class);
+        ventaViewModel = new ViewModelProvider(this).get(VentaViewModel.class);
         movimientoViewModel = new ViewModelProvider(this).get(MovimientoViewModel.class);
 
-        loadBarChartData();
+        setupDrawer();
+
+        loadIncomeChartData();
         loadPieChartData();
     }
 
-    private void loadBarChartData() {
-        productoViewModel.getProductos().observe(this, productos -> {
-            if (productos == null || productos.isEmpty()) return;
+    private void loadIncomeChartData() {
+        ventaViewModel.getAllVentas().observe(this, ventas -> {
+            if (ventas == null || ventas.isEmpty()) return;
 
-            // Ordenar por stock descendente
-            List<Producto> sorted = new ArrayList<>(productos);
-            Collections.sort(sorted, (p1, p2) -> Integer.compare(p2.getStock(), p1.getStock()));
-
-            // Tomar los top 5
-            List<Producto> top5 = sorted.subList(0, Math.min(5, sorted.size()));
-
-            List<BarEntry> entries = new ArrayList<>();
-            List<String> labels = new ArrayList<>();
-
-            for (int i = 0; i < top5.size(); i++) {
-                entries.add(new BarEntry(i, (float)top5.get(i).getStock()));
-                labels.add(top5.get(i).getNombre());
+            double bancoTotal = 0, contadoTotal = 0, creditoTotal = 0;
+            for (Venta v : ventas) {
+                String tipo = v.getTipoPago();
+                if ("Banco".equalsIgnoreCase(tipo)) bancoTotal += v.getTotal();
+                else if ("Contado".equalsIgnoreCase(tipo) || "Efectivo".equalsIgnoreCase(tipo)) contadoTotal += v.getTotal();
+                else if ("Crédito".equalsIgnoreCase(tipo)) creditoTotal += v.getTotal();
             }
 
-            BarDataSet dataSet = new BarDataSet(entries, "Cantidad en Inventario");
+            List<BarEntry> entries = new ArrayList<>();
+            entries.add(new BarEntry(0, (float)contadoTotal));
+            entries.add(new BarEntry(1, (float)creditoTotal));
+            entries.add(new BarEntry(2, (float)bancoTotal));
+
+            List<String> labels = new ArrayList<>();
+            labels.add("Contado");
+            labels.add("Crédito");
+            labels.add("Banco");
+
+            BarDataSet dataSet = new BarDataSet(entries, "Ingresos Totales por Método");
             dataSet.setColors(ColorTemplate.MATERIAL_COLORS);
             dataSet.setValueTextSize(12f);
 
@@ -88,7 +85,7 @@ public class StatsActivity extends AppCompatActivity {
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
             xAxis.setDrawGridLines(false);
             xAxis.setGranularity(1f);
-            xAxis.setLabelCount(top5.size());
+            xAxis.setLabelCount(3);
             
             barChart.getAxisLeft().setDrawGridLines(false);
             barChart.getAxisRight().setEnabled(false);

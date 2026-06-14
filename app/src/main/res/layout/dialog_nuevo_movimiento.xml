@@ -1,93 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="24dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nuevo Movimiento"
-        android:textColor="@color/teal"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_mov_razon"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_razon_movimiento" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_mov_monto"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/hint_monto"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Tipo de Movimiento"
-        android:textSize="12sp"
-        android:textColor="@color/gris_medio"
-        android:layout_marginBottom="8dp" />
-
-    <RadioGroup
-        android:id="@+id/rg_mov_tipo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="24dp">
-        <RadioButton
-            android:id="@+id/rb_mov_ingreso"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tipo_ingreso"
-            android:checked="true" />
-        <RadioButton
-            android:id="@+id/rb_mov_egreso"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tipo_egreso" />
-    </RadioGroup>
+    android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="end">
-        <Button
-            android:id="@+id/btn_mov_cancelar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cancelar"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:textColor="@color/gris_medio" />
-        <Button
-            android:id="@+id/btn_mov_guardar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:backgroundTint="@color/teal"
-            android:layout_marginStart="8dp" />
-    </LinearLayout>
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:background="@drawable/bg_dialog_corporate">
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/titulo_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nuevo Movimiento"
+            style="@style/TextAppearance.Agrovet.Headline.Dialog"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Campo: Monto -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Monto"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_mov_monto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio"
+                android:hint="0.00" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Categoría -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Categoría"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+
+            <AutoCompleteTextView
+                android:id="@+id/et_mov_categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:inputType="none"
+                android:hint="Seleccione una categoría" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Fecha -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fecha"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_mov_fecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:focusable="false"
+                android:clickable="true"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio"
+                android:hint="DD/MM/AAAA" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Descripción / Razón -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Descripción / Razón"
+            style="@style/TextAppearance.Agrovet.Label.Field" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/Widget.Agrovet.TextInputLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_mov_razon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:textColorHint="@color/gris_medio"
+                android:hint="Opcional" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Campo: Tipo de Movimiento -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tipo de Movimiento"
+            style="@style/TextAppearance.Agrovet.Label.Field"
+            android:layout_marginBottom="8dp" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="0dp"
+            app:strokeColor="@color/teal"
+            app:strokeWidth="1dp"
+            app:cardBackgroundColor="@color/white">
+
+            <RadioGroup
+                android:id="@+id/rg_mov_tipo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <RadioButton
+                    android:id="@+id/rb_mov_ingreso"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Ingreso"
+                    android:textColor="@color/gris_oscuro"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:id="@+id/rb_mov_egreso"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Egreso"
+                    android:textColor="@color/gris_oscuro" />
+            </RadioGroup>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Campos obligatorios -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="* Campos obligatorios"
+            android:textColor="@color/gris_medio"
+            android:textSize="11sp"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <Button
+                android:id="@+id/btn_mov_cancelar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cancelar"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:textColor="@color/gris_medio" />
+
+            <Button
+                android:id="@+id/btn_mov_guardar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Guardar"
+                style="@style/Widget.Agrovet.Button.Primary"
+                android:layout_marginStart="8dp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

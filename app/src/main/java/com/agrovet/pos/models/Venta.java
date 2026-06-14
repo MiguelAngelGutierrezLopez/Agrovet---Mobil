@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey;
 public class Venta {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private Integer id;
+    private Integer id; // Using Integer because notNull might be false in DB
 
     @ColumnInfo(name = "numero_venta")
     private Integer numeroVenta;
@@ -54,6 +54,9 @@ public class Venta {
     @ColumnInfo(name = "total", defaultValue = "0.00")
     private double total;
 
+    @ColumnInfo(name = "anticipo", defaultValue = "0.00")
+    private double anticipo;
+
     @ColumnInfo(name = "dias_credito")
     private Integer diasCredito;
 
@@ -65,6 +68,13 @@ public class Venta {
 
     @ColumnInfo(name = "estado", defaultValue = "completada")
     private String estado;
+
+    @com.google.gson.annotations.SerializedName("id")
+    @ColumnInfo(name = "server_id")
+    private Integer serverId;
+
+    @ColumnInfo(name = "is_synced", defaultValue = "0")
+    private boolean isSynced = false;
 
     public Venta() {
         this.fechaDia = "";
@@ -113,6 +123,9 @@ public class Venta {
     public double getTotal() { return total; }
     public void setTotal(double total) { this.total = total; }
 
+    public double getAnticipo() { return anticipo; }
+    public void setAnticipo(double anticipo) { this.anticipo = anticipo; }
+
     public Integer getDiasCredito() { return diasCredito; }
     public void setDiasCredito(Integer diasCredito) { this.diasCredito = diasCredito; }
 
@@ -124,6 +137,12 @@ public class Venta {
 
     public String getEstado() { return estado; }
     public void setEstado(String estado) { this.estado = estado; }
+
+    public Integer getServerId() { return serverId; }
+    public void setServerId(Integer serverId) { this.serverId = serverId; }
+
+    public boolean isSynced() { return isSynced; }
+    public void setSynced(boolean synced) { isSynced = synced; }
 
     public String getTicket() { return String.valueOf(numeroVenta != null ? numeroVenta : (id != null ? id : "")); }
     public String getFecha() { return fechaDia + " " + fechaHora; }

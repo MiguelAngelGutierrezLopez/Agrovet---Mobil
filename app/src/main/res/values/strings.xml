@@ -32,4 +32,139 @@
     <string name="menu_estadisticas">Estadísticas</string>
     <string name="titulo_stats_productos">DISPONIBILIDAD DE PRODUCTOS</string>
     <string name="titulo_stats_caja">DISTRIBUCIÓN DE GASTOS</string>
+    <string name="prompt_categoria">Seleccionar categoría</string>
+    <string name="prompt_stock">Filtrar por stock</string>
+    <string name="btn_editar_caps">EDITAR</string>
+    <string name="btn_eliminar_caps">ELIMINAR</string>
+
+    <!-- General -->
+    <string name="agro_caps">AGRO</string>
+    <string name="vet_caps">VET</string>
+    <string name="btn_buscar">BUSCAR</string>
+    <string name="btn_cancelar">CANCELAR</string>
+    <string name="btn_guardar">GUARDAR</string>
+    <string name="btn_continuar">CONTINUAR</string>
+    <string name="btn_ingresar">INGRESAR</string>
+    <string name="btn_corregir_formatos">CORREGIR FORMATOS</string>
+    <string name="btn_enviar_datos">ENVIAR DATOS</string>
+
+    <!-- Dashboard -->
+    <string name="total_productos">PRODUCTOS</string>
+    <string name="ventas_hoy">VENTAS HOY</string>
+    <string name="total_clientes">CLIENTES</string>
+    <string name="saldo_caja">SALDO CAJA</string>
+    <string name="sesion_admin">Sesion: Administrador</string>
+    <string name="btn_sync_web">SINCRONIZAR CON WEB</string>
+    <string name="btn_recibir_datos">RECIBIR DATOS</string>
+    <string name="ver_logs">Ver Logs</string>
+
+    <!-- Login -->
+    <string name="welcome_admin">Bienvenido usuario administrador</string>
+    <string name="login_instructions">Por favor digite sus credenciales</string>
+    <string name="label_username">Ingrese su nombre</string>
+    <string name="hint_username">Ej: admin</string>
+    <string name="label_password">Ingrese su contraseña</string>
+    <string name="hint_password">••••••••</string>
+    <string name="btn_login">Ingresar al Sistema</string>
+
+    <!-- Cliente -->
+    <string name="label_cliente">Cliente</string>
+    <string name="label_cedula">Nro. Cédula (ID)</string>
+    <string name="hint_cedula">Ej. 12345678</string>
+    <string name="label_nombre_completo">Nombre Completo</string>
+    <string name="hint_nombre_cliente">Ej. Juan Pérez</string>
+    <string name="label_telefono">Nro. Teléfono</string>
+    <string name="label_correo">Correo Electrónico</string>
+    <string name="label_direccion">Dirección</string>
+    <string name="btn_agregar_cliente">+ AGREGAR NUEVO CLIENTE</string>
+    <string name="hint_buscar_cliente">Buscar por nombre o cédula...</string>
+
+    <!-- Producto -->
+    <string name="label_producto">Producto</string>
+    <string name="label_codigo">Código</string>
+    <string name="hint_codigo">Ej. 001</string>
+    <string name="label_nombre_producto">Nombre</string>
+    <string name="hint_nombre_producto">Ej. Arroz, Aceite, Harina</string>
+    <string name="label_categoria">Categoría</string>
+    <string name="label_precio">Precio</string>
+    <string name="label_stock">Stock</string>
+    <string name="label_descripcion">Descripción</string>
+    <string name="btn_agregar_producto">+ AGREGAR NUEVO PRODUCTO</string>
+    <string name="hint_buscar_producto">Buscar producto...</string>
+    <string name="codigo_label">Código: %s</string>
+    <string name="stock_label">Stock: %d</string>
+
+    <!-- Sync -->
+    <string name="sync_loading">Cargando datos del servidor...</string>
+    <string name="sync_starting">Iniciando sincronización</string>
+    <string name="sync_offline">Continuar en modo Offline</string>
+    <string name="sync_error_title">Error de Sincronización</string>
+    <string name="sync_summary_title">Resumen de Sincronización</string>
+
+    <!-- Ventas -->
+    <string name="tab_productos">PRODUCTOS</string>
+    <string name="tab_pago">PAGO</string>
+    <string name="label_venta_especifica">VENTA ESPECÍFICA</string>
+    <string name="hint_nombre_comprador">Nombre del cliente...</string>
+    <string name="label_items_carrito">ITEMS EN CARRITO</string>
+    <string name="btn_continuar_pago">CONTINUAR AL PAGO</string>
+    <string name="label_resumen_venta">RESUMEN DE VENTA</string>
+
+    <!-- Historial y Detalles -->
+    <string name="label_nro_ticket">N° Ticket:</string>
+    <string name="label_fecha">Fecha:</string>
+    <string name="label_metodo_pago">Método Pago:</string>
+    <string name="label_subtotal">Subtotal:</string>
+    <string name="label_descuento">Descuento:</string>
+    <string name="label_total">TOTAL:</string>
+    <string name="label_info_general">INFORMACIÓN GENERAL</string>
+    <string name="label_resumen_economico">RESUMEN ECONÓMICO</string>
+    <string name="label_info_credito">INFORMACIÓN CRÉDITO</string>
+    <string name="label_anticipo">Anticipo:</string>
+    <string name="label_saldo_pendiente">Saldo Pendiente:</string>
+    <string name="metodo_contado">CONTADO</string>
+    <string name="metodo_credito">CRÉDITO</string>
+    <string name="consumidor_final">Consumidor Final</string>
+    <string name="campos_obligatorios">* Campos obligatorios</string>
+    <string name="hint_telefono">Ej. 0412 123 4567</string>
+    <string name="hint_correo">ejemplo@correo.com</string>
+    <string name="hint_direccion">Dirección del domicilio</string>
+    <string name="btn_finalizar_venta">FINALIZAR TRANSACCIÓN</string>
+    <string name="btn_modificar_productos">← MODIFICAR PRODUCTOS</string>
+    <string name="label_info_pago">INFORMACIÓN DE PAGO</string>
+    <string name="label_monto_recibido">Monto Recibido</string>
+    <string name="label_cambio_vuelto">CAMBIO / VUELTO</string>
+    <string name="label_metodo_pago_caps">MÉTODO DE PAGO</string>
+    <string name="metodo_efectivo">EFECTIVO</string>
+    <string name="metodo_banco">BANCO</string>
+    <string name="prompt_tipo_pago">Seleccionar tipo de pago</string>
+    <string name="label_anticipo_credito">Anticipo de Crédito</string>
+    <string name="label_dias_credito">Días de Crédito</string>
+    <string name="label_total_pagar">TOTAL A PAGAR</string>
+    <string name="label_descuento_field">Descuento</string>
+    <string name="label_subtotal_field">Subtotal</string>
+    <string name="label_registro_venta">Registro de Venta</string>
+    <string name="alert_title_default">Atención</string>
+    <string name="alert_message_default">Ocurrió un evento en el sistema.</string>
+    <string name="ticket_placeholder">Ticket: %s</string>
+    <string name="fecha_placeholder">Fecha: %s</string>
+    <string name="cliente_placeholder">Cliente: %s</string>
+    <string name="pago_placeholder">Pago: %s</string>
+    <string name="btn_cerrar_caps">CERRAR</string>
+    <string name="monto_placeholder">$ %s</string>
+    <string name="nombre_del_producto">Nombre del Producto</string>
+    <string name="categor_a">Categoría</string>
+    <string name="stock_0">Stock: 0</string>
+    <string name="_0_00">$ 0.00</string>
+    <string name="c_digo">Código: ---</string>
+    <string name="agregar_nuevo_cliente">+ AGREGAR NUEVO CLIENTE</string>
+    <string name="contado">CONTADO</string>
+    <string name="ingresos">Ingresos:</string>
+    <string name="_0">$0</string>
+    <string name="ventas">Ventas:</string>
+    <string name="_0_">0</string>
+    <string name="cr_dito">CRÉDITO</string>
+    <string name="anticipos">Anticipos:</string>
+    <string name="_0_0">$0</string>
+    <string name="ventas_">Ventas:</string>
 </resources>

@@ -31,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (username.equals("admin") && password.equals("AgroVet")) {
                     AppLogger.i("Login exitoso para el usuario administrador");
-                    startActivity(new Intent(this, MainActivity.class));
+                    startActivity(new Intent(this, SyncActivity.class));
                     finish();
                 } else {
                     AppLogger.w("Intento de login fallido: " + username);

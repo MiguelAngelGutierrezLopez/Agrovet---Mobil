@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="0dp"
-    android:backgroundTint="@color/white">
+    style="@style/Widget.Agrovet.Card.ListItem">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,13 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Editar"
-                android:textSize="11sp"
-                android:textColor="#5D6D7E"
-                android:backgroundTint="@android:color/transparent"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:strokeColor="#D0CBC2"
-                android:padding="8dp"
-                app:cornerRadius="4dp" />
+                style="@style/Widget.Agrovet.Button.Action.Edit" />
 
             <View android:layout_width="10dp" android:layout_height="0dp" />
 
@@ -97,12 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Eliminar"
-                android:textSize="11sp"
-                android:textColor="@color/rojo_error"
-                android:backgroundTint="@color/rojo_fondo"
-                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-                android:padding="8dp"
-                app:cornerRadius="4dp" />
+                style="@style/Widget.Agrovet.Button.Action.Delete" />
         </LinearLayout>
 
     </LinearLayout>
