@@ -21,4 +21,7 @@ public interface ProveedorDao {
     
     @Query("DELETE FROM proveedor WHERE telefono = :id")
     void deleteById(String id);
+
+    @Query("SELECT * FROM proveedor WHERE is_synced = 0")
+    List<Proveedor> getUnsyncedProveedores();
 }

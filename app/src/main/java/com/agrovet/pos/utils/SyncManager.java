@@ -77,6 +77,7 @@ public class SyncManager {
                     "• Ventas: " + sales.size() + "\n" +
                     "• Clientes: " + clients.size() + "\n" +
                     "• Productos: " + products.size() + "\n" +
+                    "• Proveedores: " + db.proveedorDao().getUnsyncedProveedores().size() + "\n" +
                     "• Movimientos: " + movements.size();
             
             AppLogger.i("Resumen local: " + sales.size() + " ventas, " + clients.size() + " clientes.");
@@ -171,6 +172,27 @@ public class SyncManager {
                         totalNewItems++;
                     }
                     summary.append("• ").append(ventas.size()).append(" Ventas\n");
+                }
+
+                // 5. Proveedores (Pull Completo)
+                AppLogger.d("PULL: Solicitando proveedores...");
+                Response<Map<String, Object>> respProv = userApi.getProveedores().execute();
+                if (respProv.isSuccessful() && respProv.body() != null && Boolean.TRUE.equals(respProv.body().get("success"))) {
+                    List<Map<String, Object>> provsRaw = (List<Map<String, Object>>) respProv.body().get("proveedores");
+                    if (provsRaw != null) {
+                        AppLogger.i("PULL: Recibidos " + provsRaw.size() + " proveedores.");
+                        for (Map<String, Object> map : provsRaw) {
+                            Proveedor p = new Proveedor();
+                            p.setTelefono(String.valueOf(map.get("telefono")));
+                            p.setNombreEmpresa(String.valueOf(map.get("nombre_empresa")));
+                            p.setNombreProveedor(String.valueOf(map.get("nombre_proveedor")));
+                            p.setCorreo(map.get("correo") != null ? String.valueOf(map.get("correo")) : "");
+                            p.setEstado(map.get("estado") != null ? String.valueOf(map.get("estado")) : "activo");
+                            p.setSynced(true);
+                            db.proveedorDao().insert(p);
+                        }
+                        summary.append("• ").append(provsRaw.size()).append(" Proveedores\n");
+                    }
                 }
 
                 AppLogger.i("--- PULL FINALIZADO. Total items: " + totalNewItems + " ---");
@@ -361,6 +383,37 @@ public class SyncManager {
                         count++;
                     } else {
                         AppLogger.e("Fallo al subir venta #" + v.getId() + ". Error: " + resp.code(), null);
+                    }
+                }
+
+                // 5. Proveedores
+                List<Proveedor> providers = db.proveedorDao().getUnsyncedProveedores();
+                for (Proveedor p : providers) {
+                    callback.onProgress("Subiendo proveedor: " + p.getNombreEmpresa());
+                    
+                    // Verificamos si es una actualización (si existiera una marca de server_id o si decidimos por lógica de negocio)
+                    // Como no hay server_id numérico, usamos el teléfono como clave.
+                    // Intentamos crear, si falla el servidor podría manejar el conflicto o usamos PUT.
+                    
+                    Response<GenericResponse> resp = userApi.createProveedorCompleto(p).execute();
+                    if (resp.isSuccessful()) {
+                        AppLogger.i("Proveedor " + p.getNombreEmpresa() + " subido con éxito.");
+                        p.setSynced(true);
+                        db.proveedorDao().update(p);
+                        count++;
+                    } else if (resp.code() == 400 || resp.code() == 409) {
+                        // Posible conflicto de teléfono, intentamos actualización
+                        Response<GenericResponse> respPut = userApi.updateProveedorCompleto(p.getTelefono(), p).execute();
+                        if (respPut.isSuccessful()) {
+                            AppLogger.i("Proveedor " + p.getNombreEmpresa() + " actualizado con éxito.");
+                            p.setSynced(true);
+                            db.proveedorDao().update(p);
+                            count++;
+                        } else {
+                            AppLogger.e("Fallo al subir/actualizar proveedor " + p.getTelefono() + ". Error: " + respPut.code(), null);
+                        }
+                    } else {
+                        AppLogger.e("Fallo al subir proveedor " + p.getTelefono() + ". Error: " + resp.code(), null);
                     }
                 }
 

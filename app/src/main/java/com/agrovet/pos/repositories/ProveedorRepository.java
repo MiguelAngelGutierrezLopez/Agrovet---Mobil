@@ -21,10 +21,12 @@ public class ProveedorRepository {
     }
 
     public void insert(Proveedor proveedor) {
+        proveedor.setSynced(false);
         AppDatabase.databaseWriteExecutor.execute(() -> proveedorDao.insert(proveedor));
     }
 
     public void update(Proveedor proveedor) {
+        proveedor.setSynced(false);
         AppDatabase.databaseWriteExecutor.execute(() -> proveedorDao.update(proveedor));
     }
 

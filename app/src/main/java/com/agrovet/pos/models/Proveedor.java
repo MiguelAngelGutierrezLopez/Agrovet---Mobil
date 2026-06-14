@@ -32,8 +32,8 @@ public class Proveedor {
     @ColumnInfo(name = "producto")
     private String producto;
 
-    @ColumnInfo(name = "is_synced", defaultValue = "1")
-    private boolean isSynced = true;
+    @ColumnInfo(name = "is_synced", defaultValue = "0")
+    private boolean isSynced = false;
 
     public Proveedor() {
         this.telefono = "";

@@ -35,10 +35,10 @@ public interface UserApiService {
     Call<Map<String, Object>> getProveedor(@Path("telefono") String telefono);
 
     @POST("proveedor/completo")
-    Call<Map<String, Object>> createProveedor(@Body Proveedor proveedor);
+    Call<GenericResponse> createProveedorCompleto(@Body Proveedor proveedor);
 
     @PUT("proveedor/{telefono}")
-    Call<Map<String, Object>> updateProveedor(@Path("telefono") String telefono, @Body Proveedor proveedor);
+    Call<GenericResponse> updateProveedorCompleto(@Path("telefono") String telefono, @Body Proveedor proveedor);
 
     @DELETE("proveedor/{telefono}")
     Call<Map<String, Object>> deleteProveedor(@Path("telefono") String telefono);
