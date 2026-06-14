@@ -404,8 +404,8 @@ public class VentasActivity extends BaseActivity {
         mov.setFechaIngreso(fechaDia + " " + fechaHora);
         mov.setCategoria("Venta de productos");
         
-        // IMPORTANTE: Marcamos como sincronizado para que no se envíe al servidor,
-        // ya que el servidor genera sus propios movimientos de caja al recibir la venta.
+        // IMPORTANTE: Marcamos como venta y sincronizado para evitar duplicidad en el servidor
+        mov.setVenta(true);
         mov.setSynced(true); 
 
         if (movimientoViewModel != null) {

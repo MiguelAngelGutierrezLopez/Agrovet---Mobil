@@ -170,7 +170,7 @@ public class HistorialVentasActivity extends BaseActivity {
         adapter = new VentaAdapter(ventasList, new VentaAdapter.OnVentaActionListener() {
             @Override
             public void onVerDetalle(Venta venta) {
-                mostrarDetalle(venta);
+                // Ahora el detalle se maneja internamente en el adaptador (expandible)
             }
 
             @Override

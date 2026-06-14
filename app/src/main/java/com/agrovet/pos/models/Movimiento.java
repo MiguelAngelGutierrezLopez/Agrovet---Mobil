@@ -40,6 +40,9 @@ public class Movimiento {
     @ColumnInfo(name = "is_synced", defaultValue = "0")
     private boolean isSynced = false;
 
+    @ColumnInfo(name = "is_venta", defaultValue = "0")
+    private boolean isVenta = false;
+
     public Movimiento() {
     }
 
@@ -72,6 +75,9 @@ public class Movimiento {
 
     public boolean isSynced() { return isSynced; }
     public void setSynced(boolean synced) { isSynced = synced; }
+
+    public boolean isVenta() { return isVenta; }
+    public void setVenta(boolean venta) { isVenta = venta; }
 
     public String getRazon() { 
         if (razonIngreso != null && !razonIngreso.isEmpty()) return razonIngreso;

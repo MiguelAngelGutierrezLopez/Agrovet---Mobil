@@ -19,22 +19,22 @@ public class Venta {
     private transient Integer id; // Usamos 'id' para que coincida con getId/setId y Room lo encuentre
 
     @ColumnInfo(name = "numero_venta")
-    @com.google.gson.annotations.SerializedName("ticket_numero")
+    @com.google.gson.annotations.SerializedName(value = "ticket_numero", alternate = {"numero", "nro_ticket"})
     private Integer numeroVenta;
 
     @NonNull
     @ColumnInfo(name = "fecha_dia")
-    @com.google.gson.annotations.SerializedName("fecha")
+    @com.google.gson.annotations.SerializedName(value = "fecha", alternate = {"fecha_dia", "created_at"})
     private String fechaDia;
 
     @NonNull
     @ColumnInfo(name = "fecha_hora")
-    @com.google.gson.annotations.SerializedName("hora")
+    @com.google.gson.annotations.SerializedName(value = "hora", alternate = {"fecha_hora"})
     private String fechaHora;
 
     @NonNull
     @ColumnInfo(name = "nombre_cliente")
-    @com.google.gson.annotations.SerializedName("cliente_nombre")
+    @com.google.gson.annotations.SerializedName(value = "cliente_nombre", alternate = {"cliente", "nombre"})
     private String nombreCliente;
 
     @ColumnInfo(name = "direccion_cliente")
@@ -45,27 +45,27 @@ public class Venta {
 
     @NonNull
     @ColumnInfo(name = "tipo_pago")
-    @com.google.gson.annotations.SerializedName("metodo_pago")
+    @com.google.gson.annotations.SerializedName(value = "metodo_pago", alternate = {"tipo_pago", "pago"})
     private String tipoPago;
 
     @ColumnInfo(name = "cliente_cedula")
-    @com.google.gson.annotations.SerializedName("cliente_cedula")
+    @com.google.gson.annotations.SerializedName(value = "cliente_cedula", alternate = {"cedula", "documento"})
     private String clienteCedula;
 
     @ColumnInfo(name = "subtotal", defaultValue = "0.00")
-    @com.google.gson.annotations.SerializedName("subtotal")
+    @com.google.gson.annotations.SerializedName(value = "subtotal", alternate = {"sub_total", "monto_subtotal"})
     private double subtotal;
 
     @ColumnInfo(name = "descuento", defaultValue = "0.00")
-    @com.google.gson.annotations.SerializedName("descuento")
+    @com.google.gson.annotations.SerializedName(value = "descuento", alternate = {"valor_descuento", "monto_descuento"})
     private double descuento;
 
     @ColumnInfo(name = "total", defaultValue = "0.00")
-    @com.google.gson.annotations.SerializedName("total")
+    @com.google.gson.annotations.SerializedName(value = "total", alternate = {"total_venta", "monto_total", "valor_total"})
     private double total;
 
     @ColumnInfo(name = "anticipo", defaultValue = "0.00")
-    @com.google.gson.annotations.SerializedName("anticipo")
+    @com.google.gson.annotations.SerializedName(value = "anticipo", alternate = {"pago_inicial", "monto_anticipo"})
     private double anticipo;
 
     @ColumnInfo(name = "dias_credito")

@@ -314,7 +314,15 @@ public class SyncManager {
                         continue;
                     }
 
-                    // Omitir movimientos automáticos de ventas (ya se sincronizan como Venta)
+                    // Omitir movimientos automáticos de ventas (ya se sincronizan como Venta o se generan en el servidor)
+                    if (m.isVenta()) {
+                        AppLogger.d("Omitiendo movimiento marcado como venta: " + m.getRazon());
+                        m.setSynced(true);
+                        db.movimientoDao().update(m);
+                        continue;
+                    }
+
+                    // Omitir por descripción (respaldo)
                     String razon = m.getRazon();
                     if (razon != null && (razon.contains("Venta Contado") || razon.contains("Venta a Crédito") || razon.contains("Venta Banco"))) {
                         AppLogger.d("Omitiendo movimiento automático de venta: " + razon);
@@ -450,9 +458,29 @@ public class SyncManager {
             try {
                 Integer lastProdId = db.productoDao().getMaxServerId();
                 Response<ProductSyncResponse> respP = inventoryApi.getSyncProductos(lastProdId).execute();
-                if (respP.isSuccessful() && respP.body() != null && respP.body().getProductos() != null && !respP.body().getProductos().isEmpty()) {
-                    AppLogger.i("Notificación: Cambios detectados en el servidor.");
-                    callback.onSuccess("Productos");
+                
+                if (respP.isSuccessful() && respP.body() != null && respP.body().getProductos() != null) {
+                    List<Producto> serverProds = respP.body().getProductos();
+                    boolean hasRealChanges = false;
+                    
+                    for (Producto sp : serverProds) {
+                        Producto local = db.productoDao().findByServerId(sp.getServerId());
+                        if (local == null) {
+                            hasRealChanges = true;
+                            break;
+                        } else {
+                            // Si el producto existe, comparar campos clave como el stock (cantidad)
+                            if (Math.abs(local.getCantidad() - sp.getCantidad()) > 0.01) {
+                                hasRealChanges = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (hasRealChanges) {
+                        AppLogger.i("Notificación: Cambios detectados en el servidor.");
+                        callback.onSuccess("Productos");
+                    }
                 }
             } catch (Exception ignored) {}
         });
