@@ -13,6 +13,7 @@ import com.agrovet.pos.network.RetrofitClient;
 import com.agrovet.pos.network.SalesApiService;
 import com.agrovet.pos.utils.AppLogger;
 import com.agrovet.pos.utils.DebugLog;
+import com.agrovet.pos.network.dto.SaleSyncResponse;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -61,6 +62,29 @@ public class VentaRepository {
             List<VentaItem> items = ventaItemDao.getItemsByVenta(ventaId);
             callback.onLoaded(items);
         });
+    }
+
+    public void filtrarVentas(String inicio, String fin, String tipo, String cliente, FilterCallback callback) {
+        apiService.filtrarHistorial(inicio, fin, tipo, cliente).enqueue(new Callback<SaleSyncResponse>() {
+            @Override
+            public void onResponse(Call<SaleSyncResponse> call, Response<SaleSyncResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    callback.onResult(response.body().getVentas());
+                } else {
+                    callback.onError("Error: " + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SaleSyncResponse> call, Throwable t) {
+                callback.onError(t.getMessage());
+            }
+        });
+    }
+
+    public interface FilterCallback {
+        void onResult(List<Venta> ventas);
+        void onError(String message);
     }
 
     public interface OnItemsLoadedCallback {

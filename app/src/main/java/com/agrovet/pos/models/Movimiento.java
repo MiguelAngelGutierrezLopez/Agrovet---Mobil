@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey;
 public class Movimiento {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private Integer id;
+    private transient Integer id;
 
     @ColumnInfo(name = "ingresos", defaultValue = "0.00")
     private Double ingresos;

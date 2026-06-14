@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class Producto {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private transient Integer localId; // Renombrado de 'id' a 'localId' para evitar conflicto con GSON
+    private transient Integer id;
 
     @NonNull
     @SerializedName("nombre")
@@ -58,8 +58,8 @@ public class Producto {
     public Producto() {
     }
 
-    public Producto(Integer localId, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {
-        this.localId = localId;
+    public Producto(Integer id, @NonNull String nombre, String descripcion, @NonNull String categoria, Integer cantidad, String presentacion, String proveedor, Integer precioCosto, Integer precioVenta) {
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.categoria = categoria;
@@ -70,12 +70,8 @@ public class Producto {
         this.precioVenta = precioVenta;
     }
 
-    public Integer getLocalId() { return localId; }
-    public void setLocalId(Integer localId) { this.localId = localId; }
-
-    // Mantener getId para compatibilidad con código existente
-    public Integer getId() { return localId; }
-    public void setId(Integer localId) { this.localId = localId; }
+    public Integer getId() { return id; }
+    public void setId(Integer id) { this.id = id; }
 
     @NonNull
     public String getNombre() { return nombre; }
@@ -111,6 +107,6 @@ public class Producto {
 
     public double getPrecio() { return precioVenta != null ? precioVenta.doubleValue() : 0.0; }
     public int getStock() { return cantidad != null ? cantidad : 0; }
-    public String getCodigo() { return String.valueOf(localId != null ? localId : ""); }
+    public String getCodigo() { return String.valueOf(id != null ? id : ""); }
     public String getProveedorTelefono() { return proveedor != null ? proveedor : ""; }
 }

@@ -304,6 +304,15 @@ public class SyncManager {
                         continue;
                     }
 
+                    // Omitir movimientos automáticos de ventas (ya se sincronizan como Venta)
+                    String razon = m.getRazon();
+                    if (razon != null && (razon.contains("Venta Contado") || razon.contains("Venta a Crédito") || razon.contains("Venta Banco"))) {
+                        AppLogger.d("Omitiendo movimiento automático de venta: " + razon);
+                        m.setSynced(true);
+                        db.movimientoDao().update(m);
+                        continue;
+                    }
+
                     callback.onProgress("Subiendo movimiento: " + m.getRazon());
                     MovimientoRequest req = new MovimientoRequest();
                     req.setTipo(m.getTipo().toLowerCase());

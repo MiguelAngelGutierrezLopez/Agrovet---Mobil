@@ -1,8 +1,11 @@
 package com.agrovet.pos.activities;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
@@ -14,9 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.agrovet.pos.R;
 import com.agrovet.pos.adapters.VentaAdapter;
 import com.agrovet.pos.models.Venta;
+import com.agrovet.pos.repositories.VentaRepository;
 import com.agrovet.pos.viewmodels.VentaViewModel;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -29,12 +35,19 @@ public class HistorialVentasActivity extends BaseActivity {
     private TextView txtBancoIngresos, txtBancoCantidad, txtBancoSubtipos;
     private TextView txtContadoIngresos, txtContadoCantidad;
     private TextView txtCreditoIngresos, txtCreditoCantidad, txtCreditoTotal, txtCreditoPendiente;
+    private TextView btnFechaInicio, btnFechaFin;
+    private Button btnFiltrarRango;
+    private Button btnHoy, btnSemana, btnMes, btnAnio;
 
     private VentaViewModel viewModel;
     private com.agrovet.pos.viewmodels.MovimientoViewModel movimientoViewModel;
     private VentaAdapter adapter;
     private final List<Venta> ventasList = new ArrayList<>();
     private final List<com.agrovet.pos.models.Movimiento> movimientosList = new ArrayList<>();
+    
+    private String fechaInicioStr = "";
+    private String fechaFinStr = "";
+    private final SimpleDateFormat apiDateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +58,10 @@ public class HistorialVentasActivity extends BaseActivity {
         movimientoViewModel = new ViewModelProvider(this).get(com.agrovet.pos.viewmodels.MovimientoViewModel.class);
 
         initViews();
+        setupToolbar();
         setupDrawer();
         setupRecyclerView();
+        setupFilters();
         observeVentas();
     }
 
@@ -65,6 +80,80 @@ public class HistorialVentasActivity extends BaseActivity {
         txtCreditoCantidad = findViewById(R.id.txt_credito_cantidad);
         txtCreditoTotal = findViewById(R.id.txt_credito_total);
         txtCreditoPendiente = findViewById(R.id.txt_credito_pendiente);
+
+        btnFechaInicio = findViewById(R.id.btn_fecha_inicio);
+        btnFechaFin = findViewById(R.id.btn_fecha_fin);
+        btnFiltrarRango = findViewById(R.id.btn_filtrar_rango);
+        
+        btnHoy = findViewById(R.id.btn_periodo_hoy);
+        btnSemana = findViewById(R.id.btn_periodo_semana);
+        btnMes = findViewById(R.id.btn_periodo_mes);
+        btnAnio = findViewById(R.id.btn_periodo_anio);
+    }
+
+    private void setupFilters() {
+        btnFechaInicio.setOnClickListener(v -> showDatePicker(true));
+        btnFechaFin.setOnClickListener(v -> showDatePicker(false));
+        btnFiltrarRango.setOnClickListener(v -> fetchFilteredVentas());
+
+        btnHoy.setOnClickListener(v -> setPeriod(0));
+        btnSemana.setOnClickListener(v -> setPeriod(7));
+        btnMes.setOnClickListener(v -> setPeriod(30));
+        btnAnio.setOnClickListener(v -> setPeriod(365));
+    }
+
+    private void showDatePicker(boolean isInicio) {
+        Calendar cal = Calendar.getInstance();
+        new DatePickerDialog(this, (view, year, month, dayOfMonth) -> {
+            cal.set(year, month, dayOfMonth);
+            String selected = apiDateFormat.format(cal.getTime());
+            if (isInicio) {
+                fechaInicioStr = selected;
+                btnFechaInicio.setText(selected);
+            } else {
+                fechaFinStr = selected;
+                btnFechaFin.setText(selected);
+            }
+        }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+    private void setPeriod(int days) {
+        Calendar cal = Calendar.getInstance();
+        fechaFinStr = apiDateFormat.format(cal.getTime());
+        if (days > 0) {
+            cal.add(Calendar.DAY_OF_YEAR, -days);
+            fechaInicioStr = apiDateFormat.format(cal.getTime());
+        } else {
+            fechaInicioStr = fechaFinStr;
+        }
+        btnFechaInicio.setText(fechaInicioStr);
+        btnFechaFin.setText(fechaFinStr);
+        fetchFilteredVentas();
+    }
+
+    private void fetchFilteredVentas() {
+        if (fechaInicioStr.isEmpty() || fechaFinStr.isEmpty()) {
+            Toast.makeText(this, "Seleccione ambas fechas", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Toast.makeText(this, "Filtrando...", Toast.LENGTH_SHORT).show();
+        viewModel.filtrarVentas(fechaInicioStr, fechaFinStr, null, null, new VentaRepository.FilterCallback() {
+            @Override
+            public void onResult(List<Venta> ventas) {
+                runOnUiThread(() -> {
+                    ventasList.clear();
+                    ventasList.addAll(ventas);
+                    adapter.notifyDataSetChanged();
+                    updateStats(ventas);
+                });
+            }
+
+            @Override
+            public void onError(String message) {
+                runOnUiThread(() -> Toast.makeText(HistorialVentasActivity.this, message, Toast.LENGTH_LONG).show());
+            }
+        });
     }
 
     private void setupToolbar() {

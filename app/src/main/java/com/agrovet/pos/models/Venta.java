@@ -15,21 +15,25 @@ import androidx.room.PrimaryKey;
 public class Venta {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private Integer id; // Using Integer because notNull might be false in DB
+    private transient Integer id; // Usamos 'id' para que coincida con getId/setId y Room lo encuentre
 
     @ColumnInfo(name = "numero_venta")
+    @com.google.gson.annotations.SerializedName("ticket_numero")
     private Integer numeroVenta;
 
     @NonNull
     @ColumnInfo(name = "fecha_dia")
+    @com.google.gson.annotations.SerializedName("fecha")
     private String fechaDia;
 
     @NonNull
     @ColumnInfo(name = "fecha_hora")
+    @com.google.gson.annotations.SerializedName("hora")
     private String fechaHora;
 
     @NonNull
     @ColumnInfo(name = "nombre_cliente")
+    @com.google.gson.annotations.SerializedName("cliente_nombre")
     private String nombreCliente;
 
     @ColumnInfo(name = "direccion_cliente")
@@ -40,24 +44,31 @@ public class Venta {
 
     @NonNull
     @ColumnInfo(name = "tipo_pago")
+    @com.google.gson.annotations.SerializedName("metodo_pago")
     private String tipoPago;
 
     @ColumnInfo(name = "cliente_cedula")
+    @com.google.gson.annotations.SerializedName("cliente_cedula")
     private String clienteCedula;
 
     @ColumnInfo(name = "subtotal", defaultValue = "0.00")
+    @com.google.gson.annotations.SerializedName("subtotal")
     private double subtotal;
 
     @ColumnInfo(name = "descuento", defaultValue = "0.00")
+    @com.google.gson.annotations.SerializedName("descuento")
     private double descuento;
 
     @ColumnInfo(name = "total", defaultValue = "0.00")
+    @com.google.gson.annotations.SerializedName("total")
     private double total;
 
     @ColumnInfo(name = "anticipo", defaultValue = "0.00")
+    @com.google.gson.annotations.SerializedName("anticipo")
     private double anticipo;
 
     @ColumnInfo(name = "dias_credito")
+    @com.google.gson.annotations.SerializedName("dias_credito")
     private Integer diasCredito;
 
     @ColumnInfo(name = "submetodo_banco")

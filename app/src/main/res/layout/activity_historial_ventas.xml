@@ -24,8 +24,9 @@
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp">
+            android:layout_height="220dp"
+            android:padding="8dp"
+            android:fadeScrollbars="false">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -301,6 +302,59 @@
             </LinearLayout>
         </ScrollView>
 
+        <!-- Filter Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="4dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/btn_fecha_inicio"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stat_ingresos"
+                android:gravity="center"
+                android:text="Fecha Inicio"
+                android:textSize="11sp"
+                android:textColor="@color/teal"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:paddingHorizontal="4dp"/>
+
+            <TextView
+                android:id="@+id/btn_fecha_fin"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_stat_ingresos"
+                android:gravity="center"
+                android:text="Fecha Fin"
+                android:textSize="11sp"
+                android:textColor="@color/teal"
+                android:clickable="true"
+                android:focusable="true"/>
+
+            <Button
+                android:id="@+id/btn_filtrar_rango"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:text="Filtrar"
+                android:textSize="10sp"
+                android:background="@drawable/bg_stat_ingresos"
+                android:textColor="@color/teal"
+                style="@style/Widget.MaterialComponents.Button.TextButton"/>
+        </LinearLayout>
+
         <!-- Period Buttons -->
         <HorizontalScrollView
             android:layout_width="match_parent"
@@ -349,9 +403,10 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_historial_ventas"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingHorizontal="12dp"
-            android:clipToPadding="false" />
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:clipToPadding="false"
+            android:paddingHorizontal="12dp" />
 
     </LinearLayout>
 

@@ -24,4 +24,12 @@ public interface SalesApiService {
 
     @GET("api/ventas/sync/")
     Call<SaleSyncResponse> syncVentas(@Query("last_sync_id") Integer lastSyncId);
+
+    @GET("api/historial-ventas/filtrar")
+    Call<SaleSyncResponse> filtrarHistorial(
+            @Query("fecha_inicio") String fechaInicio,
+            @Query("fecha_fin") String fechaFin,
+            @Query("tipo_pago") String tipoPago,
+            @Query("cliente_cedula") String clienteCedula
+    );
 }

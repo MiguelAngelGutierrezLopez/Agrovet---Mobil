@@ -32,4 +32,8 @@ public class VentaViewModel extends AndroidViewModel {
     public void getItemsByVenta(int ventaId, VentaRepository.OnItemsLoadedCallback callback) {
         repository.getItemsByVenta(ventaId, callback);
     }
+
+    public void filtrarVentas(String inicio, String fin, String tipo, String cliente, VentaRepository.FilterCallback callback) {
+        repository.filtrarVentas(inicio, fin, tipo, cliente, callback);
+    }
 }
