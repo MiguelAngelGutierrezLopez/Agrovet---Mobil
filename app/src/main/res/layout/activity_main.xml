@@ -240,7 +240,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tendencia de Ventas"
+                        android:text="Ventas por Método de Pago"
                         style="@style/TextAppearance.Agrovet.Label"
                         android:layout_marginBottom="12dp" />
 
@@ -252,8 +252,8 @@
                         app:cardElevation="2dp"
                         android:backgroundTint="@color/white">
 
-                        <com.github.mikephil.charting.charts.LineChart
-                            android:id="@+id/chart_ventas"
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/chart_pie_metodos"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:padding="8dp" />

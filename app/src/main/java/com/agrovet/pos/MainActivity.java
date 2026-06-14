@@ -45,6 +45,7 @@ import android.widget.LinearLayout;
 import com.google.android.material.navigation.NavigationView;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -58,7 +59,7 @@ public class MainActivity extends BaseActivity {
     private Toolbar toolbar;
     private TextView txtTotalClientes, txtTotalProductos, txtVentasHoy, txtCajaSaldo, txtDbStatus;
     private View syncIndicator;
-    private com.github.mikephil.charting.charts.LineChart chartVentas;
+    private com.github.mikephil.charting.charts.PieChart chartMetodos;
     private CardView cardClientes, cardProductos, cardVentasHoy, cardReporteCaja;
     private Button btnSyncBatch;
 
@@ -157,7 +158,7 @@ public class MainActivity extends BaseActivity {
         cardVentasHoy = findViewById(R.id.card_ventas_hoy);
         cardReporteCaja = findViewById(R.id.card_reporte_caja);
         
-        chartVentas = findViewById(R.id.chart_ventas);
+        chartMetodos = findViewById(R.id.chart_pie_metodos);
         
         btnSyncBatch = findViewById(R.id.btn_sync_to_web);
         if (btnSyncBatch != null) {
@@ -221,53 +222,49 @@ public class MainActivity extends BaseActivity {
     }
 
     private void updateChart(List<Venta> ventas) {
-        if (chartVentas == null || ventas == null || ventas.isEmpty()) return;
+        if (chartMetodos == null || ventas == null || ventas.isEmpty()) return;
 
-        Map<String, Double> salesByDate = new TreeMap<>();
+        Map<String, Double> salesByMethod = new HashMap<>();
         for (Venta v : ventas) {
-            String date = v.getFechaDia();
-            salesByDate.put(date, salesByDate.getOrDefault(date, 0.0) + v.getTotal());
+            String method = v.getTipoPago();
+            if (method == null) method = "Otro";
+            salesByMethod.put(method, salesByMethod.getOrDefault(method, 0.0) + v.getTotal());
         }
 
-        List<com.github.mikephil.charting.data.Entry> entries = new ArrayList<>();
-        int i = 0;
-        final List<String> dates = new ArrayList<>(salesByDate.keySet());
-        for (String date : dates) {
-            entries.add(new com.github.mikephil.charting.data.Entry(i++, salesByDate.get(date).floatValue()));
+        List<com.github.mikephil.charting.data.PieEntry> entries = new ArrayList<>();
+        for (Map.Entry<String, Double> entry : salesByMethod.entrySet()) {
+            entries.add(new com.github.mikephil.charting.data.PieEntry(entry.getValue().floatValue(), entry.getKey()));
         }
 
-        com.github.mikephil.charting.data.LineDataSet dataSet = new com.github.mikephil.charting.data.LineDataSet(entries, "Ventas por Día");
-        dataSet.setColor(getResources().getColor(R.color.teal));
-        dataSet.setCircleColor(getResources().getColor(R.color.mostaza));
-        dataSet.setLineWidth(2f);
-        dataSet.setCircleRadius(4f);
-        dataSet.setDrawCircleHole(false);
-        dataSet.setValueTextSize(10f);
-        dataSet.setDrawFilled(true);
-        dataSet.setFillAlpha(50);
-        dataSet.setFillColor(getResources().getColor(R.color.teal_light));
+        com.github.mikephil.charting.data.PieDataSet dataSet = new com.github.mikephil.charting.data.PieDataSet(entries, "");
+        
+        // Colores temáticos de Agrovet
+        int[] colors = {
+                getResources().getColor(R.color.teal),
+                getResources().getColor(R.color.mostaza),
+                getResources().getColor(R.color.terracota),
+                getResources().getColor(R.color.turquesa)
+        };
+        dataSet.setColors(colors);
+        dataSet.setValueTextSize(12f);
+        dataSet.setValueTextColor(getResources().getColor(R.color.white));
 
-        com.github.mikephil.charting.data.LineData lineData = new com.github.mikephil.charting.data.LineData(dataSet);
-        chartVentas.setData(lineData);
+        com.github.mikephil.charting.data.PieData pieData = new com.github.mikephil.charting.data.PieData(dataSet);
+        chartMetodos.setData(pieData);
         
-        chartVentas.getXAxis().setValueFormatter(new com.github.mikephil.charting.formatter.ValueFormatter() {
-            @Override
-            public String getFormattedValue(float value) {
-                int index = (int) value;
-                if (index >= 0 && index < dates.size()) {
-                    String d = dates.get(index);
-                    return d.length() > 5 ? d.substring(5) : d; // MM-DD
-                }
-                return "";
-            }
-        });
+        chartMetodos.setUsePercentValues(true);
+        chartMetodos.getDescription().setEnabled(false);
+        chartMetodos.setDrawHoleEnabled(true);
+        chartMetodos.setHoleColor(android.R.color.transparent);
+        chartMetodos.setCenterText("Métodos");
+        chartMetodos.setCenterTextSize(14f);
+        chartMetodos.setEntryLabelColor(getResources().getColor(R.color.gris_oscuro));
+        chartMetodos.getLegend().setEnabled(true);
+        chartMetodos.getLegend().setVerticalAlignment(com.github.mikephil.charting.components.Legend.LegendVerticalAlignment.BOTTOM);
+        chartMetodos.getLegend().setHorizontalAlignment(com.github.mikephil.charting.components.Legend.LegendHorizontalAlignment.CENTER);
         
-        chartVentas.getXAxis().setPosition(com.github.mikephil.charting.components.XAxis.XAxisPosition.BOTTOM);
-        chartVentas.getXAxis().setGranularity(1f);
-        chartVentas.getAxisRight().setEnabled(false);
-        chartVentas.getDescription().setEnabled(false);
-        chartVentas.animateX(1000);
-        chartVentas.invalidate();
+        chartMetodos.animateY(1000);
+        chartMetodos.invalidate();
     }
 
     private void updateCajaTotal() {

@@ -37,7 +37,6 @@ public class HistorialVentasActivity extends BaseActivity {
     private TextView txtCreditoIngresos, txtCreditoCantidad, txtCreditoTotal, txtCreditoPendiente;
     private TextView btnFechaInicio, btnFechaFin;
     private Button btnFiltrarRango;
-    private Button btnHoy, btnSemana, btnMes, btnAnio;
 
     private VentaViewModel viewModel;
     private com.agrovet.pos.viewmodels.MovimientoViewModel movimientoViewModel;
@@ -84,22 +83,12 @@ public class HistorialVentasActivity extends BaseActivity {
         btnFechaInicio = findViewById(R.id.btn_fecha_inicio);
         btnFechaFin = findViewById(R.id.btn_fecha_fin);
         btnFiltrarRango = findViewById(R.id.btn_filtrar_rango);
-        
-        btnHoy = findViewById(R.id.btn_periodo_hoy);
-        btnSemana = findViewById(R.id.btn_periodo_semana);
-        btnMes = findViewById(R.id.btn_periodo_mes);
-        btnAnio = findViewById(R.id.btn_periodo_anio);
     }
 
     private void setupFilters() {
         btnFechaInicio.setOnClickListener(v -> showDatePicker(true));
         btnFechaFin.setOnClickListener(v -> showDatePicker(false));
         btnFiltrarRango.setOnClickListener(v -> fetchFilteredVentas());
-
-        btnHoy.setOnClickListener(v -> setPeriod(0));
-        btnSemana.setOnClickListener(v -> setPeriod(7));
-        btnMes.setOnClickListener(v -> setPeriod(30));
-        btnAnio.setOnClickListener(v -> setPeriod(365));
     }
 
     private void showDatePicker(boolean isInicio) {
@@ -115,20 +104,6 @@ public class HistorialVentasActivity extends BaseActivity {
                 btnFechaFin.setText(selected);
             }
         }, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
-    }
-
-    private void setPeriod(int days) {
-        Calendar cal = Calendar.getInstance();
-        fechaFinStr = apiDateFormat.format(cal.getTime());
-        if (days > 0) {
-            cal.add(Calendar.DAY_OF_YEAR, -days);
-            fechaInicioStr = apiDateFormat.format(cal.getTime());
-        } else {
-            fechaInicioStr = fechaFinStr;
-        }
-        btnFechaInicio.setText(fechaInicioStr);
-        btnFechaFin.setText(fechaFinStr);
-        fetchFilteredVentas();
     }
 
     private void fetchFilteredVentas() {
