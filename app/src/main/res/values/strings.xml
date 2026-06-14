@@ -204,4 +204,5 @@
     <string name="tel_prefix">Tel: </string>
     <string name="productos_prefix">Productos: </string>
     <string name="btn_agregar_proveedor">+ AGREGAR PROVEEDOR</string>
+    <string name="titulo_chart_metodos">Ventas por Método de Pago</string>
 </resources>

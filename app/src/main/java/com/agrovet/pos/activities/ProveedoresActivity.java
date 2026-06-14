@@ -63,16 +63,6 @@ public class ProveedoresActivity extends BaseActivity {
         btnAgregar = findViewById(R.id.btn_agregar);
     }
 
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(R.string.titulo_proveedores);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
-    }
-
     private void setupRecyclerView() {
         adapter = new ProveedorAdapter(proveedoresList, new ProveedorAdapter.OnProveedorActionListener() {
             @Override
@@ -166,10 +156,10 @@ public class ProveedoresActivity extends BaseActivity {
         btnCancelar.setOnClickListener(v -> dialog.dismiss());
 
         btnGuardar.setOnClickListener(v -> {
-            String telefono = etTelefono.getText().toString().trim();
-            String nombreEmpresa = etNombreEmpresa.getText().toString().trim();
-            String nombreProveedor = etNombreProveedor.getText().toString().trim();
-            String productos = etProductos.getText().toString().trim();
+            String telefono = etTelefono.getText() != null ? etTelefono.getText().toString().trim() : "";
+            String nombreEmpresa = etNombreEmpresa.getText() != null ? etNombreEmpresa.getText().toString().trim() : "";
+            String nombreProveedor = etNombreProveedor.getText() != null ? etNombreProveedor.getText().toString().trim() : "";
+            String productos = etProductos.getText() != null ? etProductos.getText().toString().trim() : "";
 
             if (telefono.isEmpty() || nombreEmpresa.isEmpty() || nombreProveedor.isEmpty()) {
                 Toast.makeText(this, "Telefono, empresa y nombre son requeridos", Toast.LENGTH_SHORT).show();

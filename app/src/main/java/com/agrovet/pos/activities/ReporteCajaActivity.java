@@ -57,16 +57,6 @@ public class ReporteCajaActivity extends BaseActivity {
         fabAdd.setOnClickListener(v -> mostrarDialogoMovimiento(null));
     }
 
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-            getSupportActionBar().setTitle(R.string.titulo_reporte_caja);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
-    }
-
     private void setupRecyclerView() {
         adapter = new MovimientoAdapter(movimientosList, new MovimientoAdapter.OnMovimientoActionListener() {
             @Override public void onEditar(Movimiento m) { mostrarDialogoMovimiento(m); }
@@ -158,10 +148,10 @@ public class ReporteCajaActivity extends BaseActivity {
 
         btnGuardar.setOnClickListener(v -> {
             try {
-                String razon = etRazon.getText().toString().trim();
-                String montoStr = etMonto.getText().toString().trim();
-                String categoria = etCategoria.getText().toString().trim();
-                String fecha = etFecha.getText().toString().trim();
+                String razon = etRazon.getText() != null ? etRazon.getText().toString().trim() : "";
+                String montoStr = etMonto.getText() != null ? etMonto.getText().toString().trim() : "";
+                String categoria = etCategoria.getText() != null ? etCategoria.getText().toString().trim() : "";
+                String fecha = etFecha.getText() != null ? etFecha.getText().toString().trim() : "";
                 
                 if (razon.isEmpty() || montoStr.isEmpty() || categoria.isEmpty() || fecha.isEmpty()) {
                     Toast.makeText(this, "Complete todos los campos marcados con *", Toast.LENGTH_SHORT).show();

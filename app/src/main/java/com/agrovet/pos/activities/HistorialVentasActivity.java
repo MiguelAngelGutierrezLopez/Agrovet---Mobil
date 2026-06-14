@@ -57,7 +57,6 @@ public class HistorialVentasActivity extends BaseActivity {
         movimientoViewModel = new ViewModelProvider(this).get(com.agrovet.pos.viewmodels.MovimientoViewModel.class);
 
         initViews();
-        setupToolbar();
         setupDrawer();
         setupRecyclerView();
         setupFilters();
@@ -129,16 +128,6 @@ public class HistorialVentasActivity extends BaseActivity {
                 runOnUiThread(() -> Toast.makeText(HistorialVentasActivity.this, message, Toast.LENGTH_LONG).show());
             }
         });
-    }
-
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-            getSupportActionBar().setTitle("Historial de Ventas");
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private void setupRecyclerView() {

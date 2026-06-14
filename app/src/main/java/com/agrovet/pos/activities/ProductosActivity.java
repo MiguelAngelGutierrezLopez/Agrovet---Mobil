@@ -8,7 +8,6 @@ import android.widget.*;
 import java.text.Normalizer;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
-import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.ViewModelProvider;
@@ -74,16 +73,6 @@ public class ProductosActivity extends BaseActivity {
         btnAgregar = findViewById(R.id.btn_agregar);
         spinnerCategoria = findViewById(R.id.spinner_categoria);
         spinnerStock = findViewById(R.id.spinner_stock);
-    }
-
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setTitle(R.string.titulo_productos);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
     }
 
     private void setupSpinners() {

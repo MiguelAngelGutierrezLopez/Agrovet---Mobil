@@ -80,6 +80,7 @@ public class MainActivity extends BaseActivity {
         askNotificationPermission();
 
         initViews();
+        setupToolbar();
         setupDrawer();
         setupClickListeners();
 

@@ -170,15 +170,6 @@ public class VentasActivity extends BaseActivity {
         });
     }
 
-    private void setupToolbar() {
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);
-        }
-        toolbar.setNavigationOnClickListener(v -> finish());
-    }
-
     private void setupRecyclerViews() {
         catalogAdapter = new ProductoAdapter(catalogList, new ProductoAdapter.OnProductoActionListener() {
             @Override
@@ -439,7 +430,10 @@ public class VentasActivity extends BaseActivity {
                     @Override
                     public View getView(int position, View convertView, @NonNull android.view.ViewGroup parent) {
                         TextView tv = (TextView) super.getView(position, convertView, parent);
-                        tv.setText(getItem(position).getNombre());
+                        Cliente cliente = getItem(position);
+                        if (cliente != null) {
+                            tv.setText(cliente.getNombre());
+                        }
                         tv.setTextColor(getColor(R.color.gris_oscuro));
                         return tv;
                     }
@@ -468,7 +462,7 @@ public class VentasActivity extends BaseActivity {
                             @Override
                             protected void publishResults(CharSequence constraint, FilterResults results) {
                                 clear();
-                                if (results != null && results.count > 0) {
+                                if (results != null && results.count > 0 && results.values instanceof List) {
                                     addAll((List<Cliente>) results.values);
                                 }
                                 notifyDataSetChanged();
@@ -476,7 +470,7 @@ public class VentasActivity extends BaseActivity {
 
                             @Override
                             public CharSequence convertResultToString(Object resultValue) {
-                                return ((Cliente) resultValue).getNombre();
+                                return resultValue instanceof Cliente ? ((Cliente) resultValue).getNombre() : "";
                             }
                         };
                     }

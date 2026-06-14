@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.widget.Button;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import com.agrovet.pos.MainActivity;
 import com.agrovet.pos.R;
 import com.agrovet.pos.utils.AppLogger;
 import com.google.android.material.textfield.TextInputEditText;
@@ -26,10 +25,10 @@ public class LoginActivity extends AppCompatActivity {
 
         btnLogin.setOnClickListener(v -> {
             try {
-                String username = etUsername.getText().toString().trim();
-                String password = etPassword.getText().toString().trim();
+                String username = etUsername.getText() != null ? etUsername.getText().toString().trim() : "";
+                String password = etPassword.getText() != null ? etPassword.getText().toString().trim() : "";
 
-                if (username.equals("admin") && password.equals("AgroVet")) {
+                if ("admin".equals(username) && "AgroVet".equals(password)) {
                     AppLogger.i("Login exitoso para el usuario administrador");
                     startActivity(new Intent(this, SyncActivity.class));
                     finish();

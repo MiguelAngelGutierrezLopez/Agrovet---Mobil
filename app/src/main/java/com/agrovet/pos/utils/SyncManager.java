@@ -156,7 +156,7 @@ public class SyncManager {
                             Movimiento m = new Movimiento();
                             // El server_id viene como "id" en el JSON
                             if (map.get("id") != null) {
-                                m.setServerId(((Double) map.get("id")).intValue());
+                                m.setServerId(((Number) map.get("id")).intValue());
                             }
                             
                             m.setIngresos(map.get("ingresos") != null ? Double.parseDouble(String.valueOf(map.get("ingresos"))) : 0.0);
