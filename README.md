@@ -74,3 +74,16 @@ Para acceder a la aplicacion, se deben utilizar las siguientes credenciales conf
 La aplicación utiliza un modelo "Local-First". Todos los registros se guardan primero en la base de datos local y se marcan con una bandera `is_synced = 0`. El `SyncManager` se encarga de:
 1. **Push**: Enviar registros locales nuevos al servidor.
 2. **Pull**: Descargar actualizaciones de precios, stock e historial de ventas desde la nube.
+
+---
+
+## ℹ️ Historial del Proyecto y Colaboración
+
+### Sobre el historial de commits
+Es posible que el historial de actividad en GitHub muestre principalmente trabajo realizado recientemente (14 de junio). Esto se debe a que se realizó un **push forzado** para reestructurar el repositorio, lo cual reinició el log de actividades previo. No obstante, toda la evidencia del desarrollo continuo y el trabajo previo se encuentra detallada y disponible en la carpeta **"Documentación"**.
+
+### Roles del Equipo
+Los commits en este repositorio de la aplicación móvil aparecen bajo el nombre de **Miguel Ángel Gutiérrez López**. Su compañero de equipo, **Juan Sebastián Corredor**, desempeñó un papel fundamental encargándose de:
+*   Las labores de **Gestión de Proyectos**.
+*   El desarrollo integral de la **aplicación web**.
+*   El **despliegue en servidores** y la infraestructura del ecosistema.
