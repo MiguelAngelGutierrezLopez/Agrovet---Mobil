@@ -89,6 +89,7 @@
     <string name="label_precio">Precio</string>
     <string name="label_stock">Stock</string>
     <string name="label_descripcion">Descripción</string>
+    <string name="et_presentacion">Presentación</string>
     <string name="btn_agregar_producto">+ AGREGAR NUEVO PRODUCTO</string>
     <string name="hint_buscar_producto">Buscar producto...</string>
     <string name="codigo_label">Código: %s</string>

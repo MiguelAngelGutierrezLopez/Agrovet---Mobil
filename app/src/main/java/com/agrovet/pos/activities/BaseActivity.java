@@ -46,10 +46,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             if (!(this instanceof MainActivity)) {
                 intent = new Intent(this, MainActivity.class);
             }
-        } else if (id == R.id.nav_clientes) {
-            if (!(this instanceof ClientesActivity)) {
-                intent = new Intent(this, ClientesActivity.class);
-            }
         } else if (id == R.id.nav_productos) {
             if (!(this instanceof ProductosActivity)) {
                 intent = new Intent(this, ProductosActivity.class);
