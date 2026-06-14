@@ -38,19 +38,23 @@ public class ProveedorAdapter extends RecyclerView.Adapter<ProveedorAdapter.View
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Proveedor proveedor = proveedores.get(position);
 
-        holder.txtEmpresa.setText(proveedor.getNombreEmpresa());
-        holder.txtNombreProveedor.setText("Contacto: " + proveedor.getNombreProveedor());
+        String titulo = proveedor.getNombreEmpresa();
+        if (proveedor.getNombreProveedor() != null && !proveedor.getNombreProveedor().isEmpty()) {
+            titulo += " (" + proveedor.getNombreProveedor() + ")";
+        }
+        holder.txtEmpresa.setText(titulo);
+        holder.txtNombreProveedor.setVisibility(View.GONE); // Ocultamos el campo separado ya que está en el título
+        
         holder.txtTelefono.setText("Tel: " + proveedor.getTelefono());
         
         // Forzar colores para visibilidad
         holder.txtEmpresa.setTextColor(holder.itemView.getContext().getColor(R.color.gris_oscuro));
-        holder.txtNombreProveedor.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
         holder.txtTelefono.setTextColor(holder.itemView.getContext().getColor(R.color.teal));
 
         holder.txtEstado.setVisibility(View.GONE);
 
-        if (proveedor.getProductos() != null && !proveedor.getProductos().isEmpty()) {
-            holder.txtProductos.setText(proveedor.getProductos());
+        if (proveedor.getProducto() != null && !proveedor.getProducto().isEmpty()) {
+            holder.txtProductos.setText("Suministra: " + proveedor.getProducto());
             holder.txtProductos.setVisibility(View.VISIBLE);
             holder.txtProductos.setTextColor(holder.itemView.getContext().getColor(R.color.gris_medio));
         } else {

@@ -99,21 +99,31 @@ public class SyncManager {
 
                 // 1. Clientes
                 AppLogger.d("PULL: Solicitando clientes...");
-                Response<ClientSyncResponse> respCli = userApi.getClientesSync().execute();
-                if (respCli.isSuccessful() && respCli.body() != null && respCli.body().getClientes() != null) {
-                    List<Cliente> clientes = respCli.body().getClientes();
-                    AppLogger.i("PULL: Recibidos " + clientes.size() + " clientes.");
-                    for (Cliente c : clientes) {
-                        c.setSynced(true);
-                        Cliente existing = db.clienteDao().findByCedula(c.getCedula());
-                        if (existing != null) {
-                            db.clienteDao().update(c);
-                        } else {
-                            db.clienteDao().insert(c);
+                Response<Map<String, Object>> respCli = userApi.getClientes(1000).execute();
+                if (respCli.isSuccessful() && respCli.body() != null && Boolean.TRUE.equals(respCli.body().get("success"))) {
+                    List<Map<String, Object>> clientesRaw = (List<Map<String, Object>>) respCli.body().get("clientes");
+                    if (clientesRaw != null) {
+                        AppLogger.i("PULL: Recibidos " + clientesRaw.size() + " clientes.");
+                        for (Map<String, Object> map : clientesRaw) {
+                            Cliente c = new Cliente();
+                            c.setCedula(String.valueOf(map.get("cedula") != null ? map.get("cedula") : map.get("documento")));
+                            c.setNombre(String.valueOf(map.get("nombre")));
+                            c.setTelefono(map.get("telefono") != null ? String.valueOf(map.get("telefono")) : "");
+                            c.setCorreo(map.get("email") != null ? String.valueOf(map.get("email")) : (map.get("correo") != null ? String.valueOf(map.get("correo")) : ""));
+                            c.setDireccion(map.get("direccion") != null ? String.valueOf(map.get("direccion")) : "");
+                            c.setFechaCreacion(map.get("fecha_creacion") != null ? String.valueOf(map.get("fecha_creacion")) : "");
+                            c.setSynced(true);
+
+                            Cliente existing = db.clienteDao().findByCedula(c.getCedula());
+                            if (existing != null) {
+                                db.clienteDao().update(c);
+                            } else {
+                                db.clienteDao().insert(c);
+                            }
                         }
-                        totalNewItems++;
+                        totalNewItems += clientesRaw.size();
+                        summary.append("• ").append(clientesRaw.size()).append(" Clientes\n");
                     }
-                    summary.append("• ").append(clientes.size()).append(" Clientes\n");
                 }
 
                 // 2. Productos
