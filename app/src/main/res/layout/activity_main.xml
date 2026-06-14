@@ -247,177 +247,65 @@
                     <androidx.gridlayout.widget.GridLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:rowCount="4"
+                        android:rowCount="3"
                         android:columnCount="2"
                         android:layout_marginBottom="24dp">
 
-                        <androidx.cardview.widget.CardView
+                        <Button
                             android:id="@+id/btn_clientes"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_margin="6dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="1dp">
+                            android:layout_margin="4dp"
+                            android:text="@string/menu_clientes"
+                            style="@style/Widget.Agrovet.Button.Primary" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="16dp"
-                                android:background="@color/teal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/menu_clientes"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.05" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <Button
                             android:id="@+id/btn_productos"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_margin="6dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="1dp">
+                            android:layout_margin="4dp"
+                            android:text="@string/menu_productos"
+                            style="@style/Widget.Agrovet.Button.Primary" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="16dp"
-                                android:background="@color/teal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/menu_productos"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.05" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <Button
                             android:id="@+id/btn_proveedores"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_margin="6dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="1dp">
+                            android:layout_margin="4dp"
+                            android:text="@string/menu_proveedores"
+                            style="@style/Widget.Agrovet.Button.Primary" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="16dp"
-                                android:background="@color/teal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/menu_proveedores"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.05" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <Button
                             android:id="@+id/btn_ventas"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_margin="6dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="1dp">
+                            android:layout_margin="4dp"
+                            android:text="@string/menu_ventas"
+                            style="@style/Widget.Agrovet.Button.Primary" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="16dp"
-                                android:background="@color/teal">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/menu_ventas"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.05" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <Button
                             android:id="@+id/btn_historial"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_margin="6dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="1dp">
+                            android:layout_margin="4dp"
+                            android:text="@string/titulo_historial"
+                            style="@style/Widget.Agrovet.Button.Primary"
+                            android:backgroundTint="@color/turquesa" />
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="16dp"
-                                android:background="@color/turquesa">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/titulo_historial"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.05" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
+                        <Button
                             android:id="@+id/btn_caja"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_columnWeight="1"
-                            android:layout_margin="6dp"
-                            app:cardCornerRadius="10dp"
-                            app:cardElevation="1dp">
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical"
-                                android:gravity="center"
-                                android:padding="16dp"
-                                android:background="@color/mostaza">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="@string/titulo_reporte_caja"
-                                    android:textColor="@color/white"
-                                    android:textSize="11sp"
-                                    android:textStyle="bold"
-                                    android:letterSpacing="0.05" />
-                            </LinearLayout>
-                        </androidx.cardview.widget.CardView>
+                            android:layout_margin="4dp"
+                            android:text="@string/titulo_reporte_caja"
+                            style="@style/Widget.Agrovet.Button.Primary"
+                            android:backgroundTint="@color/mostaza" />
 
                     </androidx.gridlayout.widget.GridLayout>
 
