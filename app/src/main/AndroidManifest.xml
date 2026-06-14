@@ -77,6 +77,11 @@
             android:name=".activities.SyncActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".activities.SyncAlertActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.Dialog"
+            android:exported="false" />
+
         <service android:name=".ServicioNotificaciones" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT"/>
