@@ -161,13 +161,23 @@ public class SyncManager {
                     AppLogger.i("PULL: Recibidas " + ventas.size() + " ventas del historial.");
                     for (Venta v : ventas) {
                         v.setSynced(true);
-                        // El servidor devuelve 'id' como el ID de base de datos remoto
                         Venta existing = db.ventaDao().findByServerId(v.getServerId());
+                        long localVentaId;
                         if (existing != null) {
                             v.setId(existing.getId());
                             db.ventaDao().update(v);
+                            localVentaId = existing.getId();
                         } else {
-                            db.ventaDao().insertOrIgnore(v);
+                            localVentaId = db.ventaDao().insert(v);
+                        }
+
+                        // Guardar items de la venta si vienen en el JSON
+                        if (v.getItems() != null && !v.getItems().isEmpty()) {
+                            db.ventaItemDao().deleteByVentaId((int) localVentaId);
+                            for (VentaItem item : v.getItems()) {
+                                item.setVentaId((int) localVentaId);
+                                db.ventaItemDao().insert(item);
+                            }
                         }
                         totalNewItems++;
                     }

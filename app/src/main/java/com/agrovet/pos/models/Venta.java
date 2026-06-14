@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+import java.util.List;
 
 @Entity(tableName = "ventas",
         indices = {
@@ -87,6 +88,10 @@ public class Venta {
     @ColumnInfo(name = "is_synced", defaultValue = "0")
     private boolean isSynced = false;
 
+    @androidx.room.Ignore
+    @com.google.gson.annotations.SerializedName("productos")
+    private List<VentaItem> items;
+
     public Venta() {
         this.fechaDia = "";
         this.fechaHora = "";
@@ -154,6 +159,9 @@ public class Venta {
 
     public boolean isSynced() { return isSynced; }
     public void setSynced(boolean synced) { isSynced = synced; }
+
+    public List<VentaItem> getItems() { return items; }
+    public void setItems(List<VentaItem> items) { this.items = items; }
 
     public String getTicket() { return String.valueOf(numeroVenta != null ? numeroVenta : (id != null ? id : "")); }
     public String getFecha() { return fechaDia + " " + fechaHora; }

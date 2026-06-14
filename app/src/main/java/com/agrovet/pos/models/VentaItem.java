@@ -18,18 +18,23 @@ public class VentaItem {
     private Integer ventaId;
 
     @ColumnInfo(name = "producto_id")
+    @com.google.gson.annotations.SerializedName("producto_id")
     private Integer productoId;
 
     @ColumnInfo(name = "nombre_producto")
+    @com.google.gson.annotations.SerializedName("nombre")
     private String nombreProducto;
 
     @ColumnInfo(name = "cantidad")
+    @com.google.gson.annotations.SerializedName("cantidad")
     private int cantidad;
 
     @ColumnInfo(name = "precio_unitario")
+    @com.google.gson.annotations.SerializedName("precio")
     private double precioUnitario;
 
     @ColumnInfo(name = "total")
+    @com.google.gson.annotations.SerializedName("total")
     private double total;
 
     public VentaItem() {}
