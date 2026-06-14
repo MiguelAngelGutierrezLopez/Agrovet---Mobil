@@ -103,7 +103,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Ver Detalle"
+                android:text="@string/btn_ver"
                 style="@style/Widget.Agrovet.Button.Action.Edit" />
 
             <View android:layout_width="10dp" android:layout_height="0dp" />
@@ -113,7 +113,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Eliminar"
+                android:text="@string/btn_eliminar"
                 style="@style/Widget.Agrovet.Button.Action.Delete" />
         </LinearLayout>
 
@@ -132,7 +132,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="INFORMACIÓN GENERAL"
+                android:text="@string/label_info_general"
                 style="@style/TextAppearance.Agrovet.Label"
                 android:textColor="@color/teal"
                 android:layout_marginBottom="8dp" />
@@ -154,7 +154,7 @@
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:text="N° Ticket:"
+                        android:text="@string/label_nro_ticket"
                         android:textColor="@color/gris_medio"
                         android:textSize="12sp" />
 
@@ -178,7 +178,7 @@
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:text="Fecha:"
+                        android:text="@string/label_fecha"
                         android:textColor="@color/gris_medio"
                         android:textSize="12sp" />
 
@@ -201,7 +201,7 @@
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:text="Cliente:"
+                        android:text="@string/label_cliente"
                         android:textColor="@color/gris_medio"
                         android:textSize="12sp" />
 
@@ -224,7 +224,7 @@
                     <TextView
                         android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:text="Método Pago:"
+                        android:text="@string/label_metodo_pago"
                         android:textColor="@color/gris_medio"
                         android:textSize="12sp" />
 
@@ -243,7 +243,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RESUMEN ECONÓMICO"
+                android:text="@string/label_resumen_economico"
                 style="@style/TextAppearance.Agrovet.Label"
                 android:textColor="@color/teal"
                 android:layout_marginBottom="8dp" />
@@ -266,7 +266,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Subtotal:"
+                        android:text="@string/label_subtotal"
                         android:textColor="@color/gris_medio"
                         android:textSize="12sp" />
 
@@ -289,7 +289,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Descuento:"
+                        android:text="@string/label_descuento"
                         android:textColor="@color/gris_medio"
                         android:textSize="12sp" />
 
@@ -317,7 +317,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="TOTAL:"
+                        android:text="@string/label_total"
                         android:textColor="@color/teal"
                         android:textSize="14sp"
                         android:textStyle="bold" />
@@ -344,7 +344,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="INFORMACIÓN CRÉDITO"
+                    android:text="@string/label_info_credito"
                     style="@style/TextAppearance.Agrovet.Label"
                     android:textColor="@color/terracota"
                     android:layout_marginBottom="8dp" />
@@ -367,7 +367,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Anticipo:"
+                            android:text="@string/label_anticipo"
                             android:textColor="@color/gris_medio"
                             android:textSize="12sp" />
 
@@ -389,7 +389,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Saldo Pendiente:"
+                            android:text="@string/label_saldo_pendiente"
                             android:textColor="@color/terracota"
                             android:textSize="12sp"
                             android:textStyle="bold" />

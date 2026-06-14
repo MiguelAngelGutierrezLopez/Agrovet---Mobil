@@ -17,7 +17,7 @@
             android:id="@+id/txt_empresa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre Empresa"
+            android:text="@string/label_nombre_empresa"
             android:textColor="@color/gris_oscuro"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -26,7 +26,7 @@
             android:id="@+id/txt_nombre_proveedor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Contacto"
+            android:text="@string/label_nombre_contacto"
             android:textColor="@color/teal"
             android:textSize="12sp"
             android:layout_marginTop="2dp" />
@@ -42,7 +42,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tel: 000000"
+                android:text="@string/tel_prefix"
                 android:textColor="@color/gris_medio"
                 android:textSize="11sp" />
 
@@ -50,7 +50,7 @@
                 android:id="@+id/txt_estado"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ACTIVO"
+                android:text="@string/label_activo"
                 android:textColor="@color/verde_exito"
                 android:textSize="11sp"
                 android:textStyle="bold" />
@@ -60,7 +60,7 @@
             android:id="@+id/txt_productos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Productos: Antibióticos, Vitaminas"
+            android:text="@string/productos_prefix"
             android:textColor="@color/gris_medio"
             android:textSize="11sp"
             android:layout_marginTop="4dp"
@@ -80,7 +80,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Editar"
+                android:text="@string/btn_editar_caps"
                 style="@style/Widget.Agrovet.Button.Action.Edit" />
 
             <View android:layout_width="10dp" android:layout_height="0dp" />
@@ -90,7 +90,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Eliminar"
+                android:text="@string/btn_eliminar_caps"
                 style="@style/Widget.Agrovet.Button.Action.Delete" />
         </LinearLayout>
 

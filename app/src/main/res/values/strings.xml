@@ -167,4 +167,38 @@
     <string name="anticipos">Anticipos:</string>
     <string name="_0_0">$0</string>
     <string name="ventas_">Ventas:</string>
+
+    <!-- Nuevos Strings Localizados -->
+    <string name="ingresos_categoria_pago">Ingresos por Categoría de Pago</string>
+    <string name="banco_caps">BANCO</string>
+    <string name="metodos_label">Métodos: -</string>
+    <string name="total_venta_label">Total venta:</string>
+    <string name="hoy">Hoy</string>
+    <string name="semana">Semana</string>
+    <string name="mes">Mes</string>
+    <string name="anio">Año</string>
+    <string name="limpiar_historial">Limpiar Historial</string>
+    <string name="movimientos_recientes">MOVIMIENTOS RECIENTES</string>
+    <string name="ingresos_caps">INGRESOS</string>
+    <string name="egresos_caps">EGRESOS</string>
+    <string name="total_caps">TOTAL</string>
+    <string name="cambio_servidor_msg">Hemos detectado que hubo un cambio en el servidor. ¿Quiere reiniciar la aplicación ahora para actualizar los datos?</string>
+    <string name="btn_reiniciar_actualizar">REINICIAR Y ACTUALIZAR</string>
+    <string name="btn_despues_manual">DESPUÉS / MANUALMENTE</string>
+    <string name="submetodo_nequi">Nequi</string>
+    <string name="submetodo_transaccion">Transacción</string>
+    <string name="submetodo_tarjeta">Tarjeta</string>
+    <string name="label_nuevo_movimiento">Nuevo Movimiento</string>
+    <string name="label_descripcion_razon">Descripción / Razón</string>
+    <string name="label_tipo_movimiento">Tipo de Movimiento</string>
+    <string name="label_credencial_telefono">Credencial / Teléfono</string>
+    <string name="label_nombre_empresa">Nombre de la Empresa</string>
+    <string name="label_nombre_contacto">Nombre del Contacto</string>
+    <string name="label_productos_suministra">Productos que Suministra</string>
+    <string name="label_sincronizacion_datos">Sincronización de Datos</string>
+    <string name="label_cargando_resumen">Cargando resumen...</string>
+    <string name="label_activo">ACTIVO</string>
+    <string name="tel_prefix">Tel: </string>
+    <string name="productos_prefix">Productos: </string>
+    <string name="btn_agregar_proveedor">+ AGREGAR PROVEEDOR</string>
 </resources>

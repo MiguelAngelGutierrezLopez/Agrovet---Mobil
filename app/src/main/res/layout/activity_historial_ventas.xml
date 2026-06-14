@@ -35,7 +35,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ingresos por Categoría de Pago"
+                    android:text="@string/ingresos_categoria_pago"
                     android:textSize="14sp"
                     android:textStyle="bold"
                     android:textColor="@color/gris_oscuro"
@@ -57,7 +57,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="BANCO"
+                            android:text="@string/banco_caps"
                             android:textStyle="bold"
                             android:textSize="12sp"
                             android:textColor="@color/teal"
@@ -71,7 +71,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Ingresos:"
+                                android:text="@string/ingresos"
                                 android:textSize="10sp"
                                 android:textColor="@color/gris_oscuro"/>
                             <TextView
@@ -92,7 +92,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Ventas:"
+                                android:text="@string/ventas"
                                 android:textSize="10sp"
                                 android:textColor="@color/gris_oscuro"/>
                             <TextView
@@ -106,7 +106,7 @@
                             android:id="@+id/txt_banco_subtipos"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Métodos: -"
+                            android:text="@string/metodos_label"
                             android:textSize="9sp"
                             android:textColor="@color/gris_medio"
                             android:layout_marginTop="2dp"
@@ -256,7 +256,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Total venta:"
+                                android:text="@string/total_venta_label"
                                 android:textSize="10sp"
                                 android:textColor="@color/gris_oscuro"/>
                             <TextView
@@ -283,7 +283,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Saldo pendiente:"
+                                android:text="@string/label_saldo_pendiente"
                                 android:textStyle="bold"
                                 android:textSize="10sp"
                                 android:textColor="@color/terracota" />
@@ -315,7 +315,7 @@
                 <Button android:id="@+id/btn_periodo_hoy"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="Hoy"
+                    android:text="@string/hoy"
                     android:textSize="10sp"
                     android:paddingHorizontal="12dp"
                     style="@style/Widget.Agrovet.Button.Period" />
@@ -323,7 +323,7 @@
                 <Button android:id="@+id/btn_periodo_semana"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="Semana"
+                    android:text="@string/semana"
                     android:textSize="10sp"
                     android:paddingHorizontal="12dp"
                     style="@style/Widget.Agrovet.Button.Period" />
@@ -331,7 +331,7 @@
                 <Button android:id="@+id/btn_periodo_mes"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="Mes"
+                    android:text="@string/mes"
                     android:textSize="10sp"
                     android:paddingHorizontal="12dp"
                     style="@style/Widget.Agrovet.Button.Period" />
@@ -339,7 +339,7 @@
                 <Button android:id="@+id/btn_periodo_anio"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
-                    android:text="Año"
+                    android:text="@string/anio"
                     android:textSize="10sp"
                     android:paddingHorizontal="12dp"
                     style="@style/Widget.Agrovet.Button.Period" />

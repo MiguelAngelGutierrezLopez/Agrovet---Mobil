@@ -15,7 +15,7 @@
             android:id="@+id/titulo_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Proveedor"
+            android:text="@string/menu_proveedores"
             style="@style/TextAppearance.Agrovet.Headline.Dialog"
             android:layout_marginBottom="24dp" />
 
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Credencial / Teléfono"
+            android:text="@string/label_credencial_telefono"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -46,7 +46,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre de la Empresa"
+            android:text="@string/label_nombre_empresa"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -68,7 +68,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nombre del Contacto"
+            android:text="@string/label_nombre_contacto"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -90,7 +90,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Productos que Suministra"
+            android:text="@string/label_productos_suministra"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -133,7 +133,7 @@
                 android:id="@+id/btn_cancelar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancelar"
+                android:text="@string/btn_cancelar"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:textColor="@color/gris_medio" />
 
@@ -141,7 +141,7 @@
                 android:id="@+id/btn_guardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guardar"
+                android:text="@string/btn_guardar"
                 style="@style/Widget.Agrovet.Button.Primary"
                 android:layout_marginStart="8dp" />
 

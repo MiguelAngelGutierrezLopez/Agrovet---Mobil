@@ -28,7 +28,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Limpiar Historial"
+            android:text="@string/limpiar_historial"
             style="@style/Widget.MaterialComponents.Button.TextButton"
             android:textColor="@color/rojo_error" />
     </LinearLayout>

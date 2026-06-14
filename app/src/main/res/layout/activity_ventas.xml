@@ -573,7 +573,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:checked="true"
-                                        android:text="Nequi"
+                                        android:text="@string/submetodo_nequi"
                                         app:chipBackgroundColor="@color/blanco_hueso"
                                         app:chipStrokeColor="@color/teal"
                                         app:chipStrokeWidth="1dp" />
@@ -584,7 +584,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="8dp"
-                                        android:text="Transacción"
+                                        android:text="@string/submetodo_transaccion"
                                         app:chipBackgroundColor="@color/blanco_hueso"
                                         app:chipStrokeColor="@color/gris_claro"
                                         app:chipStrokeWidth="1dp" />
@@ -595,7 +595,7 @@
                                         android:layout_width="wrap_content"
                                         android:layout_height="wrap_content"
                                         android:layout_marginStart="8dp"
-                                        android:text="Tarjeta"
+                                        android:text="@string/submetodo_tarjeta"
                                         app:chipBackgroundColor="@color/blanco_hueso"
                                         app:chipStrokeColor="@color/gris_claro"
                                         app:chipStrokeWidth="1dp" />

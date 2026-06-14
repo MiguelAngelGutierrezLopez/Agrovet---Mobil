@@ -19,7 +19,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Producto"
+            android:text="@string/label_producto"
             android:textColor="@color/gris_oscuro"
             android:textSize="13sp"
             android:textStyle="bold"

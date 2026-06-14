@@ -26,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Cargando datos del servidor..."
+            android:text="@string/sync_loading"
             android:textColor="@color/gris_oscuro"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Iniciando sincronización"
+            android:text="@string/sync_starting"
             android:textColor="@android:color/darker_gray"
             android:textSize="14sp" />
 
@@ -45,7 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="Continuar en modo Offline"
+            android:text="@string/sync_offline"
             android:visibility="gone"
             android:backgroundTint="@color/gris_medio"
             android:textColor="@color/white" />

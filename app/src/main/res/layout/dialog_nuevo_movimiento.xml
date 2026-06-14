@@ -15,7 +15,7 @@
             android:id="@+id/titulo_dialog"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Nuevo Movimiento"
+            android:text="@string/label_nuevo_movimiento"
             style="@style/TextAppearance.Agrovet.Headline.Dialog"
             android:layout_marginBottom="24dp" />
 
@@ -23,7 +23,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Monto"
+            android:text="@string/hint_monto"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -45,7 +45,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Categoría"
+            android:text="@string/label_categoria"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -66,7 +66,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fecha"
+            android:text="@string/label_fecha"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -89,7 +89,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Descripción / Razón"
+            android:text="@string/label_descripcion_razon"
             style="@style/TextAppearance.Agrovet.Label.Field" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -110,7 +110,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tipo de Movimiento"
+            android:text="@string/label_tipo_movimiento"
             style="@style/TextAppearance.Agrovet.Label.Field"
             android:layout_marginBottom="8dp" />
 
@@ -136,7 +136,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Ingreso"
+                    android:text="@string/tipo_ingreso"
                     android:textColor="@color/gris_oscuro"
                     android:checked="true" />
 
@@ -145,7 +145,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Egreso"
+                    android:text="@string/tipo_egreso"
                     android:textColor="@color/gris_oscuro" />
             </RadioGroup>
         </com.google.android.material.card.MaterialCardView>
@@ -154,7 +154,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="* Campos obligatorios"
+            android:text="@string/campos_obligatorios"
             android:textColor="@color/gris_medio"
             android:textSize="11sp"
             android:layout_marginBottom="24dp" />
@@ -170,7 +170,7 @@
                 android:id="@+id/btn_mov_cancelar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cancelar"
+                android:text="@string/btn_cancelar"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:textColor="@color/gris_medio" />
 
@@ -178,7 +178,7 @@
                 android:id="@+id/btn_mov_guardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Guardar"
+                android:text="@string/btn_guardar"
                 style="@style/Widget.Agrovet.Button.Primary"
                 android:layout_marginStart="8dp" />
         </LinearLayout>

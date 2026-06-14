@@ -32,7 +32,7 @@
                 android:id="@+id/txt_alert_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Hemos detectado que hubo un cambio en el servidor. ¿Quiere reiniciar la aplicación ahora para actualizar los datos?"
+                android:text="@string/cambio_servidor_msg"
                 android:textSize="16sp"
                 android:textColor="@color/gris_oscuro"
                 android:gravity="center"
@@ -42,7 +42,7 @@
                 android:id="@+id/btn_sync_now"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="REINICIAR Y ACTUALIZAR"
+                android:text="@string/btn_reiniciar_actualizar"
                 android:backgroundTint="@color/turquesa"
                 android:textColor="@color/white"
                 android:layout_marginBottom="12dp" />
@@ -51,7 +51,7 @@
                 android:id="@+id/btn_sync_later"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="DESPUÉS / MANUALMENTE"
+                android:text="@string/btn_despues_manual"
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:textColor="@color/gris_medio" />
 
