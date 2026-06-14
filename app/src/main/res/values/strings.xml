@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AgrovetMobil</string>
+    <string name="navigation_drawer_open">Abrir menú de navegación</string>
+    <string name="navigation_drawer_close">Cerrar menú de navegación</string>
+    <string name="menu_inicio">Inicio</string>
+    <string name="menu_clientes">Clientes</string>
+    <string name="menu_proveedores">Proveedores</string>
+    <string name="menu_productos">Productos</string>
+    <string name="dashboard_title">AGROVET YACUANQUER</string>
+    <string name="dashboard_subtitle">Sistema Punto de Venta</string>
+    <string name="dashboard_modules">MÓDULOS DEL SISTEMA</string>
+    <string name="ventas_proximamente">Ventas (Próximamente)</string>
+    <string name="connected_api_mock">Conectado a API Mock</string>
+    <string name="connected_api_real">Conectado a API Real</string>
+    <string name="error_load_data">Error al cargar datos</string>
+    <string name="app_mobil">Mobil</string>
+    <string name="resumen_general">Resumen General</string>
+    <string name="en_stock">En stock</string>
+    <string name="accesos_directos">Accesos Directos</string>
+    <string name="menu_ventas">Ventas</string>
+    <string name="estado_sistema">Estado del Sistema</string>
+    <string name="agrovet_caps">AGROVET</string>
+    <string name="gestion_inventario">Gestión de Inventario</string>
+    <string name="buscar_hint_clientes">Buscar por nombre o cédula...</string>
+    <string name="buscar_hint_productos">Buscar por nombre o código...</string>
+    <string name="buscar_hint_proveedores">Buscar por empresa o contacto...</string>
+    <string name="btn_buscar">Buscar</string>
+    <string name="btn_agregar_cliente">+ Nuevo Cliente</string>
+    <string name="btn_agregar_producto">+ Nuevo Producto</string>
+    <string name="btn_agregar_proveedor">+ Nuevo Proveedor</string>
+    <string name="titulo_clientes">Clientes</string>
+    <string name="titulo_productos">Productos</string>
+    <string name="titulo_proveedores">Proveedores</string>
+</resources>

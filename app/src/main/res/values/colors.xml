@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Colores principales de Agrovet -->
+    <color name="teal">#1F8A86</color>
+    <color name="teal_dark">#166b68</color>
+    <color name="teal_light">#3FA6A0</color>
+    <color name="terracota">#C08A67</color>
+    <color name="mostaza">#D9C357</color>
+    <color name="turquesa">#3FA6A0</color>
+    <color name="celeste_fondo">#E3F0F3</color>
+    <color name="blanco_hueso">#F7F7F4</color>
+    <color name="verde_oliva">#B7C3A1</color>
+    <color name="rojo_rosado">#D44A5E</color>
+
+    <!-- Colores generales -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="gris_oscuro">#2c3e50</color>
+    <color name="gris_medio">#7f8c8d</color>
+    <color name="gris_claro">#ecf0f1</color>
+    <color name="verde_exito">#27ae60</color>
+    <color name="rojo_error">#e74c3c</color>
+    <color name="azul_info">#3498db</color>
+</resources>
