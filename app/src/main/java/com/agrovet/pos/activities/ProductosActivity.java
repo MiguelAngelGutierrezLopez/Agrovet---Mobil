@@ -218,125 +218,17 @@ public class ProductosActivity extends BaseActivity {
     };
 
     private void mostrarDialogoProducto(Producto producto) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.dialog_producto, null);
-        builder.setView(view);
-
-        AlertDialog dialog = builder.create();
-
-        TextView tituloDialog = view.findViewById(R.id.titulo_dialog);
-        EditText etCodigo = view.findViewById(R.id.et_codigo);
-        TextInputEditText etNombre = view.findViewById(R.id.et_nombre);
-        TextInputEditText etPrecio = view.findViewById(R.id.et_precio);
-        TextInputEditText etStock = view.findViewById(R.id.et_stock);
-        ChipGroup cgCategorias = view.findViewById(R.id.cg_categorias);
-        TextInputEditText etPresentacion = view.findViewById(R.id.et_presentacion);
-        AutoCompleteTextView etProveedor = view.findViewById(R.id.et_producto_proveedor);
-        Button btnCancelar = view.findViewById(R.id.btn_cancelar);
-        Button btnGuardar = view.findViewById(R.id.btn_guardar);
-
-        // Llenar Proveedores
-        final Map<String, String> mapProveedores = new HashMap<>();
         proveedorViewModel.getProveedores().observe(this, listaProv -> {
-            if (listaProv != null) {
-                List<String> nombres = new ArrayList<>();
-                for (Proveedor prov : listaProv) {
-                    String label = prov.getNombreEmpresa() + " (" + prov.getNombreProveedor() + ")";
-                    nombres.add(label);
-                    mapProveedores.put(label, prov.getTelefono());
-                }
-                
-                if (nombres.isEmpty()) {
-                    nombres.add("No hay registros");
-                }
-
-                ArrayAdapter<String> provAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, nombres);
-                etProveedor.setAdapter(provAdapter);
-                
-                // Si estamos editando y el producto tiene proveedor, intentar seleccionarlo por nombre
-                if (producto != null && producto.getProveedor() != null) {
-                    for (Proveedor prov : listaProv) {
-                        if (prov.getTelefono().equals(producto.getProveedor())) {
-                            String label = prov.getNombreEmpresa() + " (" + prov.getNombreProveedor() + ")";
-                            etProveedor.setText(label, false);
-                            break;
-                        }
-                    }
-                }
-            }
-        });
-
-        etProveedor.setOnClickListener(v -> etProveedor.showDropDown());
-
-        // Llenar Chips de Categorias
-        for (String cat : CATEGORIAS) {
-            Chip chip = new Chip(this);
-            chip.setText(cat);
-            chip.setCheckable(true);
-            cgCategorias.addView(chip);
-            if (producto != null && cat.equalsIgnoreCase(producto.getCategoria())) {
-                chip.setChecked(true);
-            }
-        }
-
-        boolean isEditando = producto != null;
-
-        if (isEditando) {
-            tituloDialog.setText("Editar Producto");
-            if (etCodigo != null) etCodigo.setText(String.valueOf(producto.getId()));
-            etNombre.setText(producto.getNombre());
-            etPrecio.setText(String.valueOf(producto.getPrecioVenta() != null ? producto.getPrecioVenta() : 0));
-            etStock.setText(String.valueOf(producto.getCantidad() != null ? producto.getCantidad() : 0));
-            etPresentacion.setText(producto.getPresentacion());
-        } else {
-            tituloDialog.setText("Nuevo Producto");
-        }
-
-        btnCancelar.setOnClickListener(v -> dialog.dismiss());
-
-        btnGuardar.setOnClickListener(v -> {
-            String nombre = etNombre.getText().toString().trim();
-            String precioStr = etPrecio.getText().toString().trim();
-            String stockStr = etStock.getText().toString().trim();
-            String presentacion = etPresentacion.getText().toString().trim();
-            String nombreProv = etProveedor.getText().toString().trim();
-            String telefonoProv = mapProveedores.get(nombreProv);
-            
-            int selectedChipId = cgCategorias.getCheckedChipId();
-
-            if (nombre.isEmpty() || precioStr.isEmpty() || stockStr.isEmpty() || selectedChipId == -1) {
-                Toast.makeText(this, "Nombre, precio, unidades y categoría son requeridos", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            try {
-                int precio = Integer.parseInt(precioStr);
-                int unidades = Integer.parseInt(stockStr);
-                String categoria = ((Chip) view.findViewById(selectedChipId)).getText().toString().toUpperCase();
-                categoria = Normalizer.normalize(categoria, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
-
-                if (isEditando) {
-                    producto.setNombre(nombre);
-                    producto.setPrecioVenta(precio);
-                    producto.setCantidad(unidades);
-                    producto.setCategoria(categoria);
-                    producto.setPresentacion(presentacion);
-                    producto.setProveedor(telefonoProv != null ? telefonoProv : "");
-                    viewModel.updateProducto(producto);
+            DialogHelper.mostrarDialogoProducto(this, getLayoutInflater(), producto, listaProv, (targetProducto, isEditing) -> {
+                if (isEditing) {
+                    viewModel.updateProducto(targetProducto);
                     Toast.makeText(this, "Producto actualizado", Toast.LENGTH_SHORT).show();
                 } else {
-                    Producto nuevoProducto = new Producto(0, nombre, "", categoria, unidades, presentacion, telefonoProv != null ? telefonoProv : "", 0, precio);
-                    nuevoProducto.setSynced(false);
-                    viewModel.createProducto(nuevoProducto);
+                    viewModel.createProducto(targetProducto);
                     Toast.makeText(this, "Producto creado exitosamente", Toast.LENGTH_SHORT).show();
                 }
-                dialog.dismiss();
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, "Precio y unidades deben ser numéricos", Toast.LENGTH_SHORT).show();
-            }
+            });
         });
-
-        dialog.show();
     }
 
     private void onEditarClick(Producto producto) {
