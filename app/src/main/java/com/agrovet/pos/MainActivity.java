@@ -25,7 +25,6 @@ import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.ViewModelProvider;
-import com.agrovet.pos.activities.ClientesActivity;
 import com.agrovet.pos.activities.SyncAlertActivity;
 import android.os.Handler;
 import android.os.Looper;
@@ -57,7 +56,7 @@ public class MainActivity extends BaseActivity {
     private Toolbar toolbar;
     private TextView txtTotalClientes, txtTotalProductos, txtVentasHoy, txtCajaSaldo, txtDbStatus;
     private CardView cardClientes, cardProductos, cardVentasHoy, cardReporteCaja;
-    private CardView btnClientes, btnProveedores, btnProductos, btnVentas, btnStats, btnHistorial, btnCaja;
+    private CardView btnProveedores, btnProductos, btnVentas, btnStats, btnHistorial, btnCaja;
 
     private ClienteViewModel clienteViewModel;
     private ProductoViewModel productoViewModel;
@@ -153,7 +152,6 @@ public class MainActivity extends BaseActivity {
         cardVentasHoy = findViewById(R.id.card_ventas_hoy);
         cardReporteCaja = findViewById(R.id.card_reporte_caja);
         
-        btnClientes = findViewById(R.id.btn_clientes);
         btnProveedores = findViewById(R.id.btn_proveedores);
         btnProductos = findViewById(R.id.btn_productos);
         btnVentas = findViewById(R.id.btn_ventas);
@@ -190,7 +188,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupClickListeners() {
-        btnClientes.setOnClickListener(v -> openClientesActivity());
         btnProveedores.setOnClickListener(v -> openProveedoresActivity());
         btnProductos.setOnClickListener(v -> openProductosActivity());
         btnVentas.setOnClickListener(v -> openVentasActivity());
@@ -428,10 +425,6 @@ public class MainActivity extends BaseActivity {
         dialog.show();
     }
 
-    private void openClientesActivity() {
-        startActivity(new Intent(this, ClientesActivity.class));
-    }
-
     private void openProveedoresActivity() {
         startActivity(new Intent(this, ProveedoresActivity.class));
     }
@@ -457,8 +450,6 @@ public class MainActivity extends BaseActivity {
         int id = item.getItemId();
         if (id == R.id.nav_inicio) {
             drawerLayout.closeDrawer(GravityCompat.START);
-        } else if (id == R.id.nav_clientes) {
-            openClientesActivity();
         } else if (id == R.id.nav_proveedores) {
             openProveedoresActivity();
         } else if (id == R.id.nav_productos) {
