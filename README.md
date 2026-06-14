@@ -1,53 +1,51 @@
-# Agrovet - Aplicación Móvil POS Hybrid
+# Agrovet - Aplicacion Movil POS Hybrid
 
-Sistema de Punto de Venta (POS) híbrido diseñado para la gestión de inventario, ventas y reportes financieros de Agrovet. La aplicación permite el funcionamiento offline con sincronización bidireccional hacia servidores en la nube.
+Sistema de Punto de Venta (POS) hibrido diseñado para la gestion de inventario, ventas y reportes financieros de Agrovet. La aplicacion permite el funcionamiento offline con sincronizacion bidireccional hacia servidores en la nube.
 
-## 📱 Manual de Usuario Básico
+## Manual de Usuario Basico
 
 ### 1. Inicio (Dashboard)
-Pantalla principal que muestra un resumen rápido del estado del negocio:
-- **Indicadores**: Conteo total de clientes, productos, ventas del día y saldo actual en caja.
-- **Acceso Rápido**: Botones directos a las funciones principales (Ventas, Productos, Proveedores, etc.).
-- **Sincronización**: Botón central para enviar datos locales a la web o recibir actualizaciones del servidor.
+Pantalla principal que muestra un resumen rapido del estado del negocio:
+- Indicadores: Conteo total de clientes, productos, ventas del dia y saldo actual en caja.
+- Acceso Rapido: Botones directos a las funciones principales (Ventas, Productos, Proveedores, etc.).
+- Sincronizacion: Boton central para enviar datos locales a la web o recibir actualizaciones del servidor.
 
-### 2. Gestión de Inventario (Productos)
-Permite administrar el catálogo de productos.
-- **Visualización**: Lista con indicadores de stock (Verde: OK, Amarillo: Medio, Rojo: Crítico).
-- **Filtros**: Búsqueda por nombre, categoría o nivel de stock.
-- **Acciones**: Crear, editar y eliminar productos localmente.
+### 2. Gestion de Inventario (Productos)
+Permite administrar el catalogo de productos.
+- Visualizacion: Lista con indicadores de stock (Verde: OK, Amarillo: Medio, Rojo: Critico).
+- Filtros: Busqueda por nombre, categoria o nivel de stock.
+- Acciones: Crear, editar y eliminar productos localmente.
 
 ### 3. Ventas (POS)
 Proceso de venta en dos pasos:
-- **Paso 1**: Selección de productos del catálogo y gestión del carrito. Opción de "Venta Específica" para asignar un cliente.
-- **Paso 2**: Selección de método de pago (Contado, Crédito, Banco) y aplicación de descuentos. 
-    - *Crédito*: Requiere cliente específico, permite definir anticipo y días de crédito.
-    - *Banco*: Opciones para Nequi, Transacción o Tarjeta.
+- Paso 1: Seleccion de productos del catalogo y gestion del carrito. Opcion de "Venta Especifica" para asignar un cliente.
+- Paso 2: Seleccion de metodo de pago (Contado, Credito, Banco) y aplicacion de descuentos.
+    - Credito: Requiere cliente especifico, permite definir anticipo y dias de credito.
+    - Banco: Opciones para Nequi, Transaccion o Tarjeta.
 
 ### 4. Historial de Ventas
 Consulta de transacciones pasadas.
-- **Filtros**: Búsqueda por rango de fechas (Inicio/Fin) o periodos predefinidos (Hoy, Semana, Mes).
-- **Detalle**: Permite ver los productos específicos de cada venta y anular transacciones.
-
-### 5. Reporte de Caja
-Control de flujo de efectivo manual.
-- Permite registrar ingresos y egresos extraordinarios que no provienen directamente de ventas (ej: gastos de local, abonos manuales).
+- Filtros: Busqueda por rango de fechas (Inicio/Fin) o periodos predefinidos (Hoy, Semana, Mes).
+- Detalle: Permite ver los productos especificos de cada venta y anular transacciones.
 
 ---
 
-## 🔐 Credenciales y Acceso
+## Credenciales y Acceso
 
-### Login de Aplicación
-Actualmente, la aplicación utiliza un flujo simplificado. Las credenciales de acceso a los servicios web están preconfiguradas en el código para asegurar la conectividad con los microservicios en Railway.
+### Login de Aplicacion
+Para acceder a la aplicacion, se deben utilizar las siguientes credenciales configuradas en el sistema:
+- Usuario: admin
+- Contraseña: AgroVet
 
 ### Servidores (Microservicios)
-- **Usuarios/Clientes**: `https://api-usuarios-production-bd11.up.railway.app/`
-- **Inventario**: `https://api-inventario-production-3c43.up.railway.app/`
-- **Ventas**: `https://api-ventas-production.up.railway.app/`
-- **Reportes**: `https://api-reportes-production.up.railway.app/`
+- Usuarios/Clientes: https://api-usuarios-production-bd11.up.railway.app/
+- Inventario: https://api-inventario-production-3c43.up.railway.app/
+- Ventas: https://api-ventas-production.up.railway.app/
+- Reportes: https://api-reportes-production.up.railway.app/
 
 ---
 
-## 🛠️ Configuración y Dependencias
+## Configuracion y Dependencias
 
 ### Requisitos
 - Android Studio Ladybug o superior.
@@ -55,16 +53,15 @@ Actualmente, la aplicación utiliza un flujo simplificado. Las credenciales de a
 - SDK de Android (Min: 24, Target: 34).
 
 ### Dependencias Principales
-- **Room Persistence**: Base de datos local SQLite.
-- **Retrofit 2**: Cliente HTTP para comunicación con APIs REST.
-- **Gson**: Serialización y deserialización de JSON.
-- **Lifecycle (ViewModel & LiveData)**: Implementación del patrón MVVM.
-- **Material Design**: Componentes visuales de Google.
-- **SwipeRefreshLayout**: Interacción de actualización de listas.
+- Room Persistence: Base de datos local SQLite.
+- Retrofit 2: Cliente HTTP para comunicacion con APIs REST.
+- Gson: Serializacion y deserializacion de JSON.
+- Lifecycle (ViewModel & LiveData): Implementacion del patron MVVM.
+- Material Design: Componentes visuales de Google.
 
-### Archivos de Configuración Clave
-- `app/src/main/java/com/agrovet/pos/utils/Constants.java`: Contiene las URLs de los servidores.
-- `app/src/main/java/com/agrovet/pos/database/AppDatabase.java`: Configuración de Room y migraciones.
+### Archivos de Configuracion Clave
+- app/src/main/java/com/agrovet/pos/utils/Constants.java: Contiene las URLs de los servidores.
+- app/src/main/java/com/agrovet/pos/database/AppDatabase.java: Configuracion de Room y migraciones.
 
 ---
 
