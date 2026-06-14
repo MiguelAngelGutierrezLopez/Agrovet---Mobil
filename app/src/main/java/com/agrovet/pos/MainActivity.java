@@ -55,6 +55,7 @@ public class MainActivity extends BaseActivity {
     private NavigationView navigationView;
     private Toolbar toolbar;
     private TextView txtTotalClientes, txtTotalProductos, txtVentasHoy, txtCajaSaldo, txtDbStatus;
+    private View syncIndicator;
     private CardView cardClientes, cardProductos, cardVentasHoy, cardReporteCaja;
     private CardView btnProveedores, btnProductos, btnVentas, btnStats, btnHistorial, btnCaja;
 
@@ -106,9 +107,12 @@ public class MainActivity extends BaseActivity {
                 new SyncManager(MainActivity.this).checkForServerChanges(new SyncManager.SyncCallback() {
                     @Override
                     public void onSuccess(String modulo) {
-                        Intent intent = new Intent(MainActivity.this, SyncAlertActivity.class);
-                        intent.putExtra("modulo", modulo);
-                        startActivity(intent);
+                        runOnUiThread(() -> {
+                            if (syncIndicator != null) syncIndicator.setVisibility(View.VISIBLE);
+                            Intent intent = new Intent(MainActivity.this, SyncAlertActivity.class);
+                            intent.putExtra("modulo", modulo);
+                            startActivity(intent);
+                        });
                     }
                     @Override public void onError(String message) {}
                     @Override public void onProgress(String status) {}
@@ -146,6 +150,7 @@ public class MainActivity extends BaseActivity {
         txtVentasHoy = findViewById(R.id.txt_ventas_hoy);
         txtCajaSaldo = findViewById(R.id.txt_caja_saldo);
         txtDbStatus = findViewById(R.id.txt_db_status);
+        syncIndicator = findViewById(R.id.indicator_sync_needed);
         
         cardClientes = findViewById(R.id.card_clientes);
         cardProductos = findViewById(R.id.card_productos);
@@ -254,6 +259,7 @@ public class MainActivity extends BaseActivity {
             public void onSuccess(String summary) {
                 runOnUiThread(() -> {
                     if (mainProgressBar != null) mainProgressBar.setVisibility(View.GONE);
+                    if (syncIndicator != null) syncIndicator.setVisibility(View.GONE);
                     Toast.makeText(MainActivity.this, summary, Toast.LENGTH_LONG).show();
                     loadDashboardData();
                 });
@@ -322,6 +328,7 @@ public class MainActivity extends BaseActivity {
                         txtStatus.setText(summary);
                         btnEnviar.setEnabled(true);
                         btnCorregir.setEnabled(true);
+                        if (syncIndicator != null) syncIndicator.setVisibility(View.GONE);
                         Toast.makeText(MainActivity.this, "Base de datos actualizada", Toast.LENGTH_SHORT).show();
                         loadDashboardData();
                     });
