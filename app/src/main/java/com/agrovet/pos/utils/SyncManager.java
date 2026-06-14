@@ -153,15 +153,15 @@ public class SyncManager {
                     summary.append("• ").append(movimientos.size()).append(" Movimientos\n");
                 }
 
-                // 4. Ventas
-                Integer lastVentaId = db.ventaDao().getMaxServerId();
-                AppLogger.d("PULL: Solicitando ventas...");
-                Response<SaleSyncResponse> respVenta = salesApi.syncVentas(lastVentaId).execute();
+                // 4. Ventas (Carga Historial Completo)
+                AppLogger.d("PULL: Solicitando historial completo de ventas...");
+                Response<SaleSyncResponse> respVenta = salesApi.getHistorialVentas().execute();
                 if (respVenta.isSuccessful() && respVenta.body() != null && respVenta.body().getVentas() != null) {
                     List<Venta> ventas = respVenta.body().getVentas();
-                    AppLogger.i("PULL: Recibidos " + ventas.size() + " ventas.");
+                    AppLogger.i("PULL: Recibidas " + ventas.size() + " ventas del historial.");
                     for (Venta v : ventas) {
                         v.setSynced(true);
+                        // El servidor devuelve 'id' como el ID de base de datos remoto
                         Venta existing = db.ventaDao().findByServerId(v.getServerId());
                         if (existing != null) {
                             v.setId(existing.getId());
@@ -171,7 +171,7 @@ public class SyncManager {
                         }
                         totalNewItems++;
                     }
-                    summary.append("• ").append(ventas.size()).append(" Ventas\n");
+                    summary.append("• ").append(ventas.size()).append(" Ventas (Historial)\n");
                 }
 
                 // 5. Proveedores (Pull Completo)

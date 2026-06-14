@@ -17,7 +17,7 @@ public interface SalesApiService {
     Call<Map<String, Object>> getUltimoTicket();
 
     @GET("api/historial-ventas")
-    Call<Map<String, Object>> getHistorialVentas();
+    Call<com.agrovet.pos.network.dto.SaleSyncResponse> getHistorialVentas();
 
     @GET("api/historial-ventas/recientes")
     Call<Map<String, Object>> getVentasRecientes();
