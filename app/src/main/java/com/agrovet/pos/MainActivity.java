@@ -299,7 +299,14 @@ public class MainActivity extends BaseActivity {
                 runOnUiThread(() -> {
                     if (mainProgressBar != null) mainProgressBar.setVisibility(View.GONE);
                     if (syncIndicator != null) syncIndicator.setVisibility(View.GONE);
-                    Toast.makeText(MainActivity.this, summary, Toast.LENGTH_LONG).show();
+                    
+                    com.agrovet.pos.utils.DialogHelper.showCustomAlert(
+                            MainActivity.this,
+                            com.agrovet.pos.utils.DialogHelper.DialogType.SUCCESS,
+                            "Sincronización Exitosa",
+                            summary,
+                            null
+                    );
                     loadDashboardData();
                 });
             }
@@ -368,7 +375,14 @@ public class MainActivity extends BaseActivity {
                         btnEnviar.setEnabled(true);
                         btnCorregir.setEnabled(true);
                         if (syncIndicator != null) syncIndicator.setVisibility(View.GONE);
-                        Toast.makeText(MainActivity.this, "Base de datos actualizada", Toast.LENGTH_SHORT).show();
+                        
+                        com.agrovet.pos.utils.DialogHelper.showCustomAlert(
+                                MainActivity.this,
+                                com.agrovet.pos.utils.DialogHelper.DialogType.SUCCESS,
+                                "Sincronización Exitosa",
+                                summary,
+                                null
+                        );
                         loadDashboardData();
                     });
                 }

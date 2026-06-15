@@ -94,8 +94,13 @@ public class SyncManager {
             }
 
             try {
-                int totalNewItems = 0;
-                StringBuilder summary = new StringBuilder("Datos recibidos del servidor:\n");
+                int cliNew = 0, cliUpd = 0;
+                int prodNew = 0, prodUpd = 0;
+                int movNew = 0, movUpd = 0;
+                int vtaNew = 0, vtaUpd = 0;
+                int provNew = 0;
+
+                StringBuilder summary = new StringBuilder("Resumen de actualización:\n\n");
 
                 // 1. Clientes
                 AppLogger.d("PULL: Solicitando clientes...");
@@ -103,7 +108,6 @@ public class SyncManager {
                 if (respCli.isSuccessful() && respCli.body() != null && Boolean.TRUE.equals(respCli.body().get("success"))) {
                     List<Map<String, Object>> clientesRaw = (List<Map<String, Object>>) respCli.body().get("clientes");
                     if (clientesRaw != null) {
-                        AppLogger.i("PULL: Recibidos " + clientesRaw.size() + " clientes.");
                         for (Map<String, Object> map : clientesRaw) {
                             Cliente c = new Cliente();
                             c.setCedula(String.valueOf(map.get("cedula") != null ? map.get("cedula") : map.get("documento")));
@@ -117,12 +121,13 @@ public class SyncManager {
                             Cliente existing = db.clienteDao().findByCedula(c.getCedula());
                             if (existing != null) {
                                 db.clienteDao().update(c);
+                                cliUpd++;
                             } else {
                                 db.clienteDao().insert(c);
+                                cliNew++;
                             }
                         }
-                        totalNewItems += clientesRaw.size();
-                        summary.append("• ").append(clientesRaw.size()).append(" Clientes\n");
+                        if (cliNew > 0 || cliUpd > 0) summary.append("• Clientes: ").append(cliNew).append(" nuevos, ").append(cliUpd).append(" actualizados\n");
                     }
                 }
 
@@ -132,48 +137,34 @@ public class SyncManager {
                 Response<ProductSyncResponse> respProd = inventoryApi.getSyncProductos(lastProdId).execute();
                 if (respProd.isSuccessful() && respProd.body() != null && respProd.body().getProductos() != null) {
                     List<Producto> productos = respProd.body().getProductos();
-                    AppLogger.i("PULL: Recibidos " + productos.size() + " productos.");
                     for (Producto p : productos) {
                         p.setSynced(true);
                         Producto existing = db.productoDao().findByServerId(p.getServerId());
                         if (existing != null) {
                             p.setId(existing.getId());
                             db.productoDao().update(p);
+                            prodUpd++;
                         } else {
                             db.productoDao().insertOrIgnore(p);
+                            prodNew++;
                         }
-                        totalNewItems++;
                     }
-                    summary.append("• ").append(productos.size()).append(" Productos\n");
+                    if (prodNew > 0 || prodUpd > 0) summary.append("• Productos: ").append(prodNew).append(" nuevos, ").append(prodUpd).append(" actualizados\n");
                 }
 
                 // 3. Movimientos (API-REPORTES)
-                AppLogger.d("PULL: Solicitando movimientos de api-reportes...");
+                AppLogger.d("PULL: Solicitando movimientos...");
                 Response<Map<String, Object>> respMov = reportApi.getMovimientos().execute();
                 if (respMov.isSuccessful() && respMov.body() != null) {
                     Map<String, Object> body = respMov.body();
                     List<Map<String, Object>> movimientosRaw = null;
-                    
-                    if (body.get("data") instanceof List) {
-                        movimientosRaw = (List<Map<String, Object>>) body.get("data");
-                    } else if (body.get("data") instanceof Map) {
-                        Map<String, Object> dataMap = (Map<String, Object>) body.get("data");
-                        if (dataMap.get("movimientos") instanceof List) {
-                            movimientosRaw = (List<Map<String, Object>>) dataMap.get("movimientos");
-                        }
-                    } else if (body.get("movimientos") instanceof List) {
-                        movimientosRaw = (List<Map<String, Object>>) body.get("movimientos");
-                    }
+                    if (body.get("data") instanceof List) movimientosRaw = (List<Map<String, Object>>) body.get("data");
+                    else if (body.get("movimientos") instanceof List) movimientosRaw = (List<Map<String, Object>>) body.get("movimientos");
 
                     if (movimientosRaw != null) {
-                        AppLogger.i("PULL: Recibidos " + movimientosRaw.size() + " movimientos de api-reportes.");
                         for (Map<String, Object> map : movimientosRaw) {
                             Movimiento m = new Movimiento();
-                            // El server_id viene como "id" en el JSON
-                            if (map.get("id") != null) {
-                                m.setServerId(((Number) map.get("id")).intValue());
-                            }
-                            
+                            if (map.get("id") != null) m.setServerId(((Number) map.get("id")).intValue());
                             m.setIngresos(map.get("ingresos") != null ? Double.parseDouble(String.valueOf(map.get("ingresos"))) : 0.0);
                             m.setEgresos(map.get("egresos") != null ? Double.parseDouble(String.valueOf(map.get("egresos"))) : 0.0);
                             m.setRazonIngreso(map.get("razon_ingreso") != null ? String.valueOf(map.get("razon_ingreso")) : "");
@@ -188,22 +179,21 @@ public class SyncManager {
                             if (existing != null) {
                                 m.setId(existing.getId());
                                 db.movimientoDao().update(m);
+                                movUpd++;
                             } else {
                                 db.movimientoDao().insert(m);
+                                movNew++;
                             }
                         }
-                        summary.append("• ").append(movimientosRaw.size()).append(" Movimientos (Caja)\n");
-                    } else {
-                        AppLogger.w("PULL: Estructura de respuesta de movimientos no reconocida o vacía.");
+                        if (movNew > 0 || movUpd > 0) summary.append("• Caja: ").append(movNew).append(" movimientos nuevos, ").append(movUpd).append(" actualizados\n");
                     }
                 }
 
                 // 4. Ventas (Carga Historial Completo)
-                AppLogger.d("PULL: Solicitando historial completo de ventas...");
+                AppLogger.d("PULL: Solicitando historial de ventas...");
                 Response<SaleSyncResponse> respVenta = salesApi.getHistorialVentas().execute();
                 if (respVenta.isSuccessful() && respVenta.body() != null && respVenta.body().getVentas() != null) {
                     List<Venta> ventas = respVenta.body().getVentas();
-                    AppLogger.i("PULL: Recibidas " + ventas.size() + " ventas del historial.");
                     for (Venta v : ventas) {
                         v.setSynced(true);
                         Venta existing = db.ventaDao().findByServerId(v.getServerId());
@@ -212,11 +202,11 @@ public class SyncManager {
                             v.setId(existing.getId());
                             db.ventaDao().update(v);
                             localVentaId = existing.getId();
+                            vtaUpd++;
                         } else {
                             localVentaId = db.ventaDao().insert(v);
+                            vtaNew++;
                         }
-
-                        // Guardar items de la venta si vienen en el JSON
                         if (v.getItems() != null && !v.getItems().isEmpty()) {
                             db.ventaItemDao().deleteByVentaId((int) localVentaId);
                             for (VentaItem item : v.getItems()) {
@@ -224,18 +214,16 @@ public class SyncManager {
                                 db.ventaItemDao().insert(item);
                             }
                         }
-                        totalNewItems++;
                     }
-                    summary.append("• ").append(ventas.size()).append(" Ventas (Historial)\n");
+                    if (vtaNew > 0 || vtaUpd > 0) summary.append("• Ventas: ").append(vtaNew).append(" nuevas, ").append(vtaUpd).append(" actualizadas\n");
                 }
 
-                // 5. Proveedores (Pull Completo)
+                // 5. Proveedores
                 AppLogger.d("PULL: Solicitando proveedores...");
                 Response<Map<String, Object>> respProv = userApi.getProveedores().execute();
                 if (respProv.isSuccessful() && respProv.body() != null && Boolean.TRUE.equals(respProv.body().get("success"))) {
                     List<Map<String, Object>> provsRaw = (List<Map<String, Object>>) respProv.body().get("proveedores");
                     if (provsRaw != null) {
-                        AppLogger.i("PULL: Recibidos " + provsRaw.size() + " proveedores.");
                         for (Map<String, Object> map : provsRaw) {
                             Proveedor p = new Proveedor();
                             p.setTelefono(String.valueOf(map.get("telefono")));
@@ -243,15 +231,19 @@ public class SyncManager {
                             p.setNombreProveedor(String.valueOf(map.get("nombre_proveedor")));
                             p.setCorreo(map.get("correo") != null ? String.valueOf(map.get("correo")) : "");
                             p.setEstado(map.get("estado") != null ? String.valueOf(map.get("estado")) : "activo");
+                            p.setProducto(map.get("producto") != null ? String.valueOf(map.get("producto")) : (map.get("productos") != null ? String.valueOf(map.get("productos")) : ""));
                             p.setSynced(true);
                             db.proveedorDao().insert(p);
+                            provNew++;
                         }
-                        summary.append("• ").append(provsRaw.size()).append(" Proveedores\n");
+                        if (provNew > 0) summary.append("• Proveedores: ").append(provNew).append(" recibidos\n");
                     }
                 }
 
-                AppLogger.i("--- PULL FINALIZADO. Total items: " + totalNewItems + " ---");
-                if (totalNewItems > 0) callback.onSuccess(summary.toString());
+                int totalTotal = cliNew + cliUpd + prodNew + prodUpd + movNew + movUpd + vtaNew + vtaUpd + provNew;
+                AppLogger.i("--- PULL FINALIZADO. Total items procesados: " + totalTotal + " ---");
+                
+                if (totalTotal > 0) callback.onSuccess(summary.toString());
                 else callback.onSuccess("No se encontraron cambios nuevos en el servidor.");
 
             } catch (Exception e) {
