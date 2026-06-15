@@ -134,7 +134,6 @@ public class HistorialVentasActivity extends BaseActivity {
         adapter = new VentaAdapter(ventasList, new VentaAdapter.OnVentaActionListener() {
             @Override
             public void onVerDetalle(Venta venta) {
-                // Ahora el detalle se maneja internamente en el adaptador (expandible)
             }
 
             @Override
@@ -251,7 +250,6 @@ public class HistorialVentasActivity extends BaseActivity {
                 .setTitle("Eliminar Venta")
                 .setMessage("¿Desea eliminar este registro? (También se eliminará de Caja)")
                 .setPositiveButton("Eliminar", (dialog, which) -> {
-                    // Eliminar movimiento de caja asociado
                     String razonBusqueda = "Venta " + ("Crédito".equalsIgnoreCase(venta.getTipoPago()) ? "a Crédito" : "Contado") + " - " + venta.getNombreCliente();
                     for (com.agrovet.pos.models.Movimiento m : movimientosList) {
                         if (m.getRazonIngreso() != null && m.getRazonIngreso().equals(razonBusqueda) && Math.abs(m.getIngresos() - (("Crédito".equalsIgnoreCase(venta.getTipoPago())) ? venta.getAnticipo() : venta.getTotal())) < 1) {

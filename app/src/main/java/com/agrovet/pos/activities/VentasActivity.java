@@ -145,7 +145,6 @@ public class VentasActivity extends BaseActivity {
     private void setupFiltroCategorias() {
         if (cgFiltroCategorias == null) return;
         
-        // Opción para ver todos
         Chip chipTodos = new Chip(this);
         chipTodos.setText("TODOS");
         chipTodos.setCheckable(true);
@@ -179,7 +178,6 @@ public class VentasActivity extends BaseActivity {
             @Override
             public void onAddCart(Producto producto) { addToCart(producto); }
         });
-        // Simplificamos la acción: cualquier clic en la tarjeta agrega al carrito
         catalogAdapter.setOnItemClickListener(this::addToCart);
         
         rvCatalog.setLayoutManager(new GridLayoutManager(this, 2));
@@ -213,7 +211,6 @@ public class VentasActivity extends BaseActivity {
 
         etBuscarCliente.setOnItemClickListener((parent, view, position, id) -> {
             selectedCliente = (Cliente) parent.getItemAtPosition(position);
-            // El convertResultToString del filtro ya se encarga de poner el nombre en el texto
         });
 
         btnNextStep.setOnClickListener(v -> {
@@ -270,7 +267,6 @@ public class VentasActivity extends BaseActivity {
 
         metodoSeleccionado = metodo;
         
-        // Update selection UI
         rbContado.setChecked("Contado".equals(metodo));
         rbCredito.setChecked("Crédito".equals(metodo));
         rbBanco.setChecked("Banco".equals(metodo));
@@ -279,7 +275,6 @@ public class VentasActivity extends BaseActivity {
         rbCredito.setTextColor(getColor("Crédito".equals(metodo) ? R.color.teal : R.color.gris_oscuro));
         rbBanco.setTextColor(getColor("Banco".equals(metodo) ? R.color.teal : R.color.gris_oscuro));
         
-        // Update Card Styles
         cardContado.setStrokeColor(getColor("Contado".equals(metodo) ? R.color.teal : R.color.gris_claro));
         cardContado.setStrokeWidth("Contado".equals(metodo) ? 4 : 2);
         
@@ -289,12 +284,10 @@ public class VentasActivity extends BaseActivity {
         cardBanco.setStrokeColor(getColor("Banco".equals(metodo) ? R.color.teal : R.color.gris_claro));
         cardBanco.setStrokeWidth("Banco".equals(metodo) ? 4 : 2);
         
-        // Update Layout visibility
         layoutAnticipo.setVisibility("Crédito".equals(metodo) ? View.VISIBLE : View.GONE);
         layoutBancoOptions.setVisibility("Banco".equals(metodo) ? View.VISIBLE : View.GONE);
         
         if ("Banco".equals(metodo)) {
-            // Default to Nequi if nothing selected
             if (cgSubmetodoBanco.getCheckedChipId() == View.NO_ID) {
                 cgSubmetodoBanco.check(R.id.chip_nequi);
             }
@@ -353,7 +346,6 @@ public class VentasActivity extends BaseActivity {
         nuevaVenta.setDiasCredito(diasCreditoVal);
         nuevaVenta.setEstado("completada");
         
-        // Si es credito, guardar anticipo en abonos
         if (metodo.equals("Crédito")) {
             Abono abono = new Abono();
             abono.setClienteCedula(selectedCliente.getCedula());
@@ -368,19 +360,15 @@ public class VentasActivity extends BaseActivity {
             });
         }
 
-        // Sincronizamos las listas después de guardar la venta
         Venta finalVenta = nuevaVenta;
         ventaViewModel.addVenta(finalVenta, cartList);
         
-        // Actualizar stock de productos localmente
         for (CartItem item : cartList) {
             Producto p = item.getProducto();
             p.setCantidad(p.getCantidad() - item.getCantidad());
             productoViewModel.updateProducto(p);
         }
 
-        // Registrar movimiento de caja localmente
-        // Ingreso real: anticipo si es crédito, total si es banco o contado
         double ingresoRealCaja = ("Crédito".equals(metodo)) ? anticipoVal : totalFinal;
 
         Movimiento mov = new Movimiento();
@@ -395,7 +383,6 @@ public class VentasActivity extends BaseActivity {
         mov.setFechaIngreso(fechaDia + " " + fechaHora);
         mov.setCategoria("Venta de productos");
         
-        // IMPORTANTE: Marcamos como venta y sincronizado para evitar duplicidad en el servidor
         mov.setVenta(true);
         mov.setSynced(true); 
 
@@ -424,7 +411,6 @@ public class VentasActivity extends BaseActivity {
                 clientesList.clear();
                 clientesList.addAll(clientes);
                 
-                // Adaptador personalizado para manejar el filtrado correctamente sin perder la lista original
                 List<Cliente> filteredList = new ArrayList<>(clientesList);
                 ArrayAdapter<Cliente> adapter = new ArrayAdapter<Cliente>(this, android.R.layout.simple_dropdown_item_1line, filteredList) {
                     @NonNull
@@ -483,7 +469,6 @@ public class VentasActivity extends BaseActivity {
                 etBuscarCliente.setAdapter(adapter);
                 etBuscarCliente.setThreshold(1);
 
-                // Forzar mostrar sugerencias al tocar el campo
                 etBuscarCliente.setOnClickListener(v -> {
                     if (etBuscarCliente.getText().toString().isEmpty()) {
                         etBuscarCliente.showDropDown();
@@ -501,7 +486,6 @@ public class VentasActivity extends BaseActivity {
             boolean matchQuery = queryLower.isEmpty() || p.getNombre().toLowerCase().contains(queryLower);
             
             String catProducto = p.getCategoria() != null ? p.getCategoria().toUpperCase() : "";
-            // Normalizar categoría del producto para comparar
             catProducto = Normalizer.normalize(catProducto, Normalizer.Form.NFD).replaceAll("\\p{M}", "");
             
             boolean matchCat = categoriaSeleccionada.equals("TODOS") || catProducto.equals(categoriaSeleccionada);

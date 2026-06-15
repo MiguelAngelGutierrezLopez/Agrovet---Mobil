@@ -19,7 +19,6 @@ public class Cliente {
     @ColumnInfo(name = "telefono")
     private String telefono;
 
-    // Permitir nulos para que coincida con la base de datos
     @ColumnInfo(name = "correo")
     private String correo;
 
@@ -36,7 +35,7 @@ public class Cliente {
     public Cliente() {
         this.cedula = "";
         this.nombre = "";
-        this.telefono = ""; // Inicialización segura
+        this.telefono = "";
         this.fechaCreacion = "";
     }
 
@@ -73,6 +72,5 @@ public class Cliente {
     public boolean isSynced() { return isSynced; }
     public void setSynced(boolean synced) { isSynced = synced; }
 
-    // Ajuste para compatibilidad con las actividades
     public String getId() { return cedula; }
 }

@@ -138,7 +138,6 @@ public class ReporteCajaActivity extends BaseActivity {
             btnGuardar.setText("ACTUALIZAR");
         }
 
-        // Pre-llenar fecha actual si es nuevo
         if (movEdit == null) {
             String fechaActual = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
             etFecha.setText(fechaActual);

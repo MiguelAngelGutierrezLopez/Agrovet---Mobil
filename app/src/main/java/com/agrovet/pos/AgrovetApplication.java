@@ -15,7 +15,7 @@ public class AgrovetApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        createNotificationChannel();  // ← CREA EL CANAL AL INICIAR LA APP
+        createNotificationChannel();
     }
 
     public AppDatabase getDatabase() {

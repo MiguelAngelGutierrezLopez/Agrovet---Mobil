@@ -16,7 +16,7 @@ import java.util.List;
 public class Venta {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
-    private transient Integer id; // Usamos 'id' para que coincida con getId/setId y Room lo encuentre
+    private transient Integer id;
 
     @ColumnInfo(name = "numero_venta")
     @com.google.gson.annotations.SerializedName(value = "ticket_numero", alternate = {"numero", "nro_ticket"})

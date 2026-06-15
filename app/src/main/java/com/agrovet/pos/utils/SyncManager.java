@@ -102,7 +102,6 @@ public class SyncManager {
 
                 StringBuilder summary = new StringBuilder("Resumen de actualización:\n\n");
 
-                // 1. Clientes
                 AppLogger.d("PULL: Solicitando clientes...");
                 Response<Map<String, Object>> respCli = userApi.getClientes(1000).execute();
                 if (respCli.isSuccessful() && respCli.body() != null && Boolean.TRUE.equals(respCli.body().get("success"))) {
@@ -131,7 +130,6 @@ public class SyncManager {
                     }
                 }
 
-                // 2. Productos
                 Integer lastProdId = db.productoDao().getMaxServerId();
                 AppLogger.d("PULL: Solicitando productos...");
                 Response<ProductSyncResponse> respProd = inventoryApi.getSyncProductos(lastProdId).execute();
@@ -152,7 +150,6 @@ public class SyncManager {
                     if (prodNew > 0 || prodUpd > 0) summary.append("• Productos: ").append(prodNew).append(" nuevos, ").append(prodUpd).append(" actualizados\n");
                 }
 
-                // 3. Movimientos (API-REPORTES)
                 AppLogger.d("PULL: Solicitando movimientos...");
                 Response<Map<String, Object>> respMov = reportApi.getMovimientos().execute();
                 if (respMov.isSuccessful() && respMov.body() != null) {
@@ -189,7 +186,6 @@ public class SyncManager {
                     }
                 }
 
-                // 4. Ventas (Carga Historial Completo)
                 AppLogger.d("PULL: Solicitando historial de ventas...");
                 Response<SaleSyncResponse> respVenta = salesApi.getHistorialVentas().execute();
                 if (respVenta.isSuccessful() && respVenta.body() != null && respVenta.body().getVentas() != null) {
@@ -218,7 +214,6 @@ public class SyncManager {
                     if (vtaNew > 0 || vtaUpd > 0) summary.append("• Ventas: ").append(vtaNew).append(" nuevas, ").append(vtaUpd).append(" actualizadas\n");
                 }
 
-                // 5. Proveedores
                 AppLogger.d("PULL: Solicitando proveedores...");
                 Response<Map<String, Object>> respProv = userApi.getProveedores().execute();
                 if (respProv.isSuccessful() && respProv.body() != null && Boolean.TRUE.equals(respProv.body().get("success"))) {

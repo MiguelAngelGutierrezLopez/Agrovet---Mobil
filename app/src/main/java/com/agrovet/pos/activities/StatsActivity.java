@@ -100,7 +100,6 @@ public class StatsActivity extends BaseActivity {
         movimientoViewModel.getAllMovimientos().observe(this, movimientos -> {
             if (movimientos == null || movimientos.isEmpty()) return;
 
-            // Agrupar por razón/concepto sumando montos solo de egresos
             Map<String, Double> montosPorConcepto = new HashMap<>();
             for (Movimiento m : movimientos) {
                 if (m.getEgresos() != null && m.getEgresos() > 0) {

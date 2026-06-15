@@ -105,7 +105,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startChangeObserver() {
-        // Ejecutar cada minuto
         new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -121,7 +120,7 @@ public class MainActivity extends BaseActivity {
                 });
                 new Handler(Looper.getMainLooper()).postDelayed(this, 60000);
             }
-        }, 30000); // Primera ejecución a los 30s
+        }, 30000);
     }
 
     private void setupPermissionLauncher() {
@@ -191,7 +190,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void setupClickListeners() {
-        // Los botones de acceso directo han sido removidos del layout
     }
 
     private void loadDashboardData() {
@@ -239,7 +237,6 @@ public class MainActivity extends BaseActivity {
 
         com.github.mikephil.charting.data.PieDataSet dataSet = new com.github.mikephil.charting.data.PieDataSet(entries, "");
         
-        // Colores temáticos de Agrovet
         int[] colors = {
                 getResources().getColor(R.color.teal),
                 getResources().getColor(R.color.mostaza),
@@ -269,9 +266,6 @@ public class MainActivity extends BaseActivity {
     }
 
     private void updateCajaTotal() {
-        // El usuario pide que SALDO CAJA sea igual al TOTAL en el reporte de caja.
-        // El reporte de caja calcula: ingresos - egresos.
-        // No incluye las ventas directamente a menos que se registren como ingresos.
         double totalIngresos = 0;
         double totalEgresos = 0;
         
@@ -327,7 +321,6 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onProgress(String status) {
-                // Opcional: podrías mostrar el progreso en un Toast o TextView pequeño
             }
         });
     }

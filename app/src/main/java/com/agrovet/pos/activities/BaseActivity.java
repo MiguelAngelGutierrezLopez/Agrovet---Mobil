@@ -37,7 +37,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Navigati
             navigationView.setNavigationItemSelectedListener(this);
         }
 
-        // Configurar el OnBackPressedDispatcher para manejar el cierre del drawer
         getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
             @Override
             public void handleOnBackPressed() {

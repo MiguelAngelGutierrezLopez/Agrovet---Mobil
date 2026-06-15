@@ -59,7 +59,6 @@ public class ProductosActivity extends BaseActivity {
         setupListeners();
         loadProductos();
 
-        // Mensaje de advertencia sobre sincronización de proveedores
         Toast.makeText(this, "Si un proveedor creado en la aplicación movil no está ingresado en el servidor puede generar problemas a la hora de mandar productos nuevos, por favor recuerde mantener estos datos sincronizados", Toast.LENGTH_LONG).show();
     }
 
