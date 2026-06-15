@@ -65,6 +65,15 @@ Para acceder a la aplicacion, se deben utilizar las siguientes credenciales conf
 
 ---
 
+## Verificacion de Integridad de Datos
+
+Lo invitamos a que pruebe en simultaneo la aplicacion web en el servidor para que pueda revisar que sus datos fueron extraidos y enviados correctamente.
+URL servidor AgroVet: https://api-inicio-production.up.railway.app/
+
+Nota sobre los datos de prueba: Es posible que encuentre registros en el sistema con nomenclaturas inusuales o informales. Esto se debe a que, durante las fases de desarrollo temprano y pruebas de estres, se priorizo la rapidez en la generacion de registros para validar la arquitectura. Hemos decidido mantener este historial para evidenciar el proceso evolutivo y la linea de tiempo real de los intentos de sincronizacion realizados desde el inicio del proyecto.
+
+---
+
 ## Notas Importantes de Sincronización y Mantenimiento
 
 1. Restablecimiento de Datos: Si tras una actualización o sincronización la aplicación parece no mostrar información, por favor diríjase a los ajustes de su dispositivo (Información de la aplicación), detenga la app y elimine el almacenamiento/caché. Esto reiniciará el proceso de carga limpia desde el servidor.
