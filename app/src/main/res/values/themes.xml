@@ -101,6 +101,11 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="Widget.Agrovet.Button.Login" parent="Widget.Agrovet.Button.Primary">
+        <item name="android:padding">14dp</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
     <!-- Badges -->
     <style name="Widget.Agrovet.Badge">
         <item name="android:textSize">9sp</item>
@@ -144,6 +149,24 @@
         <item name="boxCornerRadiusTopEnd">6dp</item>
         <item name="boxCornerRadiusTopStart">6dp</item>
         <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.Agrovet.TextInputLayout.ExposedDropdownMenu" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+        <item name="boxStrokeColor">@color/teal</item>
+        <item name="hintTextColor">@color/teal</item>
+        <item name="boxCornerRadiusBottomEnd">6dp</item>
+        <item name="boxCornerRadiusBottomStart">6dp</item>
+        <item name="boxCornerRadiusTopEnd">6dp</item>
+        <item name="boxCornerRadiusTopStart">6dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="Widget.Agrovet.Card.Selector" parent="Widget.Agrovet.Card.Stats">
+        <item name="strokeColor">@color/teal</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="cardBackgroundColor">@color/white</item>
     </style>
 
     <style name="Theme.AgrovetPOS.Dialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">

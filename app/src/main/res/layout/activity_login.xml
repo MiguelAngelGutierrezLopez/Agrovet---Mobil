@@ -17,9 +17,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/welcome_admin"
+            style="@style/TextAppearance.Agrovet.Headline"
             android:textColor="@color/teal"
             android:textSize="24sp"
-            android:textStyle="bold"
             android:gravity="center"
             android:layout_marginBottom="8dp" />
 
@@ -27,35 +27,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/login_instructions"
-            android:textColor="@color/gris_medio"
-            android:textSize="14sp"
+            style="@style/TextAppearance.Agrovet.Label"
+            android:textAllCaps="false"
             android:layout_marginBottom="48dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_username"
-            android:textColor="@color/gris_oscuro"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            style="@style/TextAppearance.Agrovet.Label.Field"
             android:layout_marginBottom="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:boxStrokeColor="@color/teal"
             app:hintEnabled="false"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.Agrovet.TextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_username"
-                android:textColor="@color/gris_oscuro"
-                android:textColorHint="@color/gris_medio"
-                android:background="@color/white"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,28 +57,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/label_password"
-            android:textColor="@color/gris_oscuro"
-            android:textSize="14sp"
-            android:textStyle="bold"
+            style="@style/TextAppearance.Agrovet.Label.Field"
             android:layout_marginBottom="8dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="32dp"
-            app:boxStrokeColor="@color/teal"
             app:hintEnabled="false"
             app:passwordToggleEnabled="true"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+            style="@style/Widget.Agrovet.TextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/hint_password"
-                android:textColor="@color/gris_oscuro"
-                android:textColorHint="@color/gris_medio"
-                android:background="@color/white"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -93,10 +81,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_login"
-            android:backgroundTint="@color/teal"
-            android:textColor="@color/white"
-            android:padding="14dp"
-            app:cornerRadius="12dp" />
+            style="@style/Widget.Agrovet.Button.Login" />
 
     </LinearLayout>
 </ScrollView>

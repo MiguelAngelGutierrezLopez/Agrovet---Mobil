@@ -51,7 +51,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
+            style="@style/Widget.Agrovet.TextInputLayout.ExposedDropdownMenu">
 
             <AutoCompleteTextView
                 android:id="@+id/et_mov_categoria"
@@ -118,11 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
-            app:cardCornerRadius="8dp"
-            app:cardElevation="0dp"
-            app:strokeColor="@color/teal"
-            app:strokeWidth="1dp"
-            app:cardBackgroundColor="@color/white">
+            style="@style/Widget.Agrovet.Card.Selector">
 
             <RadioGroup
                 android:id="@+id/rg_mov_tipo"
